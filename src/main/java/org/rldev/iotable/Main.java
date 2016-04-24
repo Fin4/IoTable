@@ -42,10 +42,9 @@ public class Main {
                 });
 
         try {
+            String template = "fb_ai (inp := %IW%addr%, chErr := %IW%addr%.ERR, params := ai_%symbol%); (* %symbol% - %desc% *)";
             System.out.println(new AnalogInputsCodeGenerator()
-                    .generateCode(ioUnits,
-                            "fb_ai (inp := %IW%addr%, chErr := %IW%addr%.ERR, params := ai_%symbol%);" +
-                                    " (* %symbol% - %desc% *)"));
+                    .generateCode(ioUnits, template));
         } catch (WrongFormatException e) {
             e.printStackTrace();
         }
