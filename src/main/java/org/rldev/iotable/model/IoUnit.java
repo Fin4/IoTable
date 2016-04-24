@@ -1,11 +1,12 @@
-package org.rldev.iotable;
+package org.rldev.iotable.model;
 
 
 public class IoUnit {
 
     private String symbol;
-
     private String description;
+    private String address;
+    private int number;
 
     public String getDescription() {
         return description;
@@ -23,11 +24,28 @@ public class IoUnit {
         this.symbol = symbol;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
     @Override
     public String toString() {
         return "IoUnit{" +
                 "symbol='" + symbol + '\'' +
                 ", description='" + description + '\'' +
+                ", address='" + address + '\'' +
                 '}';
     }
 }

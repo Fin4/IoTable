@@ -4,11 +4,11 @@ package org.rldev.iotable.parsers;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.rldev.iotable.exceptions.NoSuchSheetException;
-import org.rldev.iotable.exceptions.WrongSheetFormatException;
+import org.rldev.iotable.parsers.exceptions.WrongSheetFormatException;
 
 import java.io.File;
 
@@ -53,7 +53,10 @@ public class XlsxIoTableParser implements IoTableParser {
         if (headerRow == null || headerRow.getPhysicalNumberOfCells() <= 0)
             throw new WrongSheetFormatException(sheet.getSheetName() + " sheet: first row (header) is null");
 
-        headerRow.forEach(cell -> headers.add(cell.toString().toLowerCase()));
+        headerRow.forEach(cell -> {
+            cell.setCellType(Cell.CELL_TYPE_STRING);
+            headers.add(cell.getStringCellValue().toLowerCase());
+        });
 
         sheet.removeRow(headerRow);
 
@@ -62,7 +65,10 @@ public class XlsxIoTableParser implements IoTableParser {
         sheet.forEach(row -> {
             JsonObject jsonObject = new JsonObject();
 
-            row.forEach(cell -> jsonObject.addProperty(headers.get(cell.getColumnIndex()), cell.toString()));
+            row.forEach(cell -> {
+                cell.setCellType(Cell.CELL_TYPE_STRING);
+                jsonObject.addProperty(headers.get(cell.getColumnIndex()), cell.getStringCellValue());
+            });
 
             jsonArray.add(jsonObject);
         });
@@ -81,11 +87,30 @@ public class XlsxIoTableParser implements IoTableParser {
 
         try {
             jsonObject.add("digitalInputs", parseIoUnitsSheet(diSheet));
+        } catch (WrongSheetFormatException e) {
+            e.printStackTrace();
+            jsonObject.add("digitalInputs", new JsonObject());
+        }
+
+        try {
             jsonObject.add("analogInputs", parseIoUnitsSheet(aiSheet));
+        } catch (WrongSheetFormatException e) {
+            e.printStackTrace();
+            jsonObject.add("analogInputs", new JsonObject());
+        }
+
+        try {
             jsonObject.add("digitalOutputs", parseIoUnitsSheet(doSheet));
+        } catch (WrongSheetFormatException e) {
+            e.printStackTrace();
+            jsonObject.add("digitalOutputs", new JsonObject());
+        }
+
+        try {
             jsonObject.add("analogOutputs", parseIoUnitsSheet(aoSheet));
         } catch (WrongSheetFormatException e) {
             e.printStackTrace();
+            jsonObject.add("analogOutputs", new JsonObject());
         }
 
         return jsonObject;

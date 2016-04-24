@@ -4,12 +4,15 @@ package org.rldev.iotable;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.rldev.iotable.exceptions.NoSuchSheetException;
+import org.rldev.iotable.codegenerators.exceptions.WrongFormatException;
+import org.rldev.iotable.codegenerators.schneider.unitypro.AnalogInputsCodeGenerator;
+import org.rldev.iotable.model.IoUnit;
 import org.rldev.iotable.parsers.XlsxIoTableParser;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Main {
@@ -22,16 +25,31 @@ public class Main {
 /*        File file = new File("D:\\iotable.xlsx");
         String json = new XlsxIoTableParser().parse(file);*/
 
+        System.out.println(json);
+
         Gson gson = new Gson();
+
+        ArrayList<IoUnit> ioUnits = new ArrayList<>();
 
         new JsonParser()
                 .parse(json)
                 .getAsJsonObject()
-                .get("digitalInputs")
+                .get("analogInputs")
                 .getAsJsonArray()
                 .forEach(jsonElement -> {
                     IoUnit unit = gson.fromJson(jsonElement, IoUnit.class);
-                    System.out.println(unit);
+                    ioUnits.add(unit);
                 });
+
+        try {
+            System.out.println(new AnalogInputsCodeGenerator()
+                    .generateCode(ioUnits,
+                            "fb_ai (inp := %IW%addr%, chErr := %IW%addr%.ERR, params := ai_%symbol%);" +
+                                    " (* %symbol% - %desc% *)"));
+        } catch (WrongFormatException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }
