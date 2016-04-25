@@ -43,9 +43,10 @@ public class IoUnit {
     @Override
     public String toString() {
         return "IoUnit{" +
-                "symbol='" + symbol + '\'' +
-                ", description='" + description + '\'' +
+                "number=" + number +
                 ", address='" + address + '\'' +
+                ", description='" + description + '\'' +
+                ", symbol='" + symbol + '\'' +
                 '}';
     }
 }

@@ -2,7 +2,9 @@ package org.rldev.iotable.parsers;
 
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -65,13 +67,22 @@ public class XlsxIoTableParser implements IoTableParser {
         sheet.forEach(row -> {
             JsonObject jsonObject = new JsonObject();
 
-            row.forEach(cell -> {
+/*            row.forEach(cell -> {
                 cell.setCellType(Cell.CELL_TYPE_STRING);
                 jsonObject.addProperty(headers.get(cell.getColumnIndex()), cell.getStringCellValue());
+            });*/
+            headers.stream().forEach(s -> {
+                Cell cell = row.getCell(headers.indexOf(s));
+                if (cell == null) jsonObject.add(s, JsonNull.INSTANCE);
+                else {
+                    cell.setCellType(Cell.CELL_TYPE_STRING);
+                    jsonObject.addProperty(headers.get(cell.getColumnIndex()), cell.getStringCellValue());
+                }
             });
-
             jsonArray.add(jsonObject);
         });
+
+        System.out.println(jsonArray);
 
         return jsonArray;
     }

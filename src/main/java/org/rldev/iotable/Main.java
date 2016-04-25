@@ -2,11 +2,13 @@ package org.rldev.iotable;
 
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.rldev.iotable.codegenerators.exceptions.WrongFormatException;
 import org.rldev.iotable.codegenerators.schneider.unitypro.AnalogInputsCodeGenerator;
 import org.rldev.iotable.model.IoUnit;
+import org.rldev.iotable.model.typeadapters.NullIoUnitTypeAdapter;
 import org.rldev.iotable.parsers.XlsxIoTableParser;
 
 import java.io.FileInputStream;
@@ -17,38 +19,93 @@ import java.util.ArrayList;
 
 public class Main {
 
-    public static void main(String[] args) throws FileNotFoundException, IOException, InvalidFormatException {
+    public static void main(String[] args) throws FileNotFoundException, IOException, InvalidFormatException, WrongFormatException {
 
         FileInputStream inputStream = new FileInputStream("D:\\iotable.xlsx");
         String json = new XlsxIoTableParser().parse(inputStream);
 
-/*        File file = new File("D:\\iotable.xlsx");
-        String json = new XlsxIoTableParser().parse(file);*/
+        Gson gson = new GsonBuilder().registerTypeAdapter(IoUnit.class, new NullIoUnitTypeAdapter()).create();
 
-        System.out.println(json);
+        ArrayList<IoUnit> analogInputs = new ArrayList<>();
+        ArrayList<IoUnit> digitalInputs = new ArrayList<>();
+        ArrayList<IoUnit> analogOutputs = new ArrayList<>();
+        ArrayList<IoUnit> digitalOutputs = new ArrayList<>();
 
-        Gson gson = new Gson();
+        Runnable aiCalc = () -> {
+            new JsonParser()
+                    .parse(json)
+                    .getAsJsonObject()
+                    .get("analogInputs")
+                    .getAsJsonArray()
+                    .forEach(jsonElement -> {
+                        IoUnit unit = gson.fromJson(jsonElement, IoUnit.class);
+                        analogInputs.add(unit);
+                    });
+            String template = "fb_ai (inp := %IW%address%, chErr := %IW%address%.ERR, params := ai_%symbol%); (* %symbol% - %description% *)";
+            try {
+                System.out.println(new AnalogInputsCodeGenerator().generateCode(analogInputs, template));
+            } catch (WrongFormatException | IOException e) {
+                e.printStackTrace();
+            }
+        };
 
-        ArrayList<IoUnit> ioUnits = new ArrayList<>();
+        Runnable diCalc = () -> {
+            new JsonParser()
+                    .parse(json)
+                    .getAsJsonObject()
+                    .get("digitalInputs")
+                    .getAsJsonArray()
+                    .forEach(jsonElement -> {
+                        IoUnit unit = gson.fromJson(jsonElement, IoUnit.class);
+                        digitalInputs.add(unit);
+                    });
+            String template = "di[%number%].inp := %I%address%;";
+            try {
+                System.out.println(new AnalogInputsCodeGenerator().generateCode(digitalInputs, template));
+            } catch (WrongFormatException | IOException e) {
+                e.printStackTrace();
+            }
+        };
 
-        new JsonParser()
-                .parse(json)
-                .getAsJsonObject()
-                .get("analogInputs")
-                .getAsJsonArray()
-                .forEach(jsonElement -> {
-                    IoUnit unit = gson.fromJson(jsonElement, IoUnit.class);
-                    ioUnits.add(unit);
-                });
+        Runnable doCalc = () -> {
+            new JsonParser()
+                        .parse(json)
+                        .getAsJsonObject()
+                        .get("digitalOutputs")
+                        .getAsJsonArray()
+                        .forEach(jsonElement -> {
+                            IoUnit unit = gson.fromJson(jsonElement, IoUnit.class);
+                            digitalOutputs.add(unit);
+                        });
+            String template = "%Q%address% := do[%number%].q";
+            try {
+                System.out.println(new AnalogInputsCodeGenerator().generateCode(digitalOutputs, template));
+            } catch (WrongFormatException | IOException e) {
+                e.printStackTrace();
+            }
+        };
 
-        try {
-            String template = "fb_ai (inp := %IW%addr%, chErr := %IW%addr%.ERR, params := ai_%symbol%); (* %symbol% - %desc% *)";
-            System.out.println(new AnalogInputsCodeGenerator()
-                    .generateCode(ioUnits, template));
-        } catch (WrongFormatException e) {
-            e.printStackTrace();
-        }
+        Runnable aoCalc = () -> {
+            new JsonParser()
+                        .parse(json)
+                        .getAsJsonObject()
+                        .get("analogOutputs")
+                        .getAsJsonArray()
+                        .forEach(jsonElement -> {
+                            IoUnit unit = gson.fromJson(jsonElement, IoUnit.class);
+                            analogOutputs.add(unit);
+                        });
+            String template = "%QW%address% := ao[%number%].q_iOut;";
+            try {
+                System.out.println(new AnalogInputsCodeGenerator().generateCode(analogOutputs, template));
+            } catch (WrongFormatException | IOException e) {
+                e.printStackTrace();
+            }
+        };
 
-
+        new Thread(aiCalc).start();
+        new Thread(diCalc).start();
+        new Thread(aoCalc).start();
+        new Thread(doCalc).start();
     }
 }
