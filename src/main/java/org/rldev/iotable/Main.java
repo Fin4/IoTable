@@ -24,6 +24,8 @@ public class Main {
         FileInputStream inputStream = new FileInputStream("D:\\iotable.xlsx");
         String json = new XlsxIoTableParser().parse(inputStream);
 
+        System.out.println(json);
+
         Gson gson = new GsonBuilder().registerTypeAdapter(IoUnit.class, new NullIoUnitTypeAdapter()).create();
 
         ArrayList<IoUnit> analogInputs = new ArrayList<>();

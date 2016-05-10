@@ -14,21 +14,23 @@ import org.rldev.iotable.parsers.exceptions.WrongSheetFormatException;
 
 import java.io.File;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-
+import java.util.Properties;
 
 
 /** An implementation of #IoTableParser interface
  * Class contains methods to parse excel documents 2007 and later versions.
- * <b>maker</b> и <b>price</b>.
  * @author Roman Lychak
  * @version 1.0
  * @since JDK 1.8
  */
 
 public class XlsxIoTableParser implements IoTableParser {
+
+    private Properties props;
 
     @Override
     public String parse(InputStream inputStream) throws IOException {
@@ -67,10 +69,6 @@ public class XlsxIoTableParser implements IoTableParser {
         sheet.forEach(row -> {
             JsonObject jsonObject = new JsonObject();
 
-/*            row.forEach(cell -> {
-                cell.setCellType(Cell.CELL_TYPE_STRING);
-                jsonObject.addProperty(headers.get(cell.getColumnIndex()), cell.getStringCellValue());
-            });*/
             headers.stream().forEach(s -> {
                 Cell cell = row.getCell(headers.indexOf(s));
                 if (cell == null) jsonObject.add(s, JsonNull.INSTANCE);
@@ -82,17 +80,17 @@ public class XlsxIoTableParser implements IoTableParser {
             jsonArray.add(jsonObject);
         });
 
-        System.out.println(jsonArray);
-
         return jsonArray;
     }
 
-    private JsonObject parseIoTable(XSSFWorkbook workbook) {
+    private JsonObject parseIoTable(XSSFWorkbook workbook) throws IOException {
 
-        XSSFSheet diSheet = workbook.getSheet("DI");
-        XSSFSheet aiSheet = workbook.getSheet("AI");
-        XSSFSheet doSheet = workbook.getSheet("DO");
-        XSSFSheet aoSheet = workbook.getSheet("AO");
+        getProperties();
+
+        XSSFSheet diSheet = workbook.getSheet(props.getProperty("diSheetName"));
+        XSSFSheet aiSheet = workbook.getSheet(props.getProperty("aiSheetName"));
+        XSSFSheet doSheet = workbook.getSheet(props.getProperty("doSheetName"));
+        XSSFSheet aoSheet = workbook.getSheet(props.getProperty("aoSheetName"));
 
         JsonObject jsonObject = new JsonObject();
 
@@ -125,5 +123,14 @@ public class XlsxIoTableParser implements IoTableParser {
         }
 
         return jsonObject;
+    }
+
+    private void getProperties() throws IOException {
+
+        props = new Properties();
+
+        InputStream inputStream = new FileInputStream("src/main/resources/XlsxDoc.properties");
+
+        props.load(inputStream);
     }
 }

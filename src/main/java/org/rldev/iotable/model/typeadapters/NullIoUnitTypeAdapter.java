@@ -5,6 +5,7 @@ import com.google.gson.*;
 import org.rldev.iotable.model.IoUnit;
 
 import java.lang.reflect.Type;
+import java.util.Optional;
 
 public class NullIoUnitTypeAdapter implements JsonDeserializer<IoUnit> {
 
@@ -21,4 +22,6 @@ public class NullIoUnitTypeAdapter implements JsonDeserializer<IoUnit> {
 
         return ioUnit;
     }
+
+
 }

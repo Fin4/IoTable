@@ -1,10 +1,12 @@
 package org.rldev.iotable.codegenerators.schneider.unitypro;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 import org.rldev.iotable.model.IoUnit;
 import org.rldev.iotable.codegenerators.CodeGenerator;
 import org.rldev.iotable.codegenerators.exceptions.WrongFormatException;
+import org.rldev.iotable.model.typeadapters.NullIoUnitTypeAdapter;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -22,7 +24,7 @@ public class AnalogInputsCodeGenerator implements CodeGenerator {
 
         ArrayList<IoUnit> ioUnits = new ArrayList<>();
 
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().registerTypeAdapter(IoUnit.class, new NullIoUnitTypeAdapter()).create();
 
         new JsonParser()
                 .parse(aiJsonArray)
@@ -45,7 +47,7 @@ public class AnalogInputsCodeGenerator implements CodeGenerator {
         analogInputs.stream().map(ioUnit -> template
                     .replace(props.getProperty("description"), ioUnit.getDescription())
                     .replace(props.getProperty("symbol"), ioUnit.getSymbol())
-                    .replace(props.getProperty("address"), ioUnit.getAddress())
+                    .replace(props.getProperty("address"), ioUnit.getAddress().replace("/", "."))
                     .replace(props.getProperty("number"), String.valueOf(ioUnit.getNumber())))
                 .forEach(s -> resultString.append(s).append(System.lineSeparator()));
 
