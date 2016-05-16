@@ -13,9 +13,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
-public class AnalogInputsCodeGenerator implements CodeGenerator {
+public class IOCodeGenerator implements CodeGenerator {
 
     private Properties props;
 
@@ -35,19 +36,19 @@ public class AnalogInputsCodeGenerator implements CodeGenerator {
     }
 
     @Override
-    public String generateCode(Collection<? extends IoUnit> analogInputs, String template)
+    public String generateCode(Collection<? extends IoUnit> ioUnits, String template)
             throws WrongFormatException, IOException {
 
-        StringBuffer resultString = new StringBuffer();
+        StringBuilder resultString = new StringBuilder();
 
         getProperties();
 
         if (!props.values().stream().anyMatch(o -> template.contains(o.toString()))) throw new WrongFormatException();
 
-        analogInputs.stream().map(ioUnit -> template
+        ioUnits.stream().map(ioUnit -> template
                     .replace(props.getProperty("description"), ioUnit.getDescription())
                     .replace(props.getProperty("symbol"), ioUnit.getSymbol())
-                    .replace(props.getProperty("address"), ioUnit.getAddress().replace("/", "."))
+                    .replace(props.getProperty("address"), ioUnit.getAddress())
                     .replace(props.getProperty("number"), String.valueOf(ioUnit.getNumber())))
                 .forEach(s -> resultString.append(s).append(System.lineSeparator()));
 

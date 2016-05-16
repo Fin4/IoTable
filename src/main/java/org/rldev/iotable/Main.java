@@ -6,10 +6,12 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.rldev.iotable.codegenerators.exceptions.WrongFormatException;
-import org.rldev.iotable.codegenerators.schneider.unitypro.AnalogInputsCodeGenerator;
+import org.rldev.iotable.codegenerators.schneider.unitypro.IOCodeGenerator;
 import org.rldev.iotable.model.IoUnit;
 import org.rldev.iotable.model.typeadapters.NullIoUnitTypeAdapter;
 import org.rldev.iotable.parsers.XlsxIoTableParser;
+import org.rldev.iotable.validators.IoUnitsValidator.AiSimpleValidator;
+import org.rldev.iotable.validators.IoUnitsValidator.IoUnitSimpleValidator;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -45,7 +47,7 @@ public class Main {
                     });
             String template = "fb_ai (inp := %IW%address%, chErr := %IW%address%.ERR, params := ai_%symbol%); (* %symbol% - %description% *)";
             try {
-                System.out.println(new AnalogInputsCodeGenerator().generateCode(analogInputs, template));
+                System.out.println(new IOCodeGenerator().generateCode(new AiSimpleValidator().validate(analogInputs), template));
             } catch (WrongFormatException | IOException e) {
                 e.printStackTrace();
             }
@@ -63,7 +65,7 @@ public class Main {
                     });
             String template = "di[%number%].inp := %I%address%;";
             try {
-                System.out.println(new AnalogInputsCodeGenerator().generateCode(digitalInputs, template));
+                System.out.println(new IOCodeGenerator().generateCode(new IoUnitSimpleValidator().validate(digitalInputs), template));
             } catch (WrongFormatException | IOException e) {
                 e.printStackTrace();
             }
@@ -81,7 +83,7 @@ public class Main {
                         });
             String template = "%Q%address% := do[%number%].q";
             try {
-                System.out.println(new AnalogInputsCodeGenerator().generateCode(digitalOutputs, template));
+                System.out.println(new IOCodeGenerator().generateCode(digitalOutputs, template));
             } catch (WrongFormatException | IOException e) {
                 e.printStackTrace();
             }
@@ -99,7 +101,7 @@ public class Main {
                         });
             String template = "%QW%address% := ao[%number%].q_iOut;";
             try {
-                System.out.println(new AnalogInputsCodeGenerator().generateCode(analogOutputs, template));
+                System.out.println(new IOCodeGenerator().generateCode(analogOutputs, template));
             } catch (WrongFormatException | IOException e) {
                 e.printStackTrace();
             }
