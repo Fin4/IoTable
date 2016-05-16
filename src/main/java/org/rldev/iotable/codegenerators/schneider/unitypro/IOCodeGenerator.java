@@ -60,7 +60,7 @@ public class IOCodeGenerator implements CodeGenerator {
 
         props = new Properties();
 
-        InputStream inputStream = new FileInputStream("src/main/resources/analogInputsCode.properties");
+        InputStream inputStream = new FileInputStream("src/main/resources/IoUnitsCode.properties");
 
         props.load(inputStream);
     }
