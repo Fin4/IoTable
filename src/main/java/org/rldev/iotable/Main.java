@@ -26,8 +26,6 @@ public class Main {
         FileInputStream inputStream = new FileInputStream("D:\\iotable.xlsx");
         String json = new XlsxIoTableParser().parse(inputStream);
 
-        System.out.println(json);
-
         Gson gson = new GsonBuilder().registerTypeAdapter(IoUnit.class, new NullIoUnitTypeAdapter()).create();
 
         ArrayList<IoUnit> analogInputs = new ArrayList<>();
@@ -63,7 +61,7 @@ public class Main {
                         IoUnit unit = gson.fromJson(jsonElement, IoUnit.class);
                         digitalInputs.add(unit);
                     });
-            String template = "di[%number%].inp := %I%address%;";
+            String template = "di[%number%].i_value := %I%address%; di[%number%].q_chErr := %I%address%.ERR; (* %symbol% - %description% *)";
             try {
                 System.out.println(new IOCodeGenerator().generateCode(new IoUnitSimpleValidator().validate(digitalInputs), template));
             } catch (WrongFormatException | IOException e) {
@@ -81,9 +79,9 @@ public class Main {
                             IoUnit unit = gson.fromJson(jsonElement, IoUnit.class);
                             digitalOutputs.add(unit);
                         });
-            String template = "%Q%address% := do[%number%].q";
+            String template = "%Q%address% := do[%number%].q; (* %symbol% - %description% *)";
             try {
-                System.out.println(new IOCodeGenerator().generateCode(digitalOutputs, template));
+                System.out.println(new IOCodeGenerator().generateCode(new IoUnitSimpleValidator().validate(digitalOutputs), template));
             } catch (WrongFormatException | IOException e) {
                 e.printStackTrace();
             }
@@ -99,9 +97,9 @@ public class Main {
                             IoUnit unit = gson.fromJson(jsonElement, IoUnit.class);
                             analogOutputs.add(unit);
                         });
-            String template = "%QW%address% := ao[%number%].q_iOut;";
+            String template = "%QW%address% := ao[%number%].q_iOut; (* %symbol% - %description% *)";
             try {
-                System.out.println(new IOCodeGenerator().generateCode(analogOutputs, template));
+                System.out.println(new IOCodeGenerator().generateCode(new IoUnitSimpleValidator().validate(analogOutputs), template));
             } catch (WrongFormatException | IOException e) {
                 e.printStackTrace();
             }

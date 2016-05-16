@@ -15,22 +15,23 @@ public class AiSimpleValidator implements AiValidator {
 
             IoUnit validIoUnit = new IoUnit();
 
-            validIoUnit.setAddress(ioUnit.getAddress().replace("/", "."));
-
             validIoUnit.setNumber(ioUnit.getNumber());
 
-            if (ioUnit.getSymbol().equals("") || ioUnit.getSymbol() == null) {
+            validIoUnit.setAddress(ioUnit.getAddress().replace("/", ".").trim());
+
+            validIoUnit.setDescription(ioUnit.getDescription().trim());
+
+            if (ioUnit.getSymbol().trim().equals("") || ioUnit.getSymbol() == null) {
                 validIoUnit.setSymbol("ai[" + ioUnit.getNumber() + "]");
             } else if (ioUnit.getSymbol().contains("-")) {
 
-                StringBuilder symbol = new StringBuilder(ioUnit.getSymbol());
+                StringBuilder symbol = new StringBuilder(ioUnit.getSymbol().trim());
+
                 symbol.delete(0, ioUnit.getSymbol().indexOf("-") + 1);
 
                 validIoUnit.setSymbol(symbol.toString().replace(".", "_"));
 
             } else validIoUnit.setSymbol(ioUnit.getSymbol().replace(".", "_"));
-
-            validIoUnit.setDescription(ioUnit.getDescription());
 
             validIoUnits.add(validIoUnit);
         }
