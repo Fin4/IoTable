@@ -3,10 +3,10 @@ package org.rldev.iotable.model;
 
 public class IoUnit {
 
-    private String symbol;
-    private String description;
-    private String address;
-    private int number;
+    protected String symbol;
+    protected String description;
+    protected String address;
+    protected int number;
 
     public String getDescription() {
         return description;

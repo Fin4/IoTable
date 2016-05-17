@@ -7,6 +7,7 @@ import com.google.gson.JsonParser;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.rldev.iotable.codegenerators.exceptions.WrongFormatException;
 import org.rldev.iotable.codegenerators.schneider.unitypro.IOCodeGenerator;
+import org.rldev.iotable.model.AnalogInput;
 import org.rldev.iotable.model.IoUnit;
 import org.rldev.iotable.model.typeadapters.NullIoUnitTypeAdapter;
 import org.rldev.iotable.parsers.XlsxIoTableParser;
@@ -33,6 +34,7 @@ public class Main {
         ArrayList<IoUnit> analogOutputs = new ArrayList<>();
         ArrayList<IoUnit> digitalOutputs = new ArrayList<>();
 
+
         Runnable aiCalc = () -> {
             new JsonParser()
                     .parse(json)
@@ -40,9 +42,10 @@ public class Main {
                     .get("analogInputs")
                     .getAsJsonArray()
                     .forEach(jsonElement -> {
-                        IoUnit unit = gson.fromJson(jsonElement, IoUnit.class);
+                        IoUnit unit = gson.fromJson(jsonElement, AnalogInput.class);
                         analogInputs.add(unit);
                     });
+            System.out.println(analogInputs);
             String template = "fb_ai (inp := %IW%address%, chErr := %IW%address%.ERR, params := ai_%symbol%); (* %symbol% - %description% *)";
             try {
                 System.out.println(new IOCodeGenerator().generateCode(new AiSimpleValidator().validate(analogInputs), template));

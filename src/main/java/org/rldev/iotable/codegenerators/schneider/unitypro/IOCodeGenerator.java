@@ -52,7 +52,6 @@ public class IOCodeGenerator implements CodeGenerator {
                     .replace(props.getProperty("number"), String.valueOf(ioUnit.getNumber())))
                 .forEach(s -> resultString.append(s).append(System.lineSeparator()));
 
-
         return new String(resultString);
     }
 

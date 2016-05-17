@@ -1,5 +1,6 @@
 package org.rldev.iotable.validators.IoUnitsValidator;
 
+import org.rldev.iotable.model.AnalogInput;
 import org.rldev.iotable.model.IoUnit;
 
 import java.util.*;
@@ -7,13 +8,13 @@ import java.util.*;
 public class AiSimpleValidator implements AiValidator {
 
     @Override
-    public List<? extends IoUnit> validate(List<? extends IoUnit> ioUnits) {
+    public List<AnalogInput> validate(List<? extends IoUnit> ioUnits) {
 
-        List<IoUnit> validIoUnits = new ArrayList<>();
+        List<AnalogInput> validIoUnits = new ArrayList<>();
 
         for (IoUnit ioUnit : ioUnits) {
 
-            IoUnit validIoUnit = new IoUnit();
+            AnalogInput validIoUnit = new AnalogInput();
 
             validIoUnit.setNumber(ioUnit.getNumber());
 

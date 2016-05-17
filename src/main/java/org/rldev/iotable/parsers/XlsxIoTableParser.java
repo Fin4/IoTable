@@ -59,7 +59,8 @@ public class XlsxIoTableParser implements IoTableParser {
 
         headerRow.forEach(cell -> {
             cell.setCellType(Cell.CELL_TYPE_STRING);
-            headers.add(cell.getStringCellValue().toLowerCase());
+            if (!cell.getStringCellValue().trim().equals(""))
+            headers.add(cell.getStringCellValue());
         });
 
         sheet.removeRow(headerRow);
@@ -68,6 +69,11 @@ public class XlsxIoTableParser implements IoTableParser {
 
         sheet.forEach(row -> {
             JsonObject jsonObject = new JsonObject();
+
+            Cell firstCell = row.getCell(0);
+            firstCell.setCellType(Cell.CELL_TYPE_STRING);
+
+            if (firstCell.getStringCellValue().trim().equals("") || firstCell == null) return;
 
             headers.stream().forEach(s -> {
                 Cell cell = row.getCell(headers.indexOf(s));
