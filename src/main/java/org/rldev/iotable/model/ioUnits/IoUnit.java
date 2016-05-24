@@ -1,4 +1,4 @@
-package org.rldev.iotable.model;
+package org.rldev.iotable.model.ioUnits;
 
 
 public class IoUnit {

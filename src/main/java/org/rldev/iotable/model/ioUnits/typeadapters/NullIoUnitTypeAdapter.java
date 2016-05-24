@@ -1,11 +1,10 @@
-package org.rldev.iotable.model.typeadapters;
+package org.rldev.iotable.model.ioUnits.typeadapters;
 
 
 import com.google.gson.*;
-import org.rldev.iotable.model.IoUnit;
+import org.rldev.iotable.model.ioUnits.IoUnit;
 
 import java.lang.reflect.Type;
-import java.util.Optional;
 
 public class NullIoUnitTypeAdapter implements JsonDeserializer<IoUnit> {
 

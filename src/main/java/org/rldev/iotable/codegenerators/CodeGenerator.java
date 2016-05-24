@@ -1,6 +1,6 @@
 package org.rldev.iotable.codegenerators;
 
-import org.rldev.iotable.model.IoUnit;
+import org.rldev.iotable.model.ioUnits.IoUnit;
 import org.rldev.iotable.codegenerators.exceptions.WrongFormatException;
 
 import java.io.IOException;

@@ -1,7 +1,7 @@
 package org.rldev.iotable.validators.IoUnitsValidator;
 
-import org.rldev.iotable.model.AnalogInput;
-import org.rldev.iotable.model.IoUnit;
+import org.rldev.iotable.model.ioUnits.AnalogInput;
+import org.rldev.iotable.model.ioUnits.IoUnit;
 
 import java.util.*;
 
@@ -21,6 +21,14 @@ public class AiSimpleValidator implements AiValidator {
             validIoUnit.setAddress(ioUnit.getAddress().replace("/", ".").trim());
 
             validIoUnit.setDescription(ioUnit.getDescription().trim());
+
+            String engUnits = ((AnalogInput) ioUnit).getEngUnits();
+
+            if (engUnits.trim().equals("") || engUnits == null) validIoUnit.setEngUnits("");
+            else {
+                ArrayList<String> tokens = new ArrayList<>(Arrays.asList(engUnits.split(" ")));
+                validIoUnit.setEngUnits(tokens.get(tokens.size() - 1));
+            }
 
             if (ioUnit.getSymbol().trim().equals("") || ioUnit.getSymbol() == null) {
                 validIoUnit.setSymbol("ai[" + ioUnit.getNumber() + "]");

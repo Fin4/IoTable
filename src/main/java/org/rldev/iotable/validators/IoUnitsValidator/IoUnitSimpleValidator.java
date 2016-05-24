@@ -1,6 +1,6 @@
 package org.rldev.iotable.validators.IoUnitsValidator;
 
-import org.rldev.iotable.model.IoUnit;
+import org.rldev.iotable.model.ioUnits.IoUnit;
 
 import java.util.ArrayList;
 import java.util.List;

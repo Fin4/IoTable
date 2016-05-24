@@ -3,7 +3,7 @@ package org.rldev.iotable.codegenerators.schneider.unitypro;
 
 import org.rldev.iotable.codegenerators.CodeGenerator;
 import org.rldev.iotable.codegenerators.exceptions.WrongFormatException;
-import org.rldev.iotable.model.IoUnit;
+import org.rldev.iotable.model.ioUnits.IoUnit;
 
 import java.io.IOException;
 import java.util.Collection;

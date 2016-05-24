@@ -1,9 +1,8 @@
 package org.rldev.iotable.validators.IoUnitsValidator;
 
-import org.rldev.iotable.model.IoUnit;
+import org.rldev.iotable.model.ioUnits.IoUnit;
 
 import java.util.List;
-import java.util.Set;
 
 public interface IoUnitValidator {
 

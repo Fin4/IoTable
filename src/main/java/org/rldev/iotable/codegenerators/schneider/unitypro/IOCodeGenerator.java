@@ -3,17 +3,16 @@ package org.rldev.iotable.codegenerators.schneider.unitypro;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
-import org.rldev.iotable.model.IoUnit;
+import org.rldev.iotable.model.ioUnits.IoUnit;
 import org.rldev.iotable.codegenerators.CodeGenerator;
 import org.rldev.iotable.codegenerators.exceptions.WrongFormatException;
-import org.rldev.iotable.model.typeadapters.NullIoUnitTypeAdapter;
+import org.rldev.iotable.model.ioUnits.typeadapters.NullIoUnitTypeAdapter;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Properties;
 
 public class IOCodeGenerator implements CodeGenerator {

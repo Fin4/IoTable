@@ -7,17 +7,19 @@ import com.google.gson.JsonParser;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.rldev.iotable.codegenerators.exceptions.WrongFormatException;
 import org.rldev.iotable.codegenerators.schneider.unitypro.IOCodeGenerator;
-import org.rldev.iotable.model.AnalogInput;
-import org.rldev.iotable.model.IoUnit;
-import org.rldev.iotable.model.typeadapters.NullIoUnitTypeAdapter;
+import org.rldev.iotable.mechanisms.SimpleMechanismsParser;
+import org.rldev.iotable.model.ioUnits.AnalogInput;
+import org.rldev.iotable.model.ioUnits.IoUnit;
+import org.rldev.iotable.model.ioUnits.typeadapters.NullIoUnitTypeAdapter;
 import org.rldev.iotable.parsers.XlsxIoTableParser;
 import org.rldev.iotable.validators.IoUnitsValidator.AiSimpleValidator;
 import org.rldev.iotable.validators.IoUnitsValidator.IoUnitSimpleValidator;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 public class Main {
@@ -27,6 +29,7 @@ public class Main {
         FileInputStream inputStream = new FileInputStream("D:\\iotable.xlsx");
         String json = new XlsxIoTableParser().parse(inputStream);
 
+
         Gson gson = new GsonBuilder().registerTypeAdapter(IoUnit.class, new NullIoUnitTypeAdapter()).create();
 
         ArrayList<IoUnit> analogInputs = new ArrayList<>();
@@ -34,8 +37,10 @@ public class Main {
         ArrayList<IoUnit> analogOutputs = new ArrayList<>();
         ArrayList<IoUnit> digitalOutputs = new ArrayList<>();
 
+        ArrayList<IoUnit> ioUnits = new ArrayList<IoUnit>();
 
-        Runnable aiCalc = () -> {
+
+        //Runnable aiCalc = () -> {
             new JsonParser()
                     .parse(json)
                     .getAsJsonObject()
@@ -45,16 +50,20 @@ public class Main {
                         IoUnit unit = gson.fromJson(jsonElement, AnalogInput.class);
                         analogInputs.add(unit);
                     });
-            System.out.println(analogInputs);
-            String template = "fb_ai (inp := %IW%address%, chErr := %IW%address%.ERR, params := ai_%symbol%); (* %symbol% - %description% *)";
+            String aiTemplate = "fb_ai (inp := %IW%address%, chErr := %IW%address%.ERR, params := ai_%symbol%); (* %symbol% - %description% *)";
+
             try {
-                System.out.println(new IOCodeGenerator().generateCode(new AiSimpleValidator().validate(analogInputs), template));
+                List<AnalogInput> validAi = new AiSimpleValidator().validate(analogInputs);
+
+                ioUnits.addAll(validAi);
+
+                System.out.println(new IOCodeGenerator().generateCode(validAi, aiTemplate));
             } catch (WrongFormatException | IOException e) {
                 e.printStackTrace();
             }
-        };
+        //};
 
-        Runnable diCalc = () -> {
+        //Runnable diCalc = () -> {
             new JsonParser()
                     .parse(json)
                     .getAsJsonObject()
@@ -64,15 +73,19 @@ public class Main {
                         IoUnit unit = gson.fromJson(jsonElement, IoUnit.class);
                         digitalInputs.add(unit);
                     });
-            String template = "di[%number%].i_value := %I%address%; di[%number%].q_chErr := %I%address%.ERR; (* %symbol% - %description% *)";
+            String diTemplate = "di[%number%].i_value := %I%address%; di[%number%].q_chErr := %I%address%.ERR; (* %symbol% - %description% *)";
             try {
-                System.out.println(new IOCodeGenerator().generateCode(new IoUnitSimpleValidator().validate(digitalInputs), template));
+                List<IoUnit> validDi = (List<IoUnit>) new IoUnitSimpleValidator().validate(digitalInputs);
+
+                ioUnits.addAll(validDi);
+
+                System.out.println(new IOCodeGenerator().generateCode(validDi, diTemplate));
             } catch (WrongFormatException | IOException e) {
                 e.printStackTrace();
             }
-        };
+        //};
 
-        Runnable doCalc = () -> {
+        //Runnable doCalc = () -> {
             new JsonParser()
                         .parse(json)
                         .getAsJsonObject()
@@ -82,15 +95,19 @@ public class Main {
                             IoUnit unit = gson.fromJson(jsonElement, IoUnit.class);
                             digitalOutputs.add(unit);
                         });
-            String template = "%Q%address% := do[%number%].q; (* %symbol% - %description% *)";
+            String doTemplate = "%Q%address% := do[%number%].q; (* %symbol% - %description% *)";
             try {
-                System.out.println(new IOCodeGenerator().generateCode(new IoUnitSimpleValidator().validate(digitalOutputs), template));
+                List<IoUnit> validDo = (List<IoUnit>) new IoUnitSimpleValidator().validate(digitalOutputs);
+
+                ioUnits.addAll(validDo);
+
+                System.out.println(new IOCodeGenerator().generateCode(validDo, doTemplate));
             } catch (WrongFormatException | IOException e) {
                 e.printStackTrace();
             }
-        };
+        //};
 
-        Runnable aoCalc = () -> {
+        //Runnable aoCalc = () -> {
             new JsonParser()
                         .parse(json)
                         .getAsJsonObject()
@@ -100,17 +117,30 @@ public class Main {
                             IoUnit unit = gson.fromJson(jsonElement, IoUnit.class);
                             analogOutputs.add(unit);
                         });
-            String template = "%QW%address% := ao[%number%].q_iOut; (* %symbol% - %description% *)";
+            String aoTemplate = "%QW%address% := ao[%number%].q_iOut; (* %symbol% - %description% *)";
             try {
-                System.out.println(new IOCodeGenerator().generateCode(new IoUnitSimpleValidator().validate(analogOutputs), template));
+                List<IoUnit> validAo = (List<IoUnit>) new IoUnitSimpleValidator().validate(analogOutputs);
+
+                ioUnits.addAll(validAo);
+
+                System.out.println(new IOCodeGenerator().generateCode(validAo, aoTemplate));
             } catch (WrongFormatException | IOException e) {
                 e.printStackTrace();
             }
-        };
+        //};
 
-        new Thread(aiCalc).start();
-        new Thread(diCalc).start();
-        new Thread(aoCalc).start();
-        new Thread(doCalc).start();
+
+/*        Map<String, List<IoUnit>> mechanisms = ioUnits.stream().collect(Collectors.groupingBy(ioUnit -> {
+
+            String symbol = ioUnit.getSymbol();
+
+            if (symbol.matches(".+\\.[a-zA-Z0-9]+")) return symbol.substring(0, symbol.lastIndexOf("."));
+            else return symbol;
+        }
+        ));*/
+
+        Gson mGson = new Gson();
+
+        System.out.println(mGson.toJson(new SimpleMechanismsParser().getMechanisms(ioUnits)));
     }
 }
