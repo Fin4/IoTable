@@ -10,33 +10,26 @@ public class IoUnitSimpleValidator implements IoUnitValidator {
     @Override
     public List<? extends IoUnit> validate(List<? extends IoUnit> ioUnits) {
 
-        List<IoUnit> validIoUnits = new ArrayList<>();
-
         for (IoUnit ioUnit : ioUnits) {
 
-            IoUnit validIoUnit = new IoUnit();
+            ioUnit.setNumber(ioUnit.getNumber());
 
-            validIoUnit.setNumber(ioUnit.getNumber());
+            ioUnit.setAddress(ioUnit.getAddress().replace("/", ".").trim());
 
-            validIoUnit.setAddress(ioUnit.getAddress().replace("/", ".").trim());
+            ioUnit.setDescription(ioUnit.getDescription().replaceAll("«|»", "\"").trim());
 
-            validIoUnit.setDescription(ioUnit.getDescription());
-
-            if (ioUnit.getSymbol().trim().equals("") || (ioUnit.getSymbol() == null)) {
-                validIoUnit.setSymbol("ioUnit[" + ioUnit.getNumber() + "]");
+            if ((ioUnit.getSymbol() == null) || ioUnit.getSymbol().trim().equals("")) {
+                ioUnit.setSymbol(ioUnit.getClass().getSimpleName() + ".reserve" + ioUnit.getNumber());
             } else if (ioUnit.getSymbol().contains("-")) {
 
                 StringBuilder symbol = new StringBuilder(ioUnit.getSymbol().trim());
 
                 symbol.delete(0, ioUnit.getSymbol().indexOf("-") + 1);
 
-                validIoUnit.setSymbol(symbol.toString());
+                ioUnit.setSymbol(symbol.toString());
 
-            } else validIoUnit.setSymbol(ioUnit.getSymbol());
-
-            validIoUnits.add(validIoUnit);
-
+            } else ioUnit.setSymbol(ioUnit.getSymbol());
         }
-        return validIoUnits;
+        return ioUnits;
     }
 }

@@ -36,4 +36,13 @@ public class Mechanism {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "Mechanism{" +
+                "symbol='" + symbol + '\'' +
+                ", description='" + description + '\'' +
+                ", ioUnits=" + ioUnits +
+                '}';
+    }
 }

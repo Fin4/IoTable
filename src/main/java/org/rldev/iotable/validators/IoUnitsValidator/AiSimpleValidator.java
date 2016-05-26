@@ -10,40 +10,38 @@ public class AiSimpleValidator implements AiValidator {
     @Override
     public List<AnalogInput> validate(List<? extends IoUnit> ioUnits) {
 
-        List<AnalogInput> validIoUnits = new ArrayList<>();
-
         for (IoUnit ioUnit : ioUnits) {
 
-            AnalogInput validIoUnit = new AnalogInput();
+            AnalogInput analogInput = (AnalogInput) ioUnit;
 
-            validIoUnit.setNumber(ioUnit.getNumber());
+            analogInput.setNumber(ioUnit.getNumber());
 
-            validIoUnit.setAddress(ioUnit.getAddress().replace("/", ".").trim());
+            analogInput.setAddress(ioUnit.getAddress().replace("/", ".").trim());
 
-            validIoUnit.setDescription(ioUnit.getDescription().trim());
+            analogInput.setDescription(ioUnit.getDescription().trim());
 
-            String engUnits = ((AnalogInput) ioUnit).getEngUnits();
+            String engUnits = analogInput.getEngUnits();
 
-            if (engUnits.trim().equals("") || engUnits == null) validIoUnit.setEngUnits("");
+            if (engUnits == null || engUnits.trim().equals("")) analogInput.setEngUnits("");
             else {
                 ArrayList<String> tokens = new ArrayList<>(Arrays.asList(engUnits.split(" ")));
-                validIoUnit.setEngUnits(tokens.get(tokens.size() - 1));
+                analogInput.setEngUnits(tokens.get(tokens.size() - 1));
             }
 
-            if (ioUnit.getSymbol().trim().equals("") || ioUnit.getSymbol() == null) {
-                validIoUnit.setSymbol("ai[" + ioUnit.getNumber() + "]");
-            } else if (ioUnit.getSymbol().contains("-")) {
+            if (analogInput.getSymbol().trim().equals("") || analogInput.getSymbol() == null) {
+                analogInput.setSymbol(analogInput.getClass().getSimpleName() + ".reserve" + ioUnit.getNumber());
+            } else if (analogInput.getSymbol().contains("-")) {
 
-                StringBuilder symbol = new StringBuilder(ioUnit.getSymbol().trim());
+                StringBuilder symbol = new StringBuilder(analogInput.getSymbol().trim());
 
                 symbol.delete(0, ioUnit.getSymbol().indexOf("-") + 1);
 
-                validIoUnit.setSymbol(symbol.toString().replace(".", "_"));
+                analogInput.setSymbol(symbol.toString().replace(".", "_"));
 
-            } else validIoUnit.setSymbol(ioUnit.getSymbol().replace(".", "_"));
+            } else analogInput.setSymbol(ioUnit.getSymbol().replace(".", "_"));
 
-            validIoUnits.add(validIoUnit);
+
         }
-        return validIoUnits;
+        return (List<AnalogInput>) ioUnits;
     }
 }

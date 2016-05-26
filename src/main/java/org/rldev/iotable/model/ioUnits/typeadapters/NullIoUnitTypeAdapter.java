@@ -11,7 +11,7 @@ public class NullIoUnitTypeAdapter implements JsonDeserializer<IoUnit> {
     @Override
     public IoUnit deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 
-        IoUnit ioUnit = new IoUnit();
+        IoUnit ioUnit = (IoUnit) new Object();
         JsonObject jsonObject = json.getAsJsonObject();
 
         ioUnit.setNumber(jsonObject.get("number").isJsonNull() ? 0 : jsonObject.get("number").getAsInt());

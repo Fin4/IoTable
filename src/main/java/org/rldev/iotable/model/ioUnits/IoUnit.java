@@ -1,7 +1,7 @@
 package org.rldev.iotable.model.ioUnits;
 
 
-public class IoUnit {
+public abstract class IoUnit {
 
     protected String symbol;
     protected String description;
