@@ -15,7 +15,7 @@ public class AnalogInput extends IoUnit {
 
     @Override
     public String toString() {
-        return "IoUnit{" +
+        return "AI{" +
                 "number=" + number +
                 ", address='" + address + '\'' +
                 ", description='" + description + '\'' +

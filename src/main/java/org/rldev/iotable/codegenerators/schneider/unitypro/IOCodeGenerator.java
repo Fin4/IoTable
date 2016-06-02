@@ -46,7 +46,7 @@ public class IOCodeGenerator implements CodeGenerator {
 
         ioUnits.stream().map(ioUnit -> template
                     .replace(props.getProperty("description"), ioUnit.getDescription())
-                    .replace(props.getProperty("symbol"), ioUnit.getSymbol())
+                    .replace(props.getProperty("symbol"), ioUnit.getSymbol().replaceAll("\\.", "_"))
                     .replace(props.getProperty("address"), ioUnit.getAddress())
                     .replace(props.getProperty("number"), String.valueOf(ioUnit.getNumber())))
                 .forEach(s -> resultString.append(s).append(System.lineSeparator()));

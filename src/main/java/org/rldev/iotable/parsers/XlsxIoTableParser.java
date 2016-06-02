@@ -73,7 +73,7 @@ public class XlsxIoTableParser implements IoTableParser {
             Cell firstCell = row.getCell(0);
             firstCell.setCellType(Cell.CELL_TYPE_STRING);
 
-            if (firstCell.getStringCellValue().trim().equals("") || firstCell == null) return;
+            if (firstCell == null || firstCell.getStringCellValue().trim().equals("")) return;
 
             headers.stream().forEach(s -> {
                 Cell cell = row.getCell(headers.indexOf(s));
