@@ -27,7 +27,7 @@ import java.util.Properties;
 
 public class XlsxIoTable implements IoTableDocument {
 
-    private XSSFWorkbook workbook;
+    private final XSSFWorkbook workbook;
 
     private Properties props;
 
