@@ -6,10 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-public interface IoTableParser {
+public interface IoTableDocument {
 
-    String parse(InputStream inputStream) throws IOException;
-
-    String parse(File file) throws IOException, InvalidFormatException;
+    String getAsJsonString() throws IOException;
 
 }

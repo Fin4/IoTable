@@ -4,46 +4,39 @@ package org.rldev.iotable.parsers;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.rldev.iotable.parsers.exceptions.WrongSheetFormatException;
 
-import java.io.File;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Properties;
 
 
-/** An implementation of #IoTableParser interface
- * Class contains methods to parse excel documents 2007 and later versions.
+/** An implementation of #IoTableDocument interface
+ * Class contains methods to getAsJsonString excel documents 2007 and later versions.
  * @author Roman Lychak
  * @version 1.0
  * @since JDK 1.8
  */
 
-public class XlsxIoTableParser implements IoTableParser {
+public class XlsxIoTable implements IoTableDocument {
+
+    private XSSFWorkbook workbook;
 
     private Properties props;
 
-    @Override
-    public String parse(InputStream inputStream) throws IOException {
-
-        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
-
-        return parseIoTable(workbook).toString();
+    public XlsxIoTable(XSSFWorkbook xssfWorkbook) {
+        this.workbook = xssfWorkbook;
     }
 
     @Override
-    public String parse(File file) throws IOException, InvalidFormatException {
-
-        XSSFWorkbook workbook = new XSSFWorkbook(file);
+    public String getAsJsonString() throws IOException {
 
         return parseIoTable(workbook).toString();
     }
@@ -59,21 +52,27 @@ public class XlsxIoTableParser implements IoTableParser {
 
         headerRow.forEach(cell -> {
             cell.setCellType(Cell.CELL_TYPE_STRING);
-            if (!cell.getStringCellValue().trim().equals(""))
+            if (!cell.getStringCellValue().trim().isEmpty())
             headers.add(cell.getStringCellValue());
         });
 
-        sheet.removeRow(headerRow);
-
         JsonArray jsonArray = new JsonArray();
 
-        sheet.forEach(row -> {
-            JsonObject jsonObject = new JsonObject();
+        for (int i = 1;; i++) {
 
+            Row row = sheet.getRow(i);
+
+            if (row == null) break;
             Cell firstCell = row.getCell(0);
-            firstCell.setCellType(Cell.CELL_TYPE_STRING);
 
-            if (firstCell == null || firstCell.getStringCellValue().trim().equals("")) return;
+            if (firstCell == null) break;
+            else firstCell.setCellType(Cell.CELL_TYPE_STRING);
+
+            if (firstCell.getStringCellValue().trim().isEmpty()) {
+                break;
+            }
+
+            JsonObject jsonObject = new JsonObject();
 
             headers.stream().forEach(s -> {
                 Cell cell = row.getCell(headers.indexOf(s));
@@ -84,7 +83,7 @@ public class XlsxIoTableParser implements IoTableParser {
                 }
             });
             jsonArray.add(jsonObject);
-        });
+        }
 
         return jsonArray;
     }
@@ -138,5 +137,16 @@ public class XlsxIoTableParser implements IoTableParser {
         InputStream inputStream = new FileInputStream("src/main/resources/XlsxDoc.properties");
 
         props.load(inputStream);
+    }
+
+    public void info() {
+
+        workbook.forEach(sheet -> {
+
+            System.out.println("name : " + sheet.getSheetName());
+            System.out.println("num of rows : " + sheet.getPhysicalNumberOfRows());
+            System.out.println("first row num : " + sheet.getFirstRowNum());
+            System.out.println("last row num : " + sheet.getLastRowNum());
+        });
     }
 }
