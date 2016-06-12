@@ -23,5 +23,4 @@ public class AnalogInput extends IoUnit {
                 ", engUnits='" + engUnits + '\'' +
                 '}';
     }
-
 }

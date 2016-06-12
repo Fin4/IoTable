@@ -4,10 +4,11 @@ package org.rldev.iotable;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.rldev.iotable.model.ioUnits.AnalogInput;
 import org.rldev.iotable.model.ioUnits.IoUnit;
 import org.rldev.iotable.model.ioUnits.typeadapters.NullIoUnitTypeAdapter;
-import org.rldev.iotable.parsers.XlsxIoTableParser;
+import org.rldev.iotable.document.XlsxIoTable;
 import org.rldev.iotable.validators.IoUnitsValidator.AiSimpleValidator;
 import org.rldev.iotable.validators.IoUnitsValidator.IoUnitSimpleValidator;
 
@@ -26,8 +27,9 @@ public class RsViewGen {
 
     public static void main(String[] args) throws IOException {
 
-        FileInputStream inputStream = new FileInputStream("D:\\iotable.xlsx");
-        String json = new XlsxIoTableParser().parse(inputStream);
+        XSSFWorkbook xssfWorkbook = new XSSFWorkbook(new FileInputStream("D:\\ioTables\\jOrjIoTable.xlsx"));
+
+        String json = new XlsxIoTable(xssfWorkbook).getAsJsonString();
 
         generateAiTags(json);
         generateDiTags(json);

@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<p th:text="#{iotable.infoTitle}">I/O table info</p>
+
+<a th:href="@{/aiTable}">AI</a>
+<a th:href="@{/diTable}">DI</a>
+<a th:href="@{/aoTable}">AO</a>
+<a th:href="@{/doTable}">DO</a>
+
+<div th:if="${info}">
+    <h2 th:text="${info}"/>
+</div>
+
+</body>
+</html>

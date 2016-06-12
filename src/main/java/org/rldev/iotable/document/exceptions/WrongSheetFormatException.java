@@ -1,4 +1,4 @@
-package org.rldev.iotable.parsers.exceptions;
+package org.rldev.iotable.document.exceptions;
 
 public class WrongSheetFormatException extends Exception {
 

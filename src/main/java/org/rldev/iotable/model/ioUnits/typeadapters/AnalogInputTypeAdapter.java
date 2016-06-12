@@ -14,10 +14,10 @@ public class AnalogInputTypeAdapter implements JsonDeserializer<AnalogInput> {
         JsonObject jsonObject = json.getAsJsonObject();
 
         ai.setNumber(jsonObject.get("number").isJsonNull() ? 0 : jsonObject.get("number").getAsInt());
-        ai.setAddress(jsonObject.get("address").isJsonNull() ? "" : jsonObject.get("address").getAsString());
-        ai.setDescription(jsonObject.get("description").isJsonNull() ? "" : jsonObject.get("description").getAsString());
-        ai.setSymbol(jsonObject.get("symbol").isJsonNull() ? "" : jsonObject.get("symbol").getAsString());
-        ai.setEngUnits(jsonObject.get("engUnits").isJsonNull() ? "" : jsonObject.get("engUnits").getAsString());
+        ai.setAddress(jsonObject.get("address").isJsonNull() ? "" : jsonObject.get("address").getAsString().trim());
+        ai.setDescription(jsonObject.get("description").isJsonNull() ? "" : jsonObject.get("description").getAsString().trim());
+        ai.setSymbol(jsonObject.get("symbol").isJsonNull() ? "" : jsonObject.get("symbol").getAsString().trim());
+        ai.setEngUnits(jsonObject.get("engUnits").isJsonNull() ? "" : jsonObject.get("engUnits").getAsString().trim());
 
         return ai;
     }

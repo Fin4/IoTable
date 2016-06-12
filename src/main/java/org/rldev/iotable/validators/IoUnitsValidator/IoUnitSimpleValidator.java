@@ -1,5 +1,6 @@
 package org.rldev.iotable.validators.IoUnitsValidator;
 
+import org.apache.commons.codec.binary.StringUtils;
 import org.rldev.iotable.model.ioUnits.IoUnit;
 
 import java.util.ArrayList;
@@ -7,29 +8,33 @@ import java.util.List;
 
 public class IoUnitSimpleValidator implements IoUnitValidator {
 
+    private IoUnitValidator validator;
+
+    public IoUnitSimpleValidator(IoUnitValidator validator) {
+        this.validator = validator;
+    }
+
+    public IoUnitSimpleValidator() {}
+
     @Override
     public List<? extends IoUnit> validate(List<? extends IoUnit> ioUnits) {
 
         for (IoUnit ioUnit : ioUnits) {
 
-            ioUnit.setNumber(ioUnit.getNumber());
+            ioUnit.setAddress(ioUnit.getAddress().trim());
 
-            ioUnit.setAddress(ioUnit.getAddress().replace("/", ".").trim());
+            String desc = ioUnit.getDescription().replace(String.valueOf((char) 160), " ").trim();
 
-            ioUnit.setDescription(ioUnit.getDescription().replaceAll("«|»", "\"").trim());
+            ioUnit.setDescription(desc.replaceAll("«|»", "\""));
 
-            if ((ioUnit.getSymbol() == null) || ioUnit.getSymbol().trim().equals("")) {
-                ioUnit.setSymbol(ioUnit.getClass().getSimpleName() + ".reserve" + ioUnit.getNumber());
-            } else if (ioUnit.getSymbol().contains("-")) {
+            if ((ioUnit.getSymbol() == null) || ioUnit.getSymbol().isEmpty()) {
+                ioUnit.setSymbol(ioUnit.getClass().getSimpleName() + ".res" + ioUnit.getNumber());
+            } else ioUnit.setSymbol(ioUnit.getSymbol().trim());
 
-                StringBuilder symbol = new StringBuilder(ioUnit.getSymbol().trim());
-
-                symbol.delete(0, ioUnit.getSymbol().indexOf("-") + 1);
-
-                ioUnit.setSymbol(symbol.toString());
-
-            } else ioUnit.setSymbol(ioUnit.getSymbol());
         }
+
+        if (validator != null) validator.validate(ioUnits);
+
         return ioUnits;
     }
 }

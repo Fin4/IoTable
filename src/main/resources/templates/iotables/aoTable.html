@@ -1,0 +1,25 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<a th:href="@{/aiTable}">AI</a>
+<a th:href="@{/diTable}">DI</a>
+<a th:href="@{/aoTable}">AO</a>
+<a th:href="@{/doTable}">DO</a>
+
+<table align="center">
+    <tr>
+        <th>number</th>
+        <th>address</th>
+        <th>description</th>
+        <th>symbol</th>
+    </tr>
+    <tr th:each="ao : ${iotable.analogOutputs}">
+        <td th:text="${ao.number}"></td>
+        <td th:text="${ao.address}"></td>
+        <td th:text="${ao.description}"></td>
+        <td th:text="${ao.symbol}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

@@ -8,7 +8,10 @@ import java.util.List;
 
 public interface MechanismsParser {
 
-    List<Mechanism> getMechanisms(List<IoUnit> ioUnits);
+    List<Mechanism> getBySymbol(List<IoUnit> ioUnits);
 
-    List<Mechanism> getMechanisms(String json);
+    List<Mechanism> getByDescription(List<IoUnit> ioUnits);
+
+    List<Mechanism> getEntire(List<IoUnit> ioUnits);
+
 }

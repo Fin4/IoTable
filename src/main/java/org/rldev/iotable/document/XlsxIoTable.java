@@ -1,4 +1,4 @@
-package org.rldev.iotable.parsers;
+package org.rldev.iotable.document;
 
 
 import com.google.gson.JsonArray;
@@ -8,13 +8,12 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.rldev.iotable.parsers.exceptions.WrongSheetFormatException;
+import org.rldev.iotable.document.exceptions.WrongSheetFormatException;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Properties;
 
 
@@ -139,14 +138,18 @@ public class XlsxIoTable implements IoTableDocument {
         props.load(inputStream);
     }
 
-    public void info() {
+    public String info() {
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("Sheets :").append(System.lineSeparator());
 
         workbook.forEach(sheet -> {
 
-            System.out.println("name : " + sheet.getSheetName());
-            System.out.println("num of rows : " + sheet.getPhysicalNumberOfRows());
-            System.out.println("first row num : " + sheet.getFirstRowNum());
-            System.out.println("last row num : " + sheet.getLastRowNum());
+            stringBuilder.append("name : " + sheet.getSheetName()).append(System.lineSeparator())
+                    .append("num of rows : " + sheet.getPhysicalNumberOfRows()).append(System.lineSeparator());
         });
+
+        return new String(stringBuilder);
     }
 }

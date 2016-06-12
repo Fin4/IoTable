@@ -1,4 +1,4 @@
-package org.rldev.iotable.codegenerators.schneider.unitypro;
+package org.rldev.iotable.codegenerators;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,8 +46,8 @@ public class IOCodeGenerator implements CodeGenerator {
 
         ioUnits.stream().map(ioUnit -> template
                     .replace(props.getProperty("description"), ioUnit.getDescription())
-                    .replace(props.getProperty("symbol"), ioUnit.getSymbol().replaceAll("\\.", "_"))
-                    .replace(props.getProperty("address"), ioUnit.getAddress())
+                    .replace(props.getProperty("symbol"), ioUnit.getSymbol().replaceAll(".+\\-", "").replaceAll("\\.", "_"))
+                    .replace(props.getProperty("address"), ioUnit.getAddress().replaceAll("/", "\\."))
                     .replace(props.getProperty("number"), String.valueOf(ioUnit.getNumber())))
                 .forEach(s -> resultString.append(s).append(System.lineSeparator()));
 
