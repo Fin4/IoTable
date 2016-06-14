@@ -11,10 +11,11 @@ import java.util.List;
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
 
-/*    @Override
+    @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("*//**").addResourceLocations("/");
-    }*/
+        registry.addResourceHandler("/resources/**")
+                .addResourceLocations("/resources/");
+    }
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {

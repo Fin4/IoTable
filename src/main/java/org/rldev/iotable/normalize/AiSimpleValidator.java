@@ -1,4 +1,4 @@
-package org.rldev.iotable.validators.IoUnitsValidator;
+package org.rldev.iotable.normalize;
 
 import org.rldev.iotable.model.ioUnits.AnalogInput;
 import org.rldev.iotable.model.ioUnits.IoUnit;

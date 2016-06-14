@@ -1,9 +1,7 @@
-package org.rldev.iotable.validators.IoUnitsValidator;
+package org.rldev.iotable.normalize;
 
-import org.apache.commons.codec.binary.StringUtils;
 import org.rldev.iotable.model.ioUnits.IoUnit;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class IoUnitSimpleValidator implements IoUnitValidator {

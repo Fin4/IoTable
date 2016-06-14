@@ -1,4 +1,4 @@
-package org.rldev.iotable.validators.IoUnitsValidator;
+package org.rldev.iotable.normalize;
 
 
 public interface AiValidator extends IoUnitValidator {

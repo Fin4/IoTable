@@ -2,59 +2,45 @@ package org.rldev.web.controllers;
 
 
 import org.rldev.iotable.model.IoTable;
+import org.rldev.service.IoUnitsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+
 @Controller
 @SessionAttributes("iotable")
 public class IoTableController {
 
-    @RequestMapping(value = "/info")
-    public String ioTableInfo(@ModelAttribute IoTable ioTable) {
+    @Autowired private IoUnitsService ioUnitsService;
 
-        return "info";
-    }
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    public ModelAndView ioTableInfo(@ModelAttribute("iotable") IoTable ioTable) {
 
-    @RequestMapping(value = "/aiTable", method = RequestMethod.GET)
-    public ModelAndView aiTable(@ModelAttribute IoTable ioTable) {
+        ModelAndView modelAndView = new ModelAndView("info");
 
-        ModelAndView modelAndView = new ModelAndView("iotables/aiTable");
 
-        modelAndView.addObject(ioTable);
+        modelAndView.addObject("duplicateAis",
+                ioUnitsService.findEqualsByNumber(new ArrayList<>(ioTable.getAnalogInputs())));
 
-        return modelAndView;
-    }
+        modelAndView.addObject("duplicateAis",
+                ioUnitsService.findEqualsByNumber(new ArrayList<>(ioTable.getAnalogInputs())));
 
-    @RequestMapping(value = "/diTable", method = RequestMethod.GET)
-    public ModelAndView diTable(@ModelAttribute IoTable ioTable) {
+        modelAndView.addObject("duplicateDis",
+                ioUnitsService.findEqualsByNumber(new ArrayList<>(ioTable.getDigitalInputs())));
 
-        ModelAndView modelAndView = new ModelAndView("iotables/diTable");
+        modelAndView.addObject("duplicateAos",
+                ioUnitsService.findEqualsByNumber(new ArrayList<>(ioTable.getAnalogOutputs())));
 
-        modelAndView.addObject(ioTable);
-
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/aoTable", method = RequestMethod.GET)
-    public ModelAndView aoTable(@ModelAttribute IoTable ioTable) {
-
-        ModelAndView modelAndView = new ModelAndView("iotables/aoTable");
-
-        modelAndView.addObject(ioTable);
-
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/doTable", method = RequestMethod.GET)
-    public ModelAndView doTable(@ModelAttribute IoTable ioTable) {
-
-        ModelAndView modelAndView = new ModelAndView("iotables/doTable");
-
-        modelAndView.addObject(ioTable);
+        modelAndView.addObject("duplicateDos",
+                ioUnitsService.findEqualsByNumber(new ArrayList<>(ioTable.getDigitalOutputs())));
 
         return modelAndView;
     }

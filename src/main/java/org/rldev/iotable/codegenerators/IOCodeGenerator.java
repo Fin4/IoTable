@@ -1,38 +1,17 @@
 package org.rldev.iotable.codegenerators;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParser;
 import org.rldev.iotable.model.ioUnits.IoUnit;
-import org.rldev.iotable.codegenerators.CodeGenerator;
 import org.rldev.iotable.codegenerators.exceptions.WrongFormatException;
-import org.rldev.iotable.model.ioUnits.typeadapters.NullIoUnitTypeAdapter;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Properties;
 
 public class IOCodeGenerator implements CodeGenerator {
 
     private Properties props;
-
-    @Override
-    public String generateCode(String aiJsonArray, String template) throws WrongFormatException, IOException {
-
-        ArrayList<IoUnit> ioUnits = new ArrayList<>();
-
-        Gson gson = new GsonBuilder().registerTypeAdapter(IoUnit.class, new NullIoUnitTypeAdapter()).create();
-
-        new JsonParser()
-                .parse(aiJsonArray)
-                .getAsJsonArray()
-                .forEach(jsonElement -> ioUnits.add(gson.fromJson(jsonElement, IoUnit.class)));
-
-        return generateCode(ioUnits, template);
-    }
 
     @Override
     public String generateCode(Collection<? extends IoUnit> ioUnits, String template)

@@ -8,7 +8,5 @@ import java.util.Collection;
 
 public interface CodeGenerator {
 
-    String generateCode(String json, String format) throws WrongFormatException, IOException;
-
     String generateCode(Collection<? extends IoUnit> analogInputs, String format) throws WrongFormatException, IOException;
 }

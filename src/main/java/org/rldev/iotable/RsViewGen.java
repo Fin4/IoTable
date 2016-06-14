@@ -5,12 +5,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.rldev.iotable.model.ioUnits.AnalogInput;
-import org.rldev.iotable.model.ioUnits.IoUnit;
-import org.rldev.iotable.model.ioUnits.typeadapters.NullIoUnitTypeAdapter;
+import org.rldev.iotable.model.ioUnits.*;
 import org.rldev.iotable.document.XlsxIoTable;
-import org.rldev.iotable.validators.IoUnitsValidator.AiSimpleValidator;
-import org.rldev.iotable.validators.IoUnitsValidator.IoUnitSimpleValidator;
+import org.rldev.iotable.model.ioUnits.typeadapters.AnalogInputTypeAdapter;
+import org.rldev.iotable.model.ioUnits.typeadapters.AnalogOutputTypeAdapter;
+import org.rldev.iotable.model.ioUnits.typeadapters.DigitalInputTypeAdapter;
+import org.rldev.iotable.model.ioUnits.typeadapters.DigitalOutputTypeAdapter;
+import org.rldev.iotable.normalize.AiSimpleValidator;
+import org.rldev.iotable.normalize.IoUnitSimpleValidator;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -42,7 +44,12 @@ public class RsViewGen {
 
         ArrayList<IoUnit> analogInputs = new ArrayList<>();
 
-        Gson gson = new GsonBuilder().registerTypeAdapter(IoUnit.class, new NullIoUnitTypeAdapter()).create();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(AnalogInput.class, new AnalogInputTypeAdapter())
+                .registerTypeAdapter(DigitalInput.class, new DigitalInputTypeAdapter())
+                .registerTypeAdapter(AnalogOutput.class, new AnalogOutputTypeAdapter())
+                .registerTypeAdapter(DigitalOutput.class, new DigitalOutputTypeAdapter())
+                .create();
 
         Runnable aiCalc = () -> {
             new JsonParser()
@@ -137,7 +144,12 @@ public class RsViewGen {
 
         ArrayList<IoUnit> digitalInputs = new ArrayList<>();
 
-        Gson gson = new GsonBuilder().registerTypeAdapter(IoUnit.class, new NullIoUnitTypeAdapter()).create();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(AnalogInput.class, new AnalogInputTypeAdapter())
+                .registerTypeAdapter(DigitalInput.class, new DigitalInputTypeAdapter())
+                .registerTypeAdapter(AnalogOutput.class, new AnalogOutputTypeAdapter())
+                .registerTypeAdapter(DigitalOutput.class, new DigitalOutputTypeAdapter())
+                .create();
 
         Runnable diCalc = () -> {
             new JsonParser()
@@ -219,7 +231,12 @@ public class RsViewGen {
 
         ArrayList<IoUnit> srcIoUnits = new ArrayList<>();
 
-        Gson gson = new GsonBuilder().registerTypeAdapter(IoUnit.class, new NullIoUnitTypeAdapter()).create();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(AnalogInput.class, new AnalogInputTypeAdapter())
+                .registerTypeAdapter(DigitalInput.class, new DigitalInputTypeAdapter())
+                .registerTypeAdapter(AnalogOutput.class, new AnalogOutputTypeAdapter())
+                .registerTypeAdapter(DigitalOutput.class, new DigitalOutputTypeAdapter())
+                .create();
 
         Runnable calculation = () -> {
             new JsonParser()
@@ -296,7 +313,12 @@ public class RsViewGen {
 
         ArrayList<IoUnit> srcIoUnits = new ArrayList<>();
 
-        Gson gson = new GsonBuilder().registerTypeAdapter(IoUnit.class, new NullIoUnitTypeAdapter()).create();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(AnalogInput.class, new AnalogInputTypeAdapter())
+                .registerTypeAdapter(DigitalInput.class, new DigitalInputTypeAdapter())
+                .registerTypeAdapter(AnalogOutput.class, new AnalogOutputTypeAdapter())
+                .registerTypeAdapter(DigitalOutput.class, new DigitalOutputTypeAdapter())
+                .create();
 
         Runnable calculation = () -> {
             new JsonParser()

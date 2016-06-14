@@ -7,9 +7,69 @@
 <a th:href="@{/aoTable}">AO</a>
 <a th:href="@{/doTable}">DO</a>
 
-<div th:if="${info}">
-    <h2 th:text="${info}"/>
-</div>
+<p th:text="#{Ais}">AIs</p>
+<table align="center">
+    <tr>
+        <th>number</th>
+        <th>address</th>
+        <th>description</th>
+        <th>symbol</th>
+    </tr>
+    <tr th:each="ai : ${duplicateAis}">
+        <td th:text="${ai.number}"></td>
+        <td th:text="${ai.address}"></td>
+        <td th:text="${ai.description}"></td>
+        <td th:text="${ai.symbol}"></td>
+    </tr>
+</table>
+
+<p th:text="#{Dis}">DIs</p>
+<table align="center">
+    <tr>
+        <th>number</th>
+        <th>address</th>
+        <th>description</th>
+        <th>symbol</th>
+    </tr>
+    <tr th:each="di : ${duplicateDis}">
+        <td th:text="${di.number}"></td>
+        <td th:text="${di.address}"></td>
+        <td th:text="${di.description}"></td>
+        <td th:text="${di.symbol}"></td>
+    </tr>
+</table>
+
+<p th:text="#{Aos}">AOs</p>
+<table align="center">
+    <tr>
+        <th>number</th>
+        <th>address</th>
+        <th>description</th>
+        <th>symbol</th>
+    </tr>
+    <tr th:each="ao : ${duplicateAos}">
+        <td th:text="${ao.number}"></td>
+        <td th:text="${ao.address}"></td>
+        <td th:text="${ao.description}"></td>
+        <td th:text="${ao.symbol}"></td>
+    </tr>
+</table>
+
+<p th:text="#{Dos}">DOs</p>
+<table align="center">
+    <tr>
+        <th>number</th>
+        <th>address</th>
+        <th>description</th>
+        <th>symbol</th>
+    </tr>
+    <tr th:each="do : ${duplicateDos}">
+        <td th:text="${do.number}"></td>
+        <td th:text="${do.address}"></td>
+        <td th:text="${do.description}"></td>
+        <td th:text="${do.symbol}"></td>
+    </tr>
+</table>
 
 </body>
 </html>

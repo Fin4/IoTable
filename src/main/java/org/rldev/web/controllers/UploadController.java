@@ -6,19 +6,17 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.rldev.config.AppConfig;
 import org.rldev.iotable.document.XlsxIoTable;
 import org.rldev.iotable.model.IoTable;
-import org.rldev.iotable.model.ioUnits.AnalogInput;
-import org.rldev.iotable.model.ioUnits.AnalogOutput;
-import org.rldev.iotable.model.ioUnits.DigitalInput;
-import org.rldev.iotable.model.ioUnits.DigitalOutput;
+import org.rldev.iotable.model.ioUnits.*;
 import org.rldev.iotable.model.ioUnits.typeadapters.AnalogInputTypeAdapter;
 import org.rldev.iotable.model.ioUnits.typeadapters.AnalogOutputTypeAdapter;
 import org.rldev.iotable.model.ioUnits.typeadapters.DigitalInputTypeAdapter;
 import org.rldev.iotable.model.ioUnits.typeadapters.DigitalOutputTypeAdapter;
-import org.rldev.service.IoTableValidationService;
+import org.rldev.service.EqualatorService;
+import org.rldev.service.IoTableService;
+import org.rldev.service.IoUnitsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,9 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -40,7 +37,9 @@ import java.util.stream.Collectors;
 @SessionAttributes({"iotable"})
 public class UploadController {
 
-    @Autowired private IoTableValidationService ioTableValidationService;
+    @Autowired private IoTableService ioTableService;
+
+    @Autowired private IoUnitsService ioUnitsService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/upload")
     public String provideUploadInfo(Model model, SessionStatus sessionStatus) {
@@ -78,30 +77,16 @@ public class UploadController {
 
         if (!file.isEmpty()) {
             try {
-                BufferedOutputStream stream = new BufferedOutputStream(
+/*                BufferedOutputStream stream = new BufferedOutputStream(
                         new FileOutputStream(new File(AppConfig.IOTABLES_DIRECTORY + "/" + name)));
                 FileCopyUtils.copy(file.getInputStream(), stream);
+                stream.close();*/
 
-                XSSFWorkbook xssfWorkbook = new XSSFWorkbook(file.getInputStream());
+                XlsxIoTable xlsxIoTable = new XlsxIoTable(new XSSFWorkbook(file.getInputStream()));
 
-                stream.close();
+                IoTable validIoTable = ioTableService.validate(ioTableService.getFromWorkbook(xlsxIoTable));
 
-                XlsxIoTable xlsxIoTable = new XlsxIoTable(xssfWorkbook);
-
-                Gson gson = new GsonBuilder()
-                        .registerTypeAdapter(AnalogInput.class, new AnalogInputTypeAdapter())
-                        .registerTypeAdapter(DigitalInput.class, new DigitalInputTypeAdapter())
-                        .registerTypeAdapter(AnalogOutput.class, new AnalogOutputTypeAdapter())
-                        .registerTypeAdapter(DigitalOutput.class, new DigitalOutputTypeAdapter())
-                        .create();
-
-                String json = xlsxIoTable.getAsJsonString();
-
-                IoTable ioTable = ioTableValidationService.validate(gson.fromJson(json, IoTable.class));
-
-                httpSession.setAttribute("iotable", ioTable);
-
-                redirectAttributes.addFlashAttribute("info", xlsxIoTable.info());
+                httpSession.setAttribute("iotable", validIoTable);
             }
             catch (Exception e) {
                 redirectAttributes.addFlashAttribute("message",
@@ -115,7 +100,7 @@ public class UploadController {
             return "redirect:/uploadingError";
         }
 
-        return "redirect:/info";
+        return "info";
     }
 
     @RequestMapping(value = "/uploadingError", method = RequestMethod.GET)
@@ -124,4 +109,3 @@ public class UploadController {
         return "errors/uploadingError";
     }
 }
-

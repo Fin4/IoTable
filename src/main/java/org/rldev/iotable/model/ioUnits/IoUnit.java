@@ -50,19 +50,4 @@ public abstract class IoUnit {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof IoUnit)) return false;
-
-        IoUnit ioUnit = (IoUnit) o;
-
-        return getSymbol().equals(ioUnit.getSymbol());
-
-    }
-
-    @Override
-    public int hashCode() {
-        return getSymbol().hashCode();
-    }
 }

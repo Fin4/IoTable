@@ -12,8 +12,7 @@ import org.rldev.iotable.model.ioUnits.*;
 import org.rldev.iotable.model.ioUnits.typeadapters.*;
 import org.rldev.iotable.model.mechanisms.Mechanism;
 import org.rldev.iotable.document.XlsxIoTable;
-import org.rldev.iotable.validators.IoUnitsValidator.AiSimpleValidator;
-import org.rldev.iotable.validators.IoUnitsValidator.IoUnitSimpleValidator;
+import org.rldev.iotable.normalize.IoUnitSimpleValidator;
 
 import java.io.*;
 import java.util.ArrayList;
