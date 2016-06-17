@@ -12,4 +12,6 @@ public interface IoUnitEqualityChecker {
     List<IoUnit> findEqualsByAddress(List<IoUnit> ioUnits);
 
     List<IoUnit> findEqualsBySymbol(List<IoUnit> ioUnits);
+
+    List<IoUnit> findDuplicates(List<IoUnit> ioUnits);
 }

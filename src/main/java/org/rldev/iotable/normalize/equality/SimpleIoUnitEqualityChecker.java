@@ -5,9 +5,9 @@ import org.rldev.iotable.model.ioUnits.IoUnit;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SimpleIoUnitEqualityChecker implements IoUnitEqualityChecker {
-
 
     @Override
     public List<IoUnit> findEqualsByNumber(List<IoUnit> ioUnits) {
@@ -43,5 +43,19 @@ public class SimpleIoUnitEqualityChecker implements IoUnitEqualityChecker {
         map.entrySet().stream().filter(entry -> entry.getValue().size() > 1).forEach(entry -> duplicates.addAll(entry.getValue()));
 
         return duplicates;
+    }
+
+    @Override
+    public List<IoUnit> findDuplicates(List<IoUnit> ioUnits) {
+
+        List<IoUnit> equalsByNumber = findEqualsByNumber(ioUnits);
+        List<IoUnit> equalsByAddress = findEqualsByAddress(ioUnits);
+        List<IoUnit> equalsBySymbol = findEqualsBySymbol(ioUnits);
+
+        List<IoUnit> ioUnitList = new ArrayList<>(equalsByNumber);
+        ioUnitList.addAll(equalsByAddress);
+        ioUnitList.addAll(equalsBySymbol);
+
+        return ioUnitList.stream().distinct().collect(Collectors.toList());
     }
 }
