@@ -14,4 +14,6 @@ public interface EqualityService {
 
     List<IoUnit> findEqualsBySymbol(List<IoUnit> ioUnits);
 
+    List<IoUnit> findDuplicates(List<IoUnit> ioUnits);
+
 }
