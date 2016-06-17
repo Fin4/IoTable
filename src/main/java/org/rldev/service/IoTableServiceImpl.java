@@ -3,7 +3,6 @@ package org.rldev.service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.rldev.iotable.document.IoTableDocument;
-import org.rldev.iotable.document.XlsxIoTable;
 import org.rldev.iotable.model.IoTable;
 import org.rldev.iotable.model.ioUnits.AnalogInput;
 import org.rldev.iotable.model.ioUnits.AnalogOutput;
@@ -13,8 +12,9 @@ import org.rldev.iotable.model.ioUnits.typeadapters.AnalogInputTypeAdapter;
 import org.rldev.iotable.model.ioUnits.typeadapters.AnalogOutputTypeAdapter;
 import org.rldev.iotable.model.ioUnits.typeadapters.DigitalInputTypeAdapter;
 import org.rldev.iotable.model.ioUnits.typeadapters.DigitalOutputTypeAdapter;
-import org.rldev.iotable.normalize.AiSimpleValidator;
-import org.rldev.iotable.normalize.IoUnitSimpleValidator;
+import org.rldev.iotable.normalize.validation.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -22,6 +22,11 @@ import java.util.List;
 
 @Service
 public class IoTableServiceImpl implements IoTableService {
+
+    @Autowired private IoUnitValidator<AnalogInput> aiSimpleValidator;
+    @Autowired private IoUnitValidator<DigitalInput> diSimpleValidator;
+    @Autowired private IoUnitValidator<AnalogOutput> aoSimpleValidator;
+    @Autowired private IoUnitValidator<DigitalOutput> doSimpleValidator;
 
     @Override
     public IoTable getFromWorkbook(final IoTableDocument document) throws IOException {
@@ -48,10 +53,10 @@ public class IoTableServiceImpl implements IoTableService {
         List<AnalogOutput> analogOutputs = ioTable.getAnalogOutputs();
         List<DigitalOutput> digitalOutputs = ioTable.getDigitalOutputs();
 
-        new IoUnitSimpleValidator(new AiSimpleValidator()).validate(analogInputs);
-        new IoUnitSimpleValidator().validate(digitalInputs);
-        new IoUnitSimpleValidator().validate(analogOutputs);
-        new IoUnitSimpleValidator().validate(digitalOutputs);
+        aiSimpleValidator.validate(analogInputs);
+        diSimpleValidator.validate(digitalInputs);
+        aoSimpleValidator.validate(analogOutputs);
+        doSimpleValidator.validate(digitalOutputs);
 
         IoTable validIoTable = new IoTable();
 
