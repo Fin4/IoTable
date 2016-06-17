@@ -1,21 +1,13 @@
-package org.rldev.iotable.normalize;
+package org.rldev.iotable.normalize.validation;
+
 
 import org.rldev.iotable.model.ioUnits.IoUnit;
 
 import java.util.List;
 
-public class IoUnitSimpleValidator implements IoUnitValidator {
+abstract class AbstractIoUnitValidator {
 
-    private IoUnitValidator validator;
-
-    public IoUnitSimpleValidator(IoUnitValidator validator) {
-        this.validator = validator;
-    }
-
-    public IoUnitSimpleValidator() {}
-
-    @Override
-    public List<? extends IoUnit> validate(List<? extends IoUnit> ioUnits) {
+    List<? extends IoUnit> baseValidate(List<? extends IoUnit> ioUnits) {
 
         for (IoUnit ioUnit : ioUnits) {
 
@@ -30,8 +22,6 @@ public class IoUnitSimpleValidator implements IoUnitValidator {
             } else ioUnit.setSymbol(ioUnit.getSymbol().trim());
 
         }
-
-        if (validator != null) validator.validate(ioUnits);
 
         return ioUnits;
     }
