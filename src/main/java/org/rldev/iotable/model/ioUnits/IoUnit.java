@@ -39,15 +39,4 @@ public abstract class IoUnit {
     public void setNumber(int number) {
         this.number = number;
     }
-
-    @Override
-    public String toString() {
-        return "IoUnit{" +
-                "number=" + number +
-                ", address='" + address + '\'' +
-                ", description='" + description + '\'' +
-                ", symbol='" + symbol + '\'' +
-                '}';
-    }
-
 }

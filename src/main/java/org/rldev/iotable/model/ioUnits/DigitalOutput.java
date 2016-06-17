@@ -4,22 +4,31 @@ package org.rldev.iotable.model.ioUnits;
 public class DigitalOutput extends IoUnit {
 
     @Override
+    public String toString() {
+        return "DO{" +
+                "number=" + number +
+                ", address='" + address + '\'' +
+                ", description='" + description + '\'' +
+                ", symbol='" + symbol + '\'' +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DigitalOutput)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         DigitalOutput digitalOutput = (DigitalOutput) o;
 
-        return getSymbol().equals(digitalOutput.getSymbol()) ||
-                (getNumber() == digitalOutput.getNumber()) ||
-                getAddress().equals(digitalOutput.getAddress());
-
+        return number == digitalOutput.number
+                && symbol.equals(digitalOutput.symbol)
+                && address.equals(digitalOutput.address);
     }
 
     @Override
     public int hashCode() {
         int result = symbol.hashCode();
-        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + address.hashCode();
         result = 31 * result + number;
         return result;
     }

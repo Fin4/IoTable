@@ -27,22 +27,20 @@ public class AnalogInput extends IoUnit {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof AnalogInput)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        AnalogInput ai = (AnalogInput) o;
+        AnalogInput analogInput = (AnalogInput) o;
 
-        return getSymbol().equals(ai.getSymbol()) ||
-                (getNumber() == ai.getNumber()) ||
-                getAddress().equals(ai.getAddress());
-
+        return number == analogInput.number
+                && symbol.equals(analogInput.symbol)
+                && address.equals(analogInput.address);
     }
 
     @Override
     public int hashCode() {
         int result = symbol.hashCode();
-        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + address.hashCode();
         result = 31 * result + number;
         return result;
     }
-
 }
