@@ -1,4 +1,4 @@
-package org.rldev.iotable.normalize.equalation;
+package org.rldev.iotable.normalize.equality;
 
 
 import org.rldev.iotable.model.ioUnits.IoUnit;
@@ -6,13 +6,13 @@ import org.rldev.iotable.model.ioUnits.IoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class IoUnitEqualatorImpl implements IoUnitEqualator {
+public class SimpleIoUnitEqualityChecker implements IoUnitEqualityChecker {
 
 
     @Override
     public List<IoUnit> findEqualsByNumber(List<IoUnit> ioUnits) {
 
-        Map<Integer, List<IoUnit>> map = ioUnits.stream().collect(Collectors.groupingBy(ioUnit -> ioUnit.getNumber()));
+        Map<Integer, List<IoUnit>> map = ioUnits.stream().collect(Collectors.groupingBy(IoUnit::getNumber));
 
         List<IoUnit> duplicates = new ArrayList<>();
 
@@ -24,7 +24,7 @@ public class IoUnitEqualatorImpl implements IoUnitEqualator {
     @Override
     public List<IoUnit> findEqualsByAddress(List<IoUnit> ioUnits) {
 
-        Map<String, List<IoUnit>> map = ioUnits.stream().collect(Collectors.groupingBy(ioUnit -> ioUnit.getAddress()));
+        Map<String, List<IoUnit>> map = ioUnits.stream().collect(Collectors.groupingBy(IoUnit::getAddress));
 
         List<IoUnit> duplicates = new ArrayList<>();
 
@@ -36,7 +36,7 @@ public class IoUnitEqualatorImpl implements IoUnitEqualator {
     @Override
     public List<IoUnit> findEqualsBySymbol(List<IoUnit> ioUnits) {
 
-        Map<String, List<IoUnit>> map = ioUnits.stream().collect(Collectors.groupingBy(ioUnit -> ioUnit.getSymbol()));
+        Map<String, List<IoUnit>> map = ioUnits.stream().collect(Collectors.groupingBy(IoUnit::getSymbol));
 
         List<IoUnit> duplicates = new ArrayList<>();
 

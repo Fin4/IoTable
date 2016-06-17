@@ -1,11 +1,11 @@
-package org.rldev.iotable.normalize.equalation;
+package org.rldev.iotable.normalize.equality;
 
 
 import org.rldev.iotable.model.ioUnits.IoUnit;
 
 import java.util.List;
 
-public interface IoUnitEqualator {
+public interface IoUnitEqualityChecker {
 
     List<IoUnit> findEqualsByNumber(List<IoUnit> ioUnits);
 
