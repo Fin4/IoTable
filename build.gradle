@@ -20,17 +20,6 @@ task stage {
     dependsOn build
 }
 
-task stage {
-    dependsOn installDist
-}
-
-task copyToLib(type: Copy) {
-    into "$buildDir/lib"
-    from(configurations.compile)
-}
-
-stage.dependsOn(copyToLib)
-
 dependencies {
 
     compile 'org.codehaus.groovy:groovy:2.4.6'
