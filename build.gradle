@@ -15,9 +15,21 @@ war {
     archiveName 'IoTable.war'
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.6'
+// heroku needs
+task stage {
+    dependsOn build
 }
+
+task stage {
+    dependsOn installDist
+}
+
+task copyToLib(type: Copy) {
+    into "$buildDir/lib"
+    from(configurations.compile)
+}
+
+stage.dependsOn(copyToLib)
 
 dependencies {
 
