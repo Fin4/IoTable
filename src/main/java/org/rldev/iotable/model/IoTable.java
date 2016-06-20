@@ -3,17 +3,17 @@ package org.rldev.iotable.model;
 
 import org.rldev.iotable.model.ioUnits.AnalogInput;
 import org.rldev.iotable.model.ioUnits.AnalogOutput;
-import org.rldev.iotable.model.ioUnits.DigitalInput;
-import org.rldev.iotable.model.ioUnits.DigitalOutput;
+import org.rldev.iotable.model.ioUnits.DiscreteInput;
+import org.rldev.iotable.model.ioUnits.DiscreteOutput;
 
 import java.util.List;
 
 public class IoTable {
 
     private List<AnalogInput> analogInputs;
-    private List<DigitalInput> digitalInputs;
+    private List<DiscreteInput> discreteInputs;
     private List<AnalogOutput> analogOutputs;
-    private List<DigitalOutput> digitalOutputs;
+    private List<DiscreteOutput> discreteOutputs;
 
     public List<AnalogInput> getAnalogInputs() {
         return analogInputs;
@@ -23,12 +23,12 @@ public class IoTable {
         this.analogInputs = analogInputs;
     }
 
-    public List<DigitalInput> getDigitalInputs() {
-        return digitalInputs;
+    public List<DiscreteInput> getDiscreteInputs() {
+        return discreteInputs;
     }
 
-    public void setDigitalInputs(List<DigitalInput> digitalInputs) {
-        this.digitalInputs = digitalInputs;
+    public void setDiscreteInputs(List<DiscreteInput> discreteInputs) {
+        this.discreteInputs = discreteInputs;
     }
 
     public List<AnalogOutput> getAnalogOutputs() {
@@ -39,21 +39,21 @@ public class IoTable {
         this.analogOutputs = analogOutputs;
     }
 
-    public List<DigitalOutput> getDigitalOutputs() {
-        return digitalOutputs;
+    public List<DiscreteOutput> getDiscreteOutputs() {
+        return discreteOutputs;
     }
 
-    public void setDigitalOutputs(List<DigitalOutput> digitalOutputs) {
-        this.digitalOutputs = digitalOutputs;
+    public void setDiscreteOutputs(List<DiscreteOutput> discreteOutputs) {
+        this.discreteOutputs = discreteOutputs;
     }
 
     @Override
     public String toString() {
         return "IoTable{" +
                 "analogInputs=" + analogInputs +
-                ", digitalInputs=" + digitalInputs +
+                ", discreteInputs=" + discreteInputs +
                 ", analogOutputs=" + analogOutputs +
-                ", digitalOutputs=" + digitalOutputs +
+                ", discreteOutputs=" + discreteOutputs +
                 '}';
     }
 }

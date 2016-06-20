@@ -1,7 +1,7 @@
 package org.rldev.iotable.model.ioUnits;
 
 
-public class DigitalOutput extends IoUnit {
+public class DiscreteOutput extends IoUnit {
 
     @Override
     public String toString() {
@@ -18,11 +18,11 @@ public class DigitalOutput extends IoUnit {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DigitalOutput digitalOutput = (DigitalOutput) o;
+        DiscreteOutput discreteOutput = (DiscreteOutput) o;
 
-        return number == digitalOutput.number
-                && symbol.equals(digitalOutput.symbol)
-                && address.equals(digitalOutput.address);
+        return number == discreteOutput.number
+                && symbol.equals(discreteOutput.symbol)
+                && address.equals(discreteOutput.address);
     }
 
     @Override

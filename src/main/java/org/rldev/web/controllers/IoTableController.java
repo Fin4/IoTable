@@ -17,7 +17,7 @@ import java.util.ArrayList;
 @SessionAttributes("iotable")
 public class IoTableController {
 
-    @Autowired private EqualityService equalatorService;
+    @Autowired private EqualityService equalityService;
 
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public ModelAndView ioTableInfo(@ModelAttribute("iotable") IoTable ioTable) {
@@ -25,19 +25,19 @@ public class IoTableController {
         ModelAndView modelAndView = new ModelAndView("info");
 
         modelAndView.addObject("duplicateAis",
-                equalatorService.findEqualsByNumber(new ArrayList<>(ioTable.getAnalogInputs())));
+                equalityService.findDuplicates(new ArrayList<>(ioTable.getAnalogInputs())));
 
         modelAndView.addObject("duplicateAis",
-                equalatorService.findEqualsByNumber(new ArrayList<>(ioTable.getAnalogInputs())));
+                equalityService.findDuplicates(new ArrayList<>(ioTable.getAnalogInputs())));
 
         modelAndView.addObject("duplicateDis",
-                equalatorService.findEqualsByNumber(new ArrayList<>(ioTable.getDigitalInputs())));
+                equalityService.findDuplicates(new ArrayList<>(ioTable.getDiscreteInputs())));
 
         modelAndView.addObject("duplicateAos",
-                equalatorService.findEqualsByNumber(new ArrayList<>(ioTable.getAnalogOutputs())));
+                equalityService.findDuplicates(new ArrayList<>(ioTable.getAnalogOutputs())));
 
         modelAndView.addObject("duplicateDos",
-                equalatorService.findEqualsByNumber(new ArrayList<>(ioTable.getDigitalOutputs())));
+                equalityService.findDuplicates(new ArrayList<>(ioTable.getDiscreteOutputs())));
 
         return modelAndView;
     }

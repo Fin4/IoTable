@@ -1,16 +1,15 @@
 package org.rldev.iotable.model.ioUnits.typeadapters;
 
 import com.google.gson.*;
-import org.rldev.iotable.model.ioUnits.AnalogOutput;
-import org.rldev.iotable.model.ioUnits.DigitalInput;
+import org.rldev.iotable.model.ioUnits.DiscreteInput;
 
 import java.lang.reflect.Type;
 
-public class DigitalInputTypeAdapter implements JsonDeserializer<DigitalInput> {
+public class DiscreteInputTypeAdapter implements JsonDeserializer<DiscreteInput> {
     @Override
-    public DigitalInput deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public DiscreteInput deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 
-        DigitalInput di = new DigitalInput();
+        DiscreteInput di = new DiscreteInput();
         JsonObject jsonObject = json.getAsJsonObject();
 
         di.setNumber(jsonObject.get("number").isJsonNull() ? 0 : jsonObject.get("number").getAsInt());

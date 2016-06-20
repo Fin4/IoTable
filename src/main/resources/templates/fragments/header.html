@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <div th:fragment="header">
+        <!--<div class="container">-->
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/" th:href="@{/}">I/O Table</a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li><a href="/upload" th:href="@{/upload}">Upload</a></li>
+<!--                        <li class="dropdown" th:if="${iotable != null}">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tables
+                                <b class="caret"></b></a>
+                            <ul class="dropdown-menu">-->
+                                <li th:if="${iotable != null}"><a href="/aiTable" th:href="@{/aiTable}">AI</a></li>
+                                <li th:if="${iotable != null}"><a href="/diTable" th:href="@{/diTable}">DI</a></li>
+                                <li th:if="${iotable != null}"><a href="/aoTable" th:href="@{/aoTable}">AO</a></li>
+                                <li th:if="${iotable != null}"><a href="/doTable" th:href="@{/doTable}">DO</a></li>
+
+                        <li th:if="${iotable != null}"><a href="/aiCodeMapper" th:href="@{/aiCodeMapper}">AI Code</a></li>
+                        <li th:if="${iotable != null}"><a href="/diCodeMapper" th:href="@{/diCodeMapper}">DI Code</a></li>
+                        <li th:if="${iotable != null}"><a href="/aoCodeMapper" th:href="@{/aoCodeMapper}">AO Code</a></li>
+                        <li th:if="${iotable != null}"><a href="/doCodeMapper" th:href="@{/doCodeMapper}">DO Code</a></li>
+<!--                            </ul>
+                        </li>-->
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    </ul>
+                </div>
+            </nav>
+        <!--</div>-->
+    </div>
+</body>
+</html>

@@ -1,9 +1,11 @@
 package org.rldev.config;
 
+import org.rldev.iotable.codegenerators.CodeGenerator;
+import org.rldev.iotable.codegenerators.SimpleCodeGenerator;
 import org.rldev.iotable.model.ioUnits.AnalogInput;
 import org.rldev.iotable.model.ioUnits.AnalogOutput;
-import org.rldev.iotable.model.ioUnits.DigitalInput;
-import org.rldev.iotable.model.ioUnits.DigitalOutput;
+import org.rldev.iotable.model.ioUnits.DiscreteInput;
+import org.rldev.iotable.model.ioUnits.DiscreteOutput;
 import org.rldev.iotable.normalize.equality.IoUnitEqualityChecker;
 import org.rldev.iotable.normalize.equality.SimpleIoUnitEqualityChecker;
 import org.rldev.iotable.normalize.validation.*;
@@ -19,7 +21,7 @@ public class IoTableConfig {
     }
 
     @Bean
-    public IoUnitValidator<DigitalInput> diSimpleValidator() {
+    public IoUnitValidator<DiscreteInput> diSimpleValidator() {
         return new DiSimpleValidator();
     }
 
@@ -29,12 +31,17 @@ public class IoTableConfig {
     }
 
     @Bean
-    public IoUnitValidator<DigitalOutput> doSimpleValidator() {
+    public IoUnitValidator<DiscreteOutput> doSimpleValidator() {
         return new DoSimpleValidator();
     }
 
     @Bean
-    public IoUnitEqualityChecker ioUnitEqualator() {
+    public IoUnitEqualityChecker ioUnitEqualityChecker() {
         return new SimpleIoUnitEqualityChecker();
+    }
+
+    @Bean
+    public CodeGenerator simpleCodeGenerator() {
+        return new SimpleCodeGenerator();
     }
 }

@@ -1,25 +1,32 @@
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
 <body>
-
-<a th:href="@{/aiTable}">AI</a>
-<a th:href="@{/diTable}">DI</a>
-<a th:href="@{/aoTable}">AO</a>
-<a th:href="@{/doTable}">DO</a>
-
-<table align="center">
-    <tr>
-        <th>number</th>
-        <th>address</th>
-        <th>description</th>
-        <th>symbol</th>
-    </tr>
-    <tr th:each="di : ${iotable.digitalInputs}">
-        <td th:text="${di.number}"></td>
-        <td th:text="${di.address}"></td>
-        <td th:text="${di.description}"></td>
-        <td th:text="${di.symbol}"></td>
-    </tr>
-</table>
-
+<div th:include="fragments/header :: header"></div>
+<div class="container">
+    <div class="panel-heading">
+        <h4>Discrete Inputs</h4>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-sm">
+            <thead class="thead-inverse">
+            <tr>
+                <th>number</th>
+                <th>address</th>
+                <th>description</th>
+                <th>symbol</th>
+            </tr>
+            </thead>
+            <tr th:each="di : ${iotable.discreteInputs}">
+                <td th:text="${di.number}"></td>
+                <td th:text="${di.address}"></td>
+                <td th:text="${di.description}"></td>
+                <td th:text="${di.symbol}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
 </body>
 </html>

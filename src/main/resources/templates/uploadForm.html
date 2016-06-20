@@ -1,25 +1,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
 <body>
-
-<div th:if="${message}">
-    <h2 th:text="${message}"/>
+<div th:include="fragments/header :: header"></div>
+<div class="container">
+        <form method="POST" enctype="multipart/form-data" action="/upload">
+            <table>
+                <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+                <tr><td>Name:</td><td><input type="text" name="name" /></td></tr>
+                <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+            </table>
+        </form>
+<!--    <div>
+        <ul>
+            <li th:each="file : ${files}" th:text="${file}"></li>
+        </ul>
+    </div>-->
 </div>
-
-<div>
-    <form method="POST" enctype="multipart/form-data" action="/upload">
-        <table>
-            <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
-            <tr><td>Name:</td><td><input type="text" name="name" /></td></tr>
-            <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
-        </table>
-    </form>
-</div>
-
-<div>
-    <ul>
-        <li th:each="file : ${files}" th:text="${file}"></li>
-    </ul>
-</div>
-
 </body>
 </html>

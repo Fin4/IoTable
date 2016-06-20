@@ -6,36 +6,35 @@ import org.rldev.iotable.document.IoTableDocument;
 import org.rldev.iotable.model.IoTable;
 import org.rldev.iotable.model.ioUnits.AnalogInput;
 import org.rldev.iotable.model.ioUnits.AnalogOutput;
-import org.rldev.iotable.model.ioUnits.DigitalInput;
-import org.rldev.iotable.model.ioUnits.DigitalOutput;
+import org.rldev.iotable.model.ioUnits.DiscreteInput;
+import org.rldev.iotable.model.ioUnits.DiscreteOutput;
 import org.rldev.iotable.model.ioUnits.typeadapters.AnalogInputTypeAdapter;
 import org.rldev.iotable.model.ioUnits.typeadapters.AnalogOutputTypeAdapter;
-import org.rldev.iotable.model.ioUnits.typeadapters.DigitalInputTypeAdapter;
-import org.rldev.iotable.model.ioUnits.typeadapters.DigitalOutputTypeAdapter;
+import org.rldev.iotable.model.ioUnits.typeadapters.DiscreteInputTypeAdapter;
+import org.rldev.iotable.model.ioUnits.typeadapters.DiscreteOutputTypeAdapter;
 import org.rldev.iotable.normalize.validation.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service
 public class IoTableServiceImpl implements IoTableService {
 
     @Autowired private IoUnitValidator<AnalogInput> aiSimpleValidator;
-    @Autowired private IoUnitValidator<DigitalInput> diSimpleValidator;
+    @Autowired private IoUnitValidator<DiscreteInput> diSimpleValidator;
     @Autowired private IoUnitValidator<AnalogOutput> aoSimpleValidator;
-    @Autowired private IoUnitValidator<DigitalOutput> doSimpleValidator;
+    @Autowired private IoUnitValidator<DiscreteOutput> doSimpleValidator;
 
     @Override
-    public IoTable getFromWorkbook(final IoTableDocument document) throws IOException {
+    public IoTable getFromWorkbook(final IoTableDocument document) {
 
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(AnalogInput.class, new AnalogInputTypeAdapter())
-                .registerTypeAdapter(DigitalInput.class, new DigitalInputTypeAdapter())
+                .registerTypeAdapter(DiscreteInput.class, new DiscreteInputTypeAdapter())
                 .registerTypeAdapter(AnalogOutput.class, new AnalogOutputTypeAdapter())
-                .registerTypeAdapter(DigitalOutput.class, new DigitalOutputTypeAdapter())
+                .registerTypeAdapter(DiscreteOutput.class, new DiscreteOutputTypeAdapter())
                 .create();
 
         String json = document.getAsJsonString();
@@ -49,21 +48,21 @@ public class IoTableServiceImpl implements IoTableService {
     public IoTable validate(IoTable ioTable) {
 
         List<AnalogInput> analogInputs = ioTable.getAnalogInputs();
-        List<DigitalInput> digitalInputs = ioTable.getDigitalInputs();
+        List<DiscreteInput> discreteInputs = ioTable.getDiscreteInputs();
         List<AnalogOutput> analogOutputs = ioTable.getAnalogOutputs();
-        List<DigitalOutput> digitalOutputs = ioTable.getDigitalOutputs();
+        List<DiscreteOutput> discreteOutputs = ioTable.getDiscreteOutputs();
 
         aiSimpleValidator.validate(analogInputs);
-        diSimpleValidator.validate(digitalInputs);
+        diSimpleValidator.validate(discreteInputs);
         aoSimpleValidator.validate(analogOutputs);
-        doSimpleValidator.validate(digitalOutputs);
+        doSimpleValidator.validate(discreteOutputs);
 
         IoTable validIoTable = new IoTable();
 
         validIoTable.setAnalogInputs(analogInputs);
-        validIoTable.setDigitalInputs(digitalInputs);
+        validIoTable.setDiscreteInputs(discreteInputs);
         validIoTable.setAnalogOutputs(analogOutputs);
-        validIoTable.setDigitalOutputs(digitalOutputs);
+        validIoTable.setDiscreteOutputs(discreteOutputs);
 
         return validIoTable;
     }

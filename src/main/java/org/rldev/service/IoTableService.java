@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public interface IoTableService {
 
-    IoTable getFromWorkbook(final IoTableDocument document) throws IOException;
+    IoTable getFromWorkbook(final IoTableDocument document);
 
     IoTable validate(final IoTable ioTable);
 }

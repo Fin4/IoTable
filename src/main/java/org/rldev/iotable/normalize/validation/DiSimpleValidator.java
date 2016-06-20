@@ -1,14 +1,14 @@
 package org.rldev.iotable.normalize.validation;
 
 
-import org.rldev.iotable.model.ioUnits.DigitalInput;
+import org.rldev.iotable.model.ioUnits.DiscreteInput;
 
 import java.util.List;
 
-public class DiSimpleValidator extends AbstractIoUnitValidator implements IoUnitValidator<DigitalInput> {
+public class DiSimpleValidator extends AbstractIoUnitValidator implements IoUnitValidator<DiscreteInput> {
 
     @Override
-    public List<DigitalInput> validate(List<DigitalInput> ioUnits) {
+    public List<DiscreteInput> validate(List<DiscreteInput> ioUnits) {
         super.baseValidate(ioUnits);
         return ioUnits;
     }

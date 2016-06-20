@@ -10,9 +10,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.rldev.iotable.document.exceptions.WrongSheetFormatException;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -35,7 +32,7 @@ public class XlsxIoTable implements IoTableDocument {
     }
 
     @Override
-    public String getAsJsonString() throws IOException {
+    public String getAsJsonString() {
 
         return parseIoTable(workbook).toString();
     }
@@ -87,9 +84,9 @@ public class XlsxIoTable implements IoTableDocument {
         return jsonArray;
     }
 
-    private JsonObject parseIoTable(XSSFWorkbook workbook) throws IOException {
+    private JsonObject parseIoTable(XSSFWorkbook workbook) {
 
-        getProperties();
+        if (props == null) defaultProps();
 
         XSSFSheet diSheet = workbook.getSheet(props.getProperty("diSheetName"));
         XSSFSheet aiSheet = workbook.getSheet(props.getProperty("aiSheetName"));
@@ -99,10 +96,10 @@ public class XlsxIoTable implements IoTableDocument {
         JsonObject jsonObject = new JsonObject();
 
         try {
-            jsonObject.add("digitalInputs", parseIoUnitsSheet(diSheet));
+            jsonObject.add("discreteInputs", parseIoUnitsSheet(diSheet));
         } catch (WrongSheetFormatException e) {
             e.printStackTrace();
-            jsonObject.add("digitalInputs", new JsonObject());
+            jsonObject.add("discreteInputs", new JsonObject());
         }
 
         try {
@@ -113,10 +110,10 @@ public class XlsxIoTable implements IoTableDocument {
         }
 
         try {
-            jsonObject.add("digitalOutputs", parseIoUnitsSheet(doSheet));
+            jsonObject.add("discreteOutputs", parseIoUnitsSheet(doSheet));
         } catch (WrongSheetFormatException e) {
             e.printStackTrace();
-            jsonObject.add("digitalOutputs", new JsonObject());
+            jsonObject.add("discreteOutputs", new JsonObject());
         }
 
         try {
@@ -129,13 +126,15 @@ public class XlsxIoTable implements IoTableDocument {
         return jsonObject;
     }
 
-    private void getProperties() throws IOException {
+    private void defaultProps() {
 
         props = new Properties();
 
-        InputStream inputStream = new FileInputStream("src/main/resources/XlsxDoc.properties");
+        props.setProperty("diSheetName" , "DI");
+        props.setProperty("aiSheetName" , "AI");
+        props.setProperty("doSheetName" , "DO");
+        props.setProperty("aoSheetName" , "AO");
 
-        props.load(inputStream);
     }
 
     public String info() {
