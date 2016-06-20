@@ -25,10 +25,10 @@ public class AppConfig extends SpringBootServletInitializer {
         SpringApplication.run(AppConfig.class, args);
     }
 
-    @Bean
+/*    @Bean
     CommandLineRunner init() {
         return (String[] args) -> {
             new File(IOTABLES_DIRECTORY).mkdir();
         };
-    }
+    }*/
 }
