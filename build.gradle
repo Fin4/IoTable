@@ -15,11 +15,11 @@ war {
     archiveName 'IoTable.war'
 }
 
-def jdkHome = System.getenv("JAVA_HOME")
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.6'
+}
 
 dependencies {
-
-    compile files("$jdkHome/lib/tools.jar")
 
     compile 'org.codehaus.groovy:groovy:2.4.6'
 
