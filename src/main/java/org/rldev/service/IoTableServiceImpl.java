@@ -15,6 +15,7 @@ import org.rldev.iotable.model.ioUnits.typeadapters.DiscreteOutputTypeAdapter;
 import org.rldev.iotable.normalize.validation.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,10 +23,10 @@ import java.util.List;
 @Service
 public class IoTableServiceImpl implements IoTableService {
 
-    @Autowired private IoUnitValidator<AnalogInput> aiSimpleValidator;
-    @Autowired private IoUnitValidator<DiscreteInput> diSimpleValidator;
-    @Autowired private IoUnitValidator<AnalogOutput> aoSimpleValidator;
-    @Autowired private IoUnitValidator<DiscreteOutput> doSimpleValidator;
+    @Autowired @Qualifier("aiSimpleValidator") private IoUnitValidator<AnalogInput> aiSimpleValidator;
+    @Autowired @Qualifier("diSimpleValidator") private IoUnitValidator<DiscreteInput> diSimpleValidator;
+    @Autowired @Qualifier("aoSimpleValidator") private IoUnitValidator<AnalogOutput> aoSimpleValidator;
+    @Autowired @Qualifier("doSimpleValidator") private IoUnitValidator<DiscreteOutput> doSimpleValidator;
 
     @Override
     public IoTable getFromWorkbook(final IoTableDocument document) {
@@ -52,17 +53,12 @@ public class IoTableServiceImpl implements IoTableService {
         List<AnalogOutput> analogOutputs = ioTable.getAnalogOutputs();
         List<DiscreteOutput> discreteOutputs = ioTable.getDiscreteOutputs();
 
-        aiSimpleValidator.validate(analogInputs);
-        diSimpleValidator.validate(discreteInputs);
-        aoSimpleValidator.validate(analogOutputs);
-        doSimpleValidator.validate(discreteOutputs);
-
         IoTable validIoTable = new IoTable();
 
-        validIoTable.setAnalogInputs(analogInputs);
-        validIoTable.setDiscreteInputs(discreteInputs);
-        validIoTable.setAnalogOutputs(analogOutputs);
-        validIoTable.setDiscreteOutputs(discreteOutputs);
+        validIoTable.setAnalogInputs(aiSimpleValidator.validate(analogInputs));
+        validIoTable.setDiscreteInputs(diSimpleValidator.validate(discreteInputs));
+        validIoTable.setAnalogOutputs(aoSimpleValidator.validate(analogOutputs));
+        validIoTable.setDiscreteOutputs(doSimpleValidator.validate(discreteOutputs));
 
         return validIoTable;
     }
