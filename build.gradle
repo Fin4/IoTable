@@ -15,14 +15,14 @@ war {
     archiveName 'IoTable.war'
 }
 
-task wrapper(type: Wrapper) {
+/*task wrapper(type: Wrapper) {
     gradleVersion = '2.0'
 }
 
 // heroku needs
 task stage {
     dependsOn build
-}
+}*/
 
 dependencies {
 
