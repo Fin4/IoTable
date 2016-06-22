@@ -31,8 +31,7 @@ public class AiCodeGenertorController {
 
     @RequestMapping(value = "/aiCodeMapper", method = RequestMethod.POST)
     public String generateCode(@ModelAttribute("iotable") IoTable ioTable,
-                                     RedirectAttributes redirectAttributes, String template,
-                               HttpServletResponse response) {
+                                     RedirectAttributes redirectAttributes, String template) {
 
         try {
             List<String> strings = simpleCodeGenerator.generateCode(ioTable.getAnalogInputs(), template);
