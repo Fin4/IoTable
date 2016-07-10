@@ -11,6 +11,10 @@ repositories {
     mavenCentral()
 }
 
+task stage {
+    dependsOn build
+}
+
 jar.archiveName = "iotable.jar"
 
 dependencies {
