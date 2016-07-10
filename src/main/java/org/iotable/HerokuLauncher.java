@@ -1,6 +1,7 @@
-package org.iotable.enterprise.config;
+package org.iotable;
 
-
+import org.iotable.enterprise.config.IoTableConfig;
+import org.iotable.enterprise.config.WebConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
@@ -16,12 +17,13 @@ import org.springframework.context.annotation.Import;
                                DataSourceAutoConfiguration.class
                        })
 @Import({WebConfig.class, IoTableConfig.class})
-public class AppConfig extends SpringBootServletInitializer {
+public class HerokuLauncher extends SpringBootServletInitializer {
 
     public static final String IOTABLES_DIRECTORY = "uploadIoTables";
 
     public static void main(String[] args) {
-        SpringApplication.run(AppConfig.class, args);
+        System.getProperties().put("server.port", Integer.parseInt(System.getenv("PORT")));
+        SpringApplication.run(HerokuLauncher.class, args);
     }
 
 /*    @Bean
