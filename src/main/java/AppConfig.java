@@ -1,6 +1,5 @@
-package org.iotable.enterprise.config;
-
-
+import org.iotable.enterprise.config.IoTableConfig;
+import org.iotable.enterprise.config.WebConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
