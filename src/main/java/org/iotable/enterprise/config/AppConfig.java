@@ -20,6 +20,7 @@ public class AppConfig extends SpringBootServletInitializer {
     public static final String IOTABLES_DIRECTORY = "uploadIoTables";
 
     public static void main(String[] args) {
+        System.getProperties().put("server.port", Integer.parseInt(System.getenv("PORT")));
         SpringApplication.run(AppConfig.class, args);
     }
 
