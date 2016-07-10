@@ -12,7 +12,6 @@ public class SimpleCodeGenerator implements CodeGenerator {
 
     public Properties props;
 
-    @Override
     public List<String> generateCode(Collection<? extends IoUnit> ioUnits, String template)
             throws TemplateStringException {
 

@@ -143,11 +143,12 @@ public class XlsxIoTable implements IoTableDocument {
 
         stringBuilder.append("Sheets :").append(System.lineSeparator());
 
-        workbook.forEach(sheet -> {
-
-            stringBuilder.append("name : " + sheet.getSheetName()).append(System.lineSeparator())
-                    .append("num of rows : " + sheet.getPhysicalNumberOfRows()).append(System.lineSeparator());
-        });
+        workbook.forEach(sheet -> stringBuilder
+                .append("name : ")
+                    .append(sheet.getSheetName())
+                    .append(System.lineSeparator()).append("num of rows : ")
+                    .append(sheet.getPhysicalNumberOfRows())
+                    .append(System.lineSeparator()));
 
         return new String(stringBuilder);
     }

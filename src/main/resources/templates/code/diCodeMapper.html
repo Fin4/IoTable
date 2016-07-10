@@ -1,0 +1,42 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--    <link href="../static/css/codeMapper.css" th:href="@{css/codeMapper.css}" type="text/css" rel="stylesheet" />
+        <link href="../static/css/unitsTable.css" th:href="@{css/unitsTable.css}" type="text/css" rel="stylesheet" />-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:include="fragments/header :: header"></div>
+<div class="container">
+    <form action="/diCodeMapper" method="post" role="form">
+        <fieldset class="form-group">
+            <label for="textarea">Template string</label>
+            <textarea class="form-control" id="textarea" name="template" rows="3"></textarea>
+            <input type="submit" value="generate"/>
+        </fieldset>
+    </form>
+    <div class="panel-heading">
+        <h4>Discrete Inputs</h4>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-sm">
+            <thead class="thead thead-inverse">
+            <tr>
+                <th>number</th>
+                <th>address</th>
+                <th>description</th>
+                <th>symbol</th>
+            </tr>
+            </thead>
+            <tr th:each="di : ${iotable.discreteInputs}">
+                <td th:text="${di.number}"></td>
+                <td th:text="${di.address}"></td>
+                <td th:text="${di.description}"></td>
+                <td th:text="${di.symbol}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

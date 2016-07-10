@@ -1,4 +1,4 @@
-package org.iotable.enterprise.web.controllers;
+package org.iotable.enterprise.web.controllers.codegenerators;
 
 import org.iotable.core.codegenerators.CodeGenerator;
 import org.iotable.core.codegenerators.exceptions.TemplateStringException;
@@ -13,37 +13,48 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 @Controller
 @SessionAttributes("iotable")
-public class AiCodeGenertorController {
+public class AiCodeGeneratorController {
 
     @Autowired private CodeGenerator simpleCodeGenerator;
 
     @RequestMapping(value = "/aiCodeMapper", method = RequestMethod.GET)
     public String provideGenerateCode(@ModelAttribute("iotable") IoTable ioTable, Model model) {
 
-        model.addAttribute("iotable", ioTable);
+        //model.addAttribute("iotable", ioTable);
 
         return "code/aiCodeMapper";
     }
 
     @RequestMapping(value = "/aiCodeMapper", method = RequestMethod.POST)
-    public String generateCode(@ModelAttribute("iotable") IoTable ioTable,
-                                     RedirectAttributes redirectAttributes, String template) {
+    public void generateAiCode(@ModelAttribute("iotable") IoTable ioTable,
+                               String template,
+                               HttpServletResponse response) {
 
         try {
             List<String> strings = simpleCodeGenerator.generateCode(ioTable.getAnalogInputs(), template);
-            redirectAttributes.addFlashAttribute("lines", strings);
+            //redirectAttributes.addFlashAttribute("lines", strings);
 
-        } catch (TemplateStringException e) {
-            redirectAttributes.addFlashAttribute("message",
+            response.setContentType("application/octet-stream");
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + "aiCode.txt" + "\"");
+
+            OutputStream os = response.getOutputStream();
+            for(String s : strings) {
+                os.write(s.getBytes());
+                os.write(System.lineSeparator().getBytes());
+            }
+            os.flush();
+            os.close();
+        } catch (TemplateStringException | IOException e) {
+            /*redirectAttributes.addFlashAttribute("message",
                     "You failed to generate code => " + e.getMessage());
-            return "redirect:/generatingError";
+            return "redirect:/generatingError";*/
         }
-
-        return "redirect:/aiGeneratedCode";
     }
 
     @RequestMapping(value = "/aiGeneratedCode", method = RequestMethod.GET)

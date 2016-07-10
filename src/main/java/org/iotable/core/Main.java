@@ -53,7 +53,7 @@ public class Main {
         new AoSimpleValidator().validate(ioTable.getAnalogOutputs());
         new DoSimpleValidator().validate(ioTable.getDiscreteOutputs());
 
-        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(ioTable));
+        //System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(ioTable));
         //System.out.println(new SimpleCodeGenerator().generateCode(ioTable.getAnalogInputs(), "%number% + %address% %description% \n"));
 
         Gson mGson = new GsonBuilder().setPrettyPrinting().create();

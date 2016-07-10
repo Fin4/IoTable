@@ -4,6 +4,8 @@ package org.iotable.core.normalize.validation;
 import org.iotable.core.model.ioUnits.IoUnit;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 abstract class AbstractIoUnitValidator {
 
@@ -23,7 +25,6 @@ abstract class AbstractIoUnitValidator {
             if ((ioUnit.getSymbol() == null) || ioUnit.getSymbol().isEmpty()) {
                 ioUnit.setSymbol(ioUnit.getClass().getSimpleName() + ".res" + ioUnit.getNumber());
             } else ioUnit.setSymbol(replaceCyrillic(ioUnit.getSymbol().trim()));
-
         }
 
         return ioUnits;

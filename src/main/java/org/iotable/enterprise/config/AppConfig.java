@@ -32,4 +32,3 @@ public class AppConfig extends SpringBootServletInitializer {
     }*/
 
 }
-
