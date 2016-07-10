@@ -26,7 +26,7 @@ public class UploadController {
 
         //sessionStatus.setComplete();
 
-/*        File rootFolder = new File(AppConfig.IOTABLES_DIRECTORY);
+/*        File rootFolder = new File(org.iotable.enterprise.config.AppConfig.IOTABLES_DIRECTORY);
 
         List<String> fileNames = Arrays.stream(rootFolder.listFiles())
                 .map(f -> f.getName())
@@ -60,7 +60,7 @@ public class UploadController {
         if (!file.isEmpty()) {
             try {
 /*                BufferedOutputStream stream = new BufferedOutputStream(
-                        new FileOutputStream(new File(AppConfig.IOTABLES_DIRECTORY + "/" + name)));
+                        new FileOutputStream(new File(org.iotable.enterprise.config.AppConfig.IOTABLES_DIRECTORY + "/" + name)));
                 FileCopyUtils.copy(file.getInputStream(), stream);
                 stream.close();*/
 
