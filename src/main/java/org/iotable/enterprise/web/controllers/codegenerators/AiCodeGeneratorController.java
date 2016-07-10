@@ -46,7 +46,7 @@ public class AiCodeGeneratorController {
             OutputStream os = response.getOutputStream();
             for(String s : strings) {
                 os.write(s.getBytes());
-                os.write(System.lineSeparator().getBytes());
+                os.write("\n".getBytes());
             }
             os.flush();
             os.close();
