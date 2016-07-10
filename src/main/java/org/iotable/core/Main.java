@@ -1,3 +1,4 @@
+/*
 
 package org.iotable.core;
 
@@ -58,6 +59,7 @@ public class Main {
 
         Gson mGson = new GsonBuilder().setPrettyPrinting().create();
 
+*/
 /*        List<IoUnit> ioUnits = new ArrayList<>();
         ioUnits.addAll(ioTable.getDiscreteInputs());
         ioUnits.addAll(ioTable.getAnalogInputs());
@@ -67,7 +69,9 @@ public class Main {
         List<Mechanism> mechanisms = new SimpleMechanismsParser().getBySymbol(ioUnits)
                 .stream().filter(mechanism -> mechanism.getIoUnits().size() >= 2).collect(Collectors.toList());
 
-        mechanisms.forEach(mechanism -> System.out.println(mechanism.getSymbol() + " " + mechanism.getDescription()));*/
+        mechanisms.forEach(mechanism -> System.out.println(mechanism.getSymbol() + " " + mechanism.getDescription()));*//*
+
 
     }
 }
+*/
