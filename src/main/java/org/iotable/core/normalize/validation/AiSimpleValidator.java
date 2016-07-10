@@ -9,6 +9,15 @@ import java.util.List;
 
 public class AiSimpleValidator extends AbstractIoUnitValidator implements IoUnitValidator<AnalogInput> {
 
+    private IoUnitValidator<AnalogInput> validator;
+
+    public AiSimpleValidator(IoUnitValidator<AnalogInput> validator) {
+        this.validator = validator;
+    }
+
+    public AiSimpleValidator() {
+    }
+
     public List<AnalogInput> validate(List<AnalogInput> analogInputs) {
 
         super.baseValidate(analogInputs);
@@ -23,6 +32,8 @@ public class AiSimpleValidator extends AbstractIoUnitValidator implements IoUnit
                 analogInput.setEngUnits(tokens.get(tokens.size() - 1).trim());
             }
         }
+
+        if (validator != null) validator.validate(analogInputs);
 
         return analogInputs;
     }

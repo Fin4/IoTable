@@ -7,6 +7,9 @@ import java.util.List;
 
 abstract class AbstractIoUnitValidator {
 
+    private static final char cyrillicChars[] = {'А', 'В', 'Е', 'К', 'М', 'Н', 'О', 'Р', 'С', 'Т', 'Х', 'І', 'У'};
+    private static final char latinChars[] = {'A', 'B', 'E', 'K', 'M', 'H', 'O', 'P', 'C', 'T', 'X', 'I', 'Y'};
+
     List<? extends IoUnit> baseValidate(List<? extends IoUnit> ioUnits) {
 
         for (IoUnit ioUnit : ioUnits) {
@@ -19,10 +22,22 @@ abstract class AbstractIoUnitValidator {
 
             if ((ioUnit.getSymbol() == null) || ioUnit.getSymbol().isEmpty()) {
                 ioUnit.setSymbol(ioUnit.getClass().getSimpleName() + ".res" + ioUnit.getNumber());
-            } else ioUnit.setSymbol(ioUnit.getSymbol().trim());
+            } else ioUnit.setSymbol(replaceCyrillic(ioUnit.getSymbol().trim()));
 
         }
 
         return ioUnits;
+    }
+
+    String replaceCyrillic(String str) {
+
+        char[] chars = str.toCharArray();
+
+        for (int i = 0; i < chars.length; i++) {
+            for (int j = 0; j < cyrillicChars.length; j++) {
+                if (chars[i] == cyrillicChars[j]) chars[i] = latinChars[j];
+            }
+        }
+        return new String(chars);
     }
 }
