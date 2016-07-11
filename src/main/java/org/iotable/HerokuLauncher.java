@@ -25,12 +25,4 @@ public class HerokuLauncher extends SpringBootServletInitializer {
         System.getProperties().put("server.port", Integer.parseInt(System.getenv("PORT")));
         SpringApplication.run(HerokuLauncher.class, args);
     }
-
-/*    @Bean
-    CommandLineRunner init() {
-        return (String[] args) -> {
-            new File(IOTABLES_DIRECTORY).mkdir();
-        };
-    }*/
-
 }
