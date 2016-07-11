@@ -1,4 +1,3 @@
-/*
 package org.iotable.enterprise.web.controllers.codegenerators;
 
 import org.iotable.core.codegenerators.CodeGenerator;
@@ -25,12 +24,12 @@ public class AoCodeGeneratorController {
     private CodeGenerator simpleCodeGenerator;
 
     @RequestMapping(value = "/aoCodeMapper", method = RequestMethod.GET)
-    public String provideGenerateCode(@ModelAttribute("iotable") IoTable ioTable, Model model) {
+    public String provideGenerateAoCode(@ModelAttribute("iotable") IoTable ioTable, Model model) {
 
         return "code/aoCodeMapper";
     }
 
-    @RequestMapping(value = "/diCodeMapper", method = RequestMethod.POST)
+    @RequestMapping(value = "/aoCodeMapper", method = RequestMethod.POST)
     public void generateAoCode(@ModelAttribute("iotable") IoTable ioTable,
                              String template,
                              HttpServletResponse response) {
@@ -52,5 +51,3 @@ public class AoCodeGeneratorController {
         }
     }
 }
-
-*/

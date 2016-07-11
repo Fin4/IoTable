@@ -1,4 +1,3 @@
-/*
 package org.iotable.enterprise.web.controllers.codegenerators;
 
 import org.iotable.core.codegenerators.CodeGenerator;
@@ -25,7 +24,7 @@ public class DiCodeGeneratorController {
     private CodeGenerator simpleCodeGenerator;
 
     @RequestMapping(value = "/diCodeMapper", method = RequestMethod.GET)
-    public String provideGenerateCode(@ModelAttribute("iotable") IoTable ioTable, Model model) {
+    public String provideGenerateDiCode(@ModelAttribute("iotable") IoTable ioTable, Model model) {
 
         return "code/diCodeMapper";
     }
@@ -52,5 +51,3 @@ public class DiCodeGeneratorController {
         }
     }
 }
-
-*/
