@@ -24,7 +24,8 @@ public class SimpleCodeGenerator implements CodeGenerator {
                     .replace(props.getProperty("symbol"), ioUnit.getSymbol().replaceAll(".+\\-", "").replaceAll("\\.", "_"))
                     .replace(props.getProperty("address"), ioUnit.getAddress().replaceAll("/", "\\."))
                     .replace(props.getProperty("number"), String.valueOf(ioUnit.getNumber()))
-                    .replace("\n", System.lineSeparator()))
+                    //.replace("\n", System.lineSeparator())
+        )
                 .collect(Collectors.toList());
     }
 
