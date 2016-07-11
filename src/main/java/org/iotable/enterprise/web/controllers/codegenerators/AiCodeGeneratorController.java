@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.List;
 
 @Controller
@@ -38,15 +37,14 @@ public class AiCodeGeneratorController {
 
         try {
             List<String> strings = simpleCodeGenerator.generateCode(ioTable.getAnalogInputs(), template);
-            //redirectAttributes.addFlashAttribute("lines", strings);
 
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment; filename=\"" + "aiCode.txt" + "\"");
 
             OutputStream os = response.getOutputStream();
             for(String s : strings) {
-                os.write(s.getBytes());
-                os.write("\n".getBytes());
+                String resultString = s + "\n";
+                os.write(resultString.getBytes());
             }
             os.flush();
             os.close();
