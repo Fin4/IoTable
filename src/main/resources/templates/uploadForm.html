@@ -2,16 +2,45 @@
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <style>
+
+        .form-upload {
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+        .form-upload .form-upload-heading,
+        .form-upload {
+            margin-bottom: 10px;
+        }
+        .form-upload {
+            font-weight: normal;
+        }
+        .form-upload .form-control {
+            position: relative;
+            height: auto;
+            margin-bottom: 10px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
 <div th:include="fragments/header :: header"></div>
 <div class="container">
-        <form method="POST" enctype="multipart/form-data" action="/upload">
-            <table>
-                <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+        <form class="form-upload" method="POST" enctype="multipart/form-data" action="/upload">
+            <h2 class="form-upload-heading">Please upload file</h2>
+            <label for="file" class="sr-only">click to upload</label>
+            <input id="file" type="file" name="file" class="form-control"/>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" value="Upload">Upload</button>
+<!--            <table>
+                <tr><td>File to upload:</td><td><input id="file" type="file" name="file" /></td></tr>
                 <tr><td>Name:</td><td><input type="text" name="name" /></td></tr>
                 <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
-            </table>
+            </table>-->
         </form>
 <!--    <div>
         <ul>
