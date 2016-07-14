@@ -2,6 +2,7 @@
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
     <style>
 
         .form-upload {
@@ -33,17 +34,12 @@
 <div class="container">
         <form class="form-upload" method="POST" enctype="multipart/form-data" action="/upload">
             <h2 class="form-upload-heading">Please upload file</h2>
-            <!--<label for="file" class="sr-only">click to upload</label>-->
             <label class="btn btn-default btn-file form-control">
-                Browse <input type="file" name="file" style="display: none;">
+                Browse <input type="file" name="file" id="file" style="display: none;" onchange="$('#upload-file-info').html($(this).val());"/>
             </label>
-            <!--<input id="file" type="file" name="file" class="form-control"/>-->
+            <span class='label label-info' id="upload-file-info"></span>
             <button class="btn btn-lg btn-primary btn-block" type="submit" value="Upload">Upload</button>
-<!--            <table>
-                <tr><td>File to upload:</td><td><input id="file" type="file" name="file" /></td></tr>
-                <tr><td>Name:</td><td><input type="text" name="name" /></td></tr>
-                <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
-            </table>-->
+
         </form>
 <!--    <div>
         <ul>
