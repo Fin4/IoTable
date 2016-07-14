@@ -33,8 +33,11 @@
 <div class="container">
         <form class="form-upload" method="POST" enctype="multipart/form-data" action="/upload">
             <h2 class="form-upload-heading">Please upload file</h2>
-            <label for="file" class="sr-only">click to upload</label>
-            <input id="file" type="file" name="file" class="form-control"/>
+            <!--<label for="file" class="sr-only">click to upload</label>-->
+            <label class="btn btn-default btn-file form-control">
+                Browse <input type="file" name="file" style="display: none;">
+            </label>
+            <!--<input id="file" type="file" name="file" class="form-control"/>-->
             <button class="btn btn-lg btn-primary btn-block" type="submit" value="Upload">Upload</button>
 <!--            <table>
                 <tr><td>File to upload:</td><td><input id="file" type="file" name="file" /></td></tr>
