@@ -43,19 +43,20 @@ public class UploadController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload")
-    public String handleFileUpload(@RequestParam("name") String name, @RequestParam("file") MultipartFile file,
+    public String handleFileUpload(/*@RequestParam("name") String name,*/
+                                   @RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes, HttpSession httpSession) {
 
         httpSession.removeAttribute("iotable");
 
-        if (name.contains("/")) {
+/*        if (name.contains("/")) {
             redirectAttributes.addFlashAttribute("message", "Folder separators not allowed");
             return "redirect:/upload";
         }
         if (name.startsWith("/")) {
             redirectAttributes.addFlashAttribute("message", "Relative pathnames not allowed");
             return "redirect:/upload";
-        }
+        }*/
 
         if (!file.isEmpty()) {
             try {
@@ -72,13 +73,13 @@ public class UploadController {
             }
             catch (Exception e) {
                 redirectAttributes.addFlashAttribute("message",
-                        "You failed to upload " + name + " => " + e.getMessage());
+                        "You failed to upload file  => " + e.getMessage());
                 return "redirect:uploadingError";
             }
         }
         else {
             redirectAttributes.addFlashAttribute("message",
-                    "You failed to upload " + name + " because the file was empty");
+                    "You failed to upload because the file was empty");
             return "redirect:uploadingError";
         }
 
