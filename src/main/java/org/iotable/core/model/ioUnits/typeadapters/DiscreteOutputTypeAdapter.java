@@ -1,7 +1,9 @@
 package org.iotable.core.model.ioUnits.typeadapters;
 
 import com.google.gson.*;
+import org.iotable.core.model.ioUnits.AnalogOutput;
 import org.iotable.core.model.ioUnits.DiscreteOutput;
+import org.iotable.core.model.ioUnits.IoUnit;
 
 import java.lang.reflect.Type;
 
@@ -11,14 +13,13 @@ public class DiscreteOutputTypeAdapter implements JsonDeserializer<DiscreteOutpu
     @Override
     public DiscreteOutput deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 
-        DiscreteOutput discreteOutput = new DiscreteOutput();
         JsonObject jsonObject = json.getAsJsonObject();
 
-        discreteOutput.setNumber(jsonObject.get("number").isJsonNull() ? 0 : jsonObject.get("number").getAsInt());
-        discreteOutput.setAddress(jsonObject.get("address").isJsonNull() ? "" : jsonObject.get("address").getAsString());
-        discreteOutput.setDescription(jsonObject.get("description").isJsonNull() ? "" : jsonObject.get("description").getAsString());
-        discreteOutput.setSymbol(jsonObject.get("symbol").isJsonNull() ? "" : jsonObject.get("symbol").getAsString());
+        int number = jsonObject.get("number").isJsonNull() ? 0 : jsonObject.get("number").getAsInt();
+        String address = jsonObject.get("address").isJsonNull() ? "" : jsonObject.get("address").getAsString();
+        String desc = jsonObject.get("description").isJsonNull() ? "" : jsonObject.get("description").getAsString();
+        String symbol = jsonObject.get("symbol").isJsonNull() ? "" : jsonObject.get("symbol").getAsString();
 
-        return discreteOutput;
+        return new DiscreteOutput(new IoUnit(symbol, desc, address, number));
     }
 }

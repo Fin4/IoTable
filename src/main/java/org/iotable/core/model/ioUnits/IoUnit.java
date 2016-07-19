@@ -1,42 +1,38 @@
 package org.iotable.core.model.ioUnits;
 
 
-public abstract class IoUnit {
+public final class IoUnit {
 
-    protected String symbol;
-    protected String description;
-    protected String address;
-    protected int number;
+    public final String symbol;
+    public final String description;
+    public final String address;
+    public final int number;
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
+    public IoUnit(String symbol, String description, String address, int number) {
         this.symbol = symbol;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
+        this.description = description;
         this.address = address;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
         this.number = number;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        IoUnit ioUnit = (IoUnit) o;
+
+        if (number != ioUnit.number) return false;
+        if (!symbol.equals(ioUnit.symbol)) return false;
+        return address.equals(ioUnit.address);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = symbol.hashCode();
+        result = 31 * result + address.hashCode();
+        result = 31 * result + number;
+        return result;
     }
 }

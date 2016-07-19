@@ -1,14 +1,24 @@
 package org.iotable.core.model.ioUnits;
 
-public class AnalogOutput extends IoUnit {
+public final class AnalogOutput  {
+
+    private final IoUnit ioUnit;
+
+    public IoUnit getIoUnit() {
+        return ioUnit;
+    }
+
+    public AnalogOutput(IoUnit ioUnit) {
+        this.ioUnit = ioUnit;
+    }
 
     @Override
     public String toString() {
         return "AO{" +
-                "number=" + number +
-                ", address='" + address + '\'' +
-                ", description='" + description + '\'' +
-                ", symbol='" + symbol + '\'' +
+                "symbol='" + ioUnit.symbol + '\'' +
+                ", description='" + ioUnit.description + '\'' +
+                ", address='" + ioUnit.address + '\'' +
+                ", number=" + ioUnit.number + '\'' +
                 '}';
     }
 
@@ -17,18 +27,14 @@ public class AnalogOutput extends IoUnit {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AnalogOutput analogOutput = (AnalogOutput) o;
+        AnalogOutput that = (AnalogOutput) o;
 
-        return number == analogOutput.number
-                && symbol.equals(analogOutput.symbol)
-                && address.equals(analogOutput.address);
+        return ioUnit.equals(that.ioUnit);
+
     }
 
     @Override
     public int hashCode() {
-        int result = symbol.hashCode();
-        result = 31 * result + address.hashCode();
-        result = 31 * result + number;
-        return result;
+        return ioUnit.hashCode();
     }
 }

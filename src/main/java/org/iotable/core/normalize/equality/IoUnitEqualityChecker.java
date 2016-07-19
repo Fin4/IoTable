@@ -1,17 +1,19 @@
 package org.iotable.core.normalize.equality;
 
 
+import org.iotable.core.model.IoTable;
 import org.iotable.core.model.ioUnits.IoUnit;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IoUnitEqualityChecker {
 
-    List<IoUnit> findEqualsByNumber(List<IoUnit> ioUnits);
+    Map<String, List> findEqualsByNumber(IoTable ioTable);
 
-    List<IoUnit> findEqualsByAddress(List<IoUnit> ioUnits);
+    Map<String, List> findEqualsByAddress(IoTable ioTable);
 
-    List<IoUnit> findEqualsBySymbol(List<IoUnit> ioUnits);
+    Map<String, List> findEqualsBySymbol(IoTable ioTable);
 
-    List<IoUnit> findDuplicates(List<IoUnit> ioUnits);
+    Map<String, List> findDuplicates(IoTable ioTable);
 }

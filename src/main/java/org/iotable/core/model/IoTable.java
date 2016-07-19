@@ -6,45 +6,38 @@ import org.iotable.core.model.ioUnits.AnalogOutput;
 import org.iotable.core.model.ioUnits.DiscreteInput;
 import org.iotable.core.model.ioUnits.DiscreteOutput;
 
+import java.util.Collections;
 import java.util.List;
 
-public class IoTable {
+public final class IoTable {
 
-    private List<AnalogInput> analogInputs;
-    private List<DiscreteInput> discreteInputs;
-    private List<AnalogOutput> analogOutputs;
-    private List<DiscreteOutput> discreteOutputs;
+    private final List<AnalogInput> analogInputs;
+    private final List<DiscreteInput> discreteInputs;
+    private final List<AnalogOutput> analogOutputs;
+    private final List<DiscreteOutput> discreteOutputs;
 
-    public List<AnalogInput> getAnalogInputs() {
-        return analogInputs;
+    public IoTable(List<AnalogInput> analogInputs, List<DiscreteInput> discreteInputs,
+                   List<AnalogOutput> analogOutputs, List<DiscreteOutput> discreteOutputs) {
+        this.analogInputs = analogInputs;
+        this.discreteInputs = discreteInputs;
+        this.analogOutputs = analogOutputs;
+        this.discreteOutputs = discreteOutputs;
     }
 
-    public void setAnalogInputs(List<AnalogInput> analogInputs) {
-        this.analogInputs = analogInputs;
+    public List<AnalogInput> getAnalogInputs() {
+        return Collections.unmodifiableList(analogInputs);
     }
 
     public List<DiscreteInput> getDiscreteInputs() {
-        return discreteInputs;
-    }
-
-    public void setDiscreteInputs(List<DiscreteInput> discreteInputs) {
-        this.discreteInputs = discreteInputs;
+        return Collections.unmodifiableList(discreteInputs);
     }
 
     public List<AnalogOutput> getAnalogOutputs() {
-        return analogOutputs;
-    }
-
-    public void setAnalogOutputs(List<AnalogOutput> analogOutputs) {
-        this.analogOutputs = analogOutputs;
+        return Collections.unmodifiableList(analogOutputs);
     }
 
     public List<DiscreteOutput> getDiscreteOutputs() {
-        return discreteOutputs;
-    }
-
-    public void setDiscreteOutputs(List<DiscreteOutput> discreteOutputs) {
-        this.discreteOutputs = discreteOutputs;
+        return Collections.unmodifiableList(discreteOutputs);
     }
 
     @Override

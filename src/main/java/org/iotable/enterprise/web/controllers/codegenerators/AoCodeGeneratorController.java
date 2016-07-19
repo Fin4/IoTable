@@ -1,6 +1,6 @@
 package org.iotable.enterprise.web.controllers.codegenerators;
 
-import org.iotable.core.codegenerators.CodeGenerator;
+import org.iotable.core.codegenerators.AoCodeGenerator;
 import org.iotable.core.codegenerators.exceptions.TemplateStringException;
 import org.iotable.core.model.IoTable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.List;
 public class AoCodeGeneratorController {
 
     @Autowired
-    private CodeGenerator simpleCodeGenerator;
+    private AoCodeGenerator aoCodeGenerator;
 
     @RequestMapping(value = "/aoCodeMapper", method = RequestMethod.GET)
     public String provideGenerateAoCode(@ModelAttribute("iotable") IoTable ioTable, Model model) {
@@ -35,7 +35,7 @@ public class AoCodeGeneratorController {
                              HttpServletResponse response) {
 
         try {
-            List<String> strings = simpleCodeGenerator.generateCode(ioTable.getAnalogOutputs(), template);
+            List<String> strings = aoCodeGenerator.generateCode(ioTable.getAnalogOutputs(), template);
 
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment; filename=\""

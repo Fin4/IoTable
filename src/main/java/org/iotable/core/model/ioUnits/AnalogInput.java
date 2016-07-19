@@ -1,25 +1,31 @@
 package org.iotable.core.model.ioUnits;
 
 
-public class AnalogInput extends IoUnit {
+public final class AnalogInput {
 
-    private String engUnits;
+    private final IoUnit ioUnit;
+    private final String engUnits;
+
+    public IoUnit getIoUnit() {
+        return ioUnit;
+    }
+
+    public AnalogInput(IoUnit ioUnit, String engUnits) {
+        this.ioUnit = ioUnit;
+        this.engUnits = engUnits;
+    }
 
     public String getEngUnits() {
         return engUnits;
     }
 
-    public void setEngUnits(String engUnits) {
-        this.engUnits = engUnits;
-    }
-
     @Override
     public String toString() {
         return "AI{" +
-                "number=" + number +
-                ", address='" + address + '\'' +
-                ", description='" + description + '\'' +
-                ", symbol='" + symbol + '\'' +
+                "symbol='" + ioUnit.symbol + '\'' +
+                ", description='" + ioUnit.description + '\'' +
+                ", address='" + ioUnit.address + '\'' +
+                ", number=" + ioUnit.number + '\'' +
                 ", engUnits='" + engUnits + '\'' +
                 '}';
     }
@@ -29,18 +35,14 @@ public class AnalogInput extends IoUnit {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AnalogInput analogInput = (AnalogInput) o;
+        AnalogInput that = (AnalogInput) o;
 
-        return number == analogInput.number
-                && symbol.equals(analogInput.symbol)
-                && address.equals(analogInput.address);
+        return ioUnit.equals(that.ioUnit);
+
     }
 
     @Override
     public int hashCode() {
-        int result = symbol.hashCode();
-        result = 31 * result + address.hashCode();
-        result = 31 * result + number;
-        return result;
+        return ioUnit.hashCode();
     }
 }

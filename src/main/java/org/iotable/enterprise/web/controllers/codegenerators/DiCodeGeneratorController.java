@@ -1,6 +1,6 @@
 package org.iotable.enterprise.web.controllers.codegenerators;
 
-import org.iotable.core.codegenerators.CodeGenerator;
+import org.iotable.core.codegenerators.DiCodeGenerator;
 import org.iotable.core.codegenerators.exceptions.TemplateStringException;
 import org.iotable.core.model.IoTable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.List;
 public class DiCodeGeneratorController {
 
     @Autowired
-    private CodeGenerator simpleCodeGenerator;
+    private DiCodeGenerator diCodeGenerator;
 
     @RequestMapping(value = "/diCodeMapper", method = RequestMethod.GET)
     public String provideGenerateDiCode(@ModelAttribute("iotable") IoTable ioTable, Model model) {
@@ -35,7 +35,7 @@ public class DiCodeGeneratorController {
                              HttpServletResponse response) {
 
         try {
-            List<String> strings = simpleCodeGenerator.generateCode(ioTable.getDiscreteInputs(), template);
+            List<String> strings = diCodeGenerator.generateCode(ioTable.getDiscreteInputs(), template);
 
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment; filename=\""

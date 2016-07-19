@@ -1,5 +1,6 @@
 package org.iotable.enterprise.web.controllers.codegenerators;
 
+import org.iotable.core.codegenerators.AiCodeGenerator;
 import org.iotable.core.codegenerators.CodeGenerator;
 import org.iotable.core.codegenerators.exceptions.TemplateStringException;
 import org.iotable.core.model.IoTable;
@@ -20,7 +21,7 @@ import java.util.List;
 @SessionAttributes("iotable")
 public class AiCodeGeneratorController {
 
-    @Autowired private CodeGenerator simpleCodeGenerator;
+    @Autowired private AiCodeGenerator aiCodeGenerator;
 
     @RequestMapping(value = "/aiCodeMapper", method = RequestMethod.GET)
     public String provideGenerateCode(@ModelAttribute("iotable") IoTable ioTable, Model model) {
@@ -36,7 +37,7 @@ public class AiCodeGeneratorController {
                                HttpServletResponse response) {
 
         try {
-            List<String> strings = simpleCodeGenerator.generateCode(ioTable.getAnalogInputs(), template);
+            List<String> strings = aiCodeGenerator.generateCode(ioTable.getAnalogInputs(), template);
 
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment; filename=\"" + "aiCode.txt" + "\"");

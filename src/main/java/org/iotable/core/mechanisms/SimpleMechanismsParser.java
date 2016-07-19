@@ -1,5 +1,6 @@
 package org.iotable.core.mechanisms;
 
+import org.iotable.core.model.IoTable;
 import org.iotable.core.model.ioUnits.IoUnit;
 import org.iotable.core.model.mechanisms.Mechanism;
 
@@ -11,13 +12,13 @@ import java.util.stream.Collectors;
 public class SimpleMechanismsParser implements MechanismsParser {
 
     @Override
-    public List<Mechanism> getBySymbol(List<IoUnit> ioUnits) {
+    public List<Mechanism> getBySymbol(IoTable ioTable) {
 
         List<Mechanism> mechanisms = new ArrayList<>();
 
-        Map<String, List<IoUnit>> map = ioUnits.stream().collect(Collectors.groupingBy(ioUnit -> {
+/*        Map<String, List<IoUnit>> map = ioUnits.stream().collect(Collectors.groupingBy(ioUnit -> {
 
-                    String symbol = ioUnit.getSymbol();
+                    String symbol = ioUnit.symbol;
 
                     if (symbol.matches(".+\\.[a-zA-Z0-9]+")) return symbol.substring(0, symbol.lastIndexOf("."));
                     else return symbol;
@@ -29,19 +30,19 @@ public class SimpleMechanismsParser implements MechanismsParser {
             m.setSymbol(entry.getKey());
             m.setIoUnits(entry.getValue());
             mechanisms.add(m);
-        }
+        }*/
 
         return mechanisms;
     }
 
     @Override
-    public List<Mechanism> getByDescription(List<IoUnit> ioUnits) {
+    public List<Mechanism> getByDescription(IoTable ioTable) {
 
         List<Mechanism> mechanisms = new ArrayList<>();
-
+/*
         Map<String, List<IoUnit>> map = ioUnits.stream().collect(Collectors.groupingBy(ioUnit -> {
 
-                    String description = ioUnit.getDescription();
+                    String description = ioUnit.description;
 
                     if (description.matches(".+\\-.+")) return description.substring(0, description.lastIndexOf("-"));
                     else return description;
@@ -49,17 +50,16 @@ public class SimpleMechanismsParser implements MechanismsParser {
         ));
 
         for (Map.Entry<String, List<IoUnit>> entry : map.entrySet()) {
-            Mechanism m = new Mechanism();
-            m.setDescription(entry.getKey());
-            m.setIoUnits(entry.getValue());
-            mechanisms.add(m);
-        }
+
+            String desc = entry.getKey();
+
+        }*/
 
         return mechanisms;
     }
 
     @Override
-    public List<Mechanism> getEntire(List<IoUnit> ioUnits) {
+    public List<Mechanism> getEntire(IoTable ioTable) {
         return null;
     }
 }

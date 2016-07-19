@@ -1,48 +1,55 @@
 package org.iotable.core.model.mechanisms;
 
 
-import org.iotable.core.model.ioUnits.IoUnit;
+import org.iotable.core.model.ioUnits.*;
 
+import java.util.Collections;
 import java.util.List;
 
-public class Mechanism {
+public final class Mechanism {
 
-    private String symbol;
+    private final String symbol;
+    private final String description;
 
-    private String description;
+    private final List<AnalogInput> analogInputs;
+    private final List<DiscreteInput> discreteInputs;
+    private final List<AnalogOutput> analogOutputs;
+    private final List<DiscreteOutput> discreteOutputs;
 
-    private List<IoUnit> ioUnits;
+    public Mechanism(String symbol, String description, List<AnalogInput> analogInputs,
+                     List<DiscreteInput> discreteInputs,
+                     List<AnalogOutput> analogOutputs,
+                     List<DiscreteOutput> discreteOutputs) {
+        this.symbol = symbol;
+        this.description = description;
+        this.analogInputs = analogInputs;
+        this.discreteInputs = discreteInputs;
+        this.analogOutputs = analogOutputs;
+        this.discreteOutputs = discreteOutputs;
+    }
+
+    public List<AnalogInput> getAnalogInputs() {
+        return Collections.unmodifiableList(analogInputs);
+    }
+
+    public List<DiscreteInput> getDiscreteInputs() {
+        return Collections.unmodifiableList(discreteInputs);
+    }
+
+    public List<AnalogOutput> getAnalogOutputs() {
+        return Collections.unmodifiableList(analogOutputs);
+    }
+
+    public List<DiscreteOutput> getDiscreteOutputs() {
+        return Collections.unmodifiableList(discreteOutputs);
+    }
 
     public String getSymbol() {
         return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
-    public List<IoUnit> getIoUnits() {
-        return ioUnits;
-    }
-
-    public void setIoUnits(List<IoUnit> ioUnits) {
-        this.ioUnits = ioUnits;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Override
-    public String toString() {
-        return "Mechanism{" +
-                "symbol='" + symbol + '\'' +
-                ", description='" + description + '\'' +
-                ", ioUnits=" + ioUnits +
-                '}';
-    }
 }

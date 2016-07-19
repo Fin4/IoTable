@@ -1,15 +1,25 @@
 package org.iotable.core.model.ioUnits;
 
 
-public class DiscreteInput extends IoUnit {
+public final class DiscreteInput {
+
+    private final IoUnit ioUnit;
+
+    public IoUnit getIoUnit() {
+        return ioUnit;
+    }
+
+    public DiscreteInput(IoUnit ioUnit) {
+        this.ioUnit = ioUnit;
+    }
 
     @Override
     public String toString() {
         return "DI{" +
-                "number=" + number +
-                ", address='" + address + '\'' +
-                ", description='" + description + '\'' +
-                ", symbol='" + symbol + '\'' +
+                "symbol='" + ioUnit.symbol + '\'' +
+                ", description='" + ioUnit.description + '\'' +
+                ", address='" + ioUnit.address + '\'' +
+                ", number=" + ioUnit.number + '\'' +
                 '}';
     }
 
@@ -18,18 +28,14 @@ public class DiscreteInput extends IoUnit {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DiscreteInput discreteInput = (DiscreteInput) o;
+        DiscreteInput that = (DiscreteInput) o;
 
-        return number == discreteInput.number
-                && symbol.equals(discreteInput.symbol)
-                && address.equals(discreteInput.address);
+        return ioUnit.equals(that.ioUnit);
+
     }
 
     @Override
     public int hashCode() {
-        int result = symbol.hashCode();
-        result = 31 * result + address.hashCode();
-        result = 31 * result + number;
-        return result;
+        return ioUnit.hashCode();
     }
 }

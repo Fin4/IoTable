@@ -1,7 +1,8 @@
 package org.iotable.core.normalize.equality;
 
 
-import org.iotable.core.model.ioUnits.IoUnit;
+import org.iotable.core.model.IoTable;
+import org.iotable.core.model.ioUnits.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -9,52 +10,150 @@ import java.util.stream.Collectors;
 public class SimpleIoUnitEqualityChecker implements IoUnitEqualityChecker {
 
     @Override
-    public List<IoUnit> findEqualsByNumber(List<IoUnit> ioUnits) {
+    public Map<String, List> findEqualsByNumber(IoTable ioTable) {
 
-        Map<Integer, List<IoUnit>> map = ioUnits.stream().collect(Collectors.groupingBy(IoUnit::getNumber));
+        List<AnalogInput> analogInputs = ioTable.getAnalogInputs();
+        List<DiscreteInput> discreteInputs = ioTable.getDiscreteInputs();
+        List<AnalogOutput> analogOutputs = ioTable.getAnalogOutputs();
+        List<DiscreteOutput> discreteOutputs = ioTable.getDiscreteOutputs();
 
-        List<IoUnit> duplicates = new ArrayList<>();
+        Map<String, List> duplicates = new HashMap<>();
 
-        map.entrySet().stream().filter(entry -> entry.getValue().size() > 1).forEach(entry -> duplicates.addAll(entry.getValue()));
+        List<AnalogInput> duplicateAis = new ArrayList<>();
+        Map<Integer, List<AnalogInput>> mapAi = analogInputs.stream()
+                .collect(Collectors.groupingBy(analogInput -> analogInput.getIoUnit().number));
+        mapAi.entrySet().stream().filter(entry -> entry.getValue().size() > 1)
+                .forEach(entry -> duplicateAis.addAll(entry.getValue()));
+
+        List<DiscreteInput> duplicateDis = new ArrayList<>();
+        Map<Integer, List<DiscreteInput>> mapDi = discreteInputs.stream()
+                .collect(Collectors.groupingBy(discreteInput -> discreteInput.getIoUnit().number));
+        mapDi.entrySet().stream().filter(entry -> entry.getValue().size() > 1)
+                .forEach(entry -> duplicateDis.addAll(entry.getValue()));
+
+        List<AnalogOutput> duplicateAos = new ArrayList<>();
+        Map<Integer, List<AnalogOutput>> mapAo = analogOutputs.stream()
+                .collect(Collectors.groupingBy(analogOutput -> analogOutput.getIoUnit().number));
+        mapAo.entrySet().stream().filter(entry -> entry.getValue().size() > 1)
+                .forEach(entry -> duplicateAos.addAll(entry.getValue()));
+
+        List<DiscreteOutput> duplicateDos = new ArrayList<>();
+        Map<Integer, List<DiscreteOutput>> mapDo = discreteOutputs.stream()
+                .collect(Collectors.groupingBy(discreteOutput -> discreteOutput.getIoUnit().number));
+        mapDo.entrySet().stream().filter(entry -> entry.getValue().size() > 1)
+                .forEach(entry -> duplicateDos.addAll(entry.getValue()));
+
+
+        duplicates.put("AI", duplicateAis);
+        duplicates.put("DI", duplicateDis);
+        duplicates.put("AO", duplicateAos);
+        duplicates.put("DI", duplicateDos);
 
         return duplicates;
     }
 
     @Override
-    public List<IoUnit> findEqualsByAddress(List<IoUnit> ioUnits) {
+    public Map<String, List> findEqualsByAddress(IoTable ioTable) {
 
-        Map<String, List<IoUnit>> map = ioUnits.stream().collect(Collectors.groupingBy(IoUnit::getAddress));
+        List<AnalogInput> analogInputs = ioTable.getAnalogInputs();
+        List<DiscreteInput> discreteInputs = ioTable.getDiscreteInputs();
+        List<AnalogOutput> analogOutputs = ioTable.getAnalogOutputs();
+        List<DiscreteOutput> discreteOutputs = ioTable.getDiscreteOutputs();
 
-        List<IoUnit> duplicates = new ArrayList<>();
+        Map<String, List> duplicates = new HashMap<>();
 
-        map.entrySet().stream().filter(entry -> entry.getValue().size() > 1).forEach(entry -> duplicates.addAll(entry.getValue()));
+        List<AnalogInput> duplicateAis = new ArrayList<>();
+        Map<String, List<AnalogInput>> mapAi = analogInputs.stream()
+                .collect(Collectors.groupingBy(analogInput -> analogInput.getIoUnit().address));
+        mapAi.entrySet().stream().filter(entry -> entry.getValue().size() > 1)
+                .forEach(entry -> duplicateAis.addAll(entry.getValue()));
+
+        List<DiscreteInput> duplicateDis = new ArrayList<>();
+        Map<String, List<DiscreteInput>> mapDi = discreteInputs.stream()
+                .collect(Collectors.groupingBy(discreteInput -> discreteInput.getIoUnit().address));
+        mapDi.entrySet().stream().filter(entry -> entry.getValue().size() > 1)
+                .forEach(entry -> duplicateDis.addAll(entry.getValue()));
+
+        List<AnalogOutput> duplicateAos = new ArrayList<>();
+        Map<String, List<AnalogOutput>> mapAo = analogOutputs.stream()
+                .collect(Collectors.groupingBy(analogOutput -> analogOutput.getIoUnit().address));
+        mapAo.entrySet().stream().filter(entry -> entry.getValue().size() > 1)
+                .forEach(entry -> duplicateAos.addAll(entry.getValue()));
+
+        List<DiscreteOutput> duplicateDos = new ArrayList<>();
+        Map<String, List<DiscreteOutput>> mapDo = discreteOutputs.stream()
+                .collect(Collectors.groupingBy(discreteOutput -> discreteOutput.getIoUnit().address));
+        mapDo.entrySet().stream().filter(entry -> entry.getValue().size() > 1)
+                .forEach(entry -> duplicateDos.addAll(entry.getValue()));
+
+
+        duplicates.put("AI", duplicateAis);
+        duplicates.put("DI", duplicateDis);
+        duplicates.put("AO", duplicateAos);
+        duplicates.put("DI", duplicateDos);
 
         return duplicates;
     }
 
     @Override
-    public List<IoUnit> findEqualsBySymbol(List<IoUnit> ioUnits) {
+    public Map<String, List> findEqualsBySymbol(IoTable ioTable) {
 
-        Map<String, List<IoUnit>> map = ioUnits.stream().collect(Collectors.groupingBy(IoUnit::getSymbol));
+        List<AnalogInput> analogInputs = ioTable.getAnalogInputs();
+        List<DiscreteInput> discreteInputs = ioTable.getDiscreteInputs();
+        List<AnalogOutput> analogOutputs = ioTable.getAnalogOutputs();
+        List<DiscreteOutput> discreteOutputs = ioTable.getDiscreteOutputs();
 
-        List<IoUnit> duplicates = new ArrayList<>();
+        Map<String, List> duplicates = new HashMap<>();
 
-        map.entrySet().stream().filter(entry -> entry.getValue().size() > 1).forEach(entry -> duplicates.addAll(entry.getValue()));
+        List<AnalogInput> duplicateAis = new ArrayList<>();
+        Map<String, List<AnalogInput>> mapAi = analogInputs.stream()
+                .collect(Collectors.groupingBy(analogInput -> analogInput.getIoUnit().symbol));
+        mapAi.entrySet().stream().filter(entry -> entry.getValue().size() > 1)
+                .forEach(entry -> duplicateAis.addAll(entry.getValue()));
+
+        List<DiscreteInput> duplicateDis = new ArrayList<>();
+        Map<String, List<DiscreteInput>> mapDi = discreteInputs.stream()
+                .collect(Collectors.groupingBy(discreteInput -> discreteInput.getIoUnit().symbol));
+        mapDi.entrySet().stream().filter(entry -> entry.getValue().size() > 1)
+                .forEach(entry -> duplicateDis.addAll(entry.getValue()));
+
+        List<AnalogOutput> duplicateAos = new ArrayList<>();
+        Map<String, List<AnalogOutput>> mapAo = analogOutputs.stream()
+                .collect(Collectors.groupingBy(analogOutput -> analogOutput.getIoUnit().symbol));
+        mapAo.entrySet().stream().filter(entry -> entry.getValue().size() > 1)
+                .forEach(entry -> duplicateAos.addAll(entry.getValue()));
+
+        List<DiscreteOutput> duplicateDos = new ArrayList<>();
+        Map<String, List<DiscreteOutput>> mapDo = discreteOutputs.stream()
+                .collect(Collectors.groupingBy(discreteOutput -> discreteOutput.getIoUnit().symbol));
+        mapDo.entrySet().stream().filter(entry -> entry.getValue().size() > 1)
+                .forEach(entry -> duplicateDos.addAll(entry.getValue()));
+
+
+        duplicates.put("AI", duplicateAis);
+        duplicates.put("DI", duplicateDis);
+        duplicates.put("AO", duplicateAos);
+        duplicates.put("DI", duplicateDos);
 
         return duplicates;
     }
 
     @Override
-    public List<IoUnit> findDuplicates(List<IoUnit> ioUnits) {
+    public Map<String, List> findDuplicates(IoTable ioTable) {
 
-        List<IoUnit> equalsByNumber = findEqualsByNumber(ioUnits);
-        List<IoUnit> equalsByAddress = findEqualsByAddress(ioUnits);
-        List<IoUnit> equalsBySymbol = findEqualsBySymbol(ioUnits);
+        Map<String, List> duplicates = new HashMap<>();
 
-        List<IoUnit> ioUnitList = new ArrayList<>(equalsByNumber);
-        ioUnitList.addAll(equalsByAddress);
-        ioUnitList.addAll(equalsBySymbol);
+        List<AnalogInput> equalsByNumber = findEqualsByNumber(ioTable).get("AI");
+        List<AnalogInput> equalsByAddress = findEqualsByAddress(ioTable).get("AI");
+        List<AnalogInput> equalsBySymbol = findEqualsBySymbol(ioTable).get("AI");
 
-        return ioUnitList.stream().distinct().collect(Collectors.toList());
+        List<AnalogInput> aiList = new ArrayList<>();
+        aiList.addAll(equalsByNumber);
+        aiList.addAll(equalsByAddress);
+        aiList.addAll(equalsBySymbol);
+
+        duplicates.put("AI", aiList.stream().distinct().collect(Collectors.toList()));
+
+        return duplicates;
     }
 }

@@ -12,7 +12,7 @@ import org.iotable.core.model.ioUnits.typeadapters.AnalogInputTypeAdapter;
 import org.iotable.core.model.ioUnits.typeadapters.AnalogOutputTypeAdapter;
 import org.iotable.core.model.ioUnits.typeadapters.DiscreteInputTypeAdapter;
 import org.iotable.core.model.ioUnits.typeadapters.DiscreteOutputTypeAdapter;
-import org.iotable.core.normalize.validation.IoUnitValidator;
+import org.iotable.core.normalize.validation.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,10 +22,10 @@ import java.util.List;
 @Service
 public class IoTableServiceImpl implements IoTableService {
 
-    @Autowired private IoUnitValidator<AnalogInput> aiSimpleValidator;
-    @Autowired private IoUnitValidator<DiscreteInput> diSimpleValidator;
-    @Autowired private IoUnitValidator<AnalogOutput> aoSimpleValidator;
-    @Autowired private IoUnitValidator<DiscreteOutput> doSimpleValidator;
+    @Autowired private AiValidator aiValidator;
+    @Autowired private DiValidator diValidator;
+    @Autowired private AoValidator aoValidator;
+    @Autowired private DoValidator doValidator;
 
     @Override
     public IoTable getFromWorkbook(final IoTableDocument document) {
@@ -50,13 +50,9 @@ public class IoTableServiceImpl implements IoTableService {
         List<AnalogOutput> analogOutputs = ioTable.getAnalogOutputs();
         List<DiscreteOutput> discreteOutputs = ioTable.getDiscreteOutputs();
 
-        IoTable validIoTable = new IoTable();
-
-        validIoTable.setAnalogInputs(aiSimpleValidator.validate(analogInputs));
-        validIoTable.setDiscreteInputs(diSimpleValidator.validate(discreteInputs));
-        validIoTable.setAnalogOutputs(aoSimpleValidator.validate(analogOutputs));
-        validIoTable.setDiscreteOutputs(doSimpleValidator.validate(discreteOutputs));
-
-        return validIoTable;
+        return new IoTable(aiValidator.validate(analogInputs),
+                diValidator.validate(discreteInputs),
+                aoValidator.validate(analogOutputs),
+                doValidator.validate(discreteOutputs));
     }
 }
