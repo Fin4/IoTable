@@ -38,8 +38,8 @@ public interface IoTableEqualityChecker {
 
     default List<IoUnit> duplicates(List<IoUnit> ioUnits) {
         return Stream.of(duplicatesByNumber(ioUnits), duplicatesByAddress(ioUnits), duplicatesBySymbol(ioUnits))
-                .distinct()
                 .flatMap(Collection::stream)
+                .distinct()
                 .collect(Collectors.toList());
     }
 }
