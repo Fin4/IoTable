@@ -21,7 +21,7 @@ import java.util.Properties;
  * @since JDK 1.8
  */
 
-public class XlsxIoTable implements IoTableDocument {
+public final class XlsxIoTable implements IoTableDocument {
 
     private final XSSFWorkbook workbook;
 
