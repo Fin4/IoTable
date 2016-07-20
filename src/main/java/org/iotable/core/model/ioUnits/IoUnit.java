@@ -8,6 +8,13 @@ public final class IoUnit {
     public final String address;
     public final int number;
 
+    private IoUnit() {
+        symbol = "";
+        description = "";
+        address = "";
+        number = 0;
+    }
+
     public IoUnit(String symbol, String description, String address, int number) {
         this.symbol = symbol;
         this.description = description;
