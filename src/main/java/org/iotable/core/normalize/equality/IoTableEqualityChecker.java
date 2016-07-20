@@ -15,29 +15,43 @@ public interface IoTableEqualityChecker {
 
     default List<IoUnit> duplicatesByNumber(List<IoUnit> ioUnits) {
 
-        return ioUnits.stream()
+        List<IoUnit> d = new ArrayList<>();
+        ioUnits.stream()
                 .collect(Collectors.groupingBy(ioUnit -> ioUnit.number))
                 .entrySet().stream().filter(entry -> entry.getValue().size() > 1)
-                .map(Map.Entry::getValue)
-                .flatMap(ioUnits1 -> ioUnits.stream()).collect(Collectors.toList());
+                .forEach(entry -> d.addAll(entry.getValue()));
+                /*.map(Map.Entry::getValue)
+                .flatMap(ioUnits1 -> ioUnits.stream()).collect(Collectors.toList());*/
+
+        return d;
     }
 
     default List<IoUnit> duplicatesByAddress(List<IoUnit> ioUnits) {
 
-        return ioUnits.stream()
+        List<IoUnit> d = new ArrayList<>();
+
+        ioUnits.stream()
                 .collect(Collectors.groupingBy(ioUnit -> ioUnit.address))
                 .entrySet().stream().filter(entry -> entry.getValue().size() > 1)
-                .map(Map.Entry::getValue)
-                .flatMap(ioUnits1 -> ioUnits.stream()).collect(Collectors.toList());
+                .forEach(entry -> d.addAll(entry.getValue()));
+                /*.map(Map.Entry::getValue)
+                .flatMap(ioUnits1 -> ioUnits.stream()).collect(Collectors.toList());*/
+
+        return d;
     }
 
     default List<IoUnit> duplicatesBySymbol(List<IoUnit> ioUnits) {
 
-        return ioUnits.stream()
+        List<IoUnit> d = new ArrayList<>();
+
+        ioUnits.stream()
                 .collect(Collectors.groupingBy(ioUnit -> ioUnit.symbol))
                 .entrySet().stream().filter(entry -> entry.getValue().size() > 1)
-                .map(Map.Entry::getValue)
-                .flatMap(ioUnits1 -> ioUnits.stream()).collect(Collectors.toList());
+                .forEach(entry -> d.addAll(entry.getValue()));
+                /*.map(Map.Entry::getValue)
+                .flatMap(ioUnits1 -> ioUnits.stream()).collect(Collectors.toList());*/
+
+        return d;
     }
 
     default List<IoUnit> duplicates(List<IoUnit> ioUnits) {
