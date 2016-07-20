@@ -7,51 +7,35 @@ import org.iotable.core.model.ioUnits.IoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public interface IoTableEqualityChecker {
 
     Map<String, List> findDuplicates(IoTable ioTable);
 
-    default List<IoUnit> duplicatesByNumber(List<IoUnit> ioUnits) {
-
+    default List<IoUnit> duplicatesBy(List<IoUnit> ioUnits, Function<IoUnit, Object> function) {
         List<IoUnit> d = new ArrayList<>();
         ioUnits.stream()
-                .collect(Collectors.groupingBy(ioUnit -> ioUnit.number))
+                .collect(Collectors.groupingBy(function))
                 .entrySet().stream().filter(entry -> entry.getValue().size() > 1)
-                .forEach(entry -> d.addAll(entry.getValue()));
-                /*.map(Map.Entry::getValue)
-                .flatMap(ioUnits1 -> ioUnits.stream()).collect(Collectors.toList());*/
+                .map(Map.Entry::getValue)
+                .forEach(d::addAll);
 
         return d;
+    }
+
+    default List<IoUnit> duplicatesByNumber(List<IoUnit> ioUnits) {
+        return duplicatesBy(ioUnits, (ioUnit -> ioUnit.number));
     }
 
     default List<IoUnit> duplicatesByAddress(List<IoUnit> ioUnits) {
-
-        List<IoUnit> d = new ArrayList<>();
-
-        ioUnits.stream()
-                .collect(Collectors.groupingBy(ioUnit -> ioUnit.address))
-                .entrySet().stream().filter(entry -> entry.getValue().size() > 1)
-                .forEach(entry -> d.addAll(entry.getValue()));
-                /*.map(Map.Entry::getValue)
-                .flatMap(ioUnits1 -> ioUnits.stream()).collect(Collectors.toList());*/
-
-        return d;
+        return duplicatesBy(ioUnits, (ioUnit -> ioUnit.address));
     }
 
     default List<IoUnit> duplicatesBySymbol(List<IoUnit> ioUnits) {
-
-        List<IoUnit> d = new ArrayList<>();
-
-        ioUnits.stream()
-                .collect(Collectors.groupingBy(ioUnit -> ioUnit.symbol))
-                .entrySet().stream().filter(entry -> entry.getValue().size() > 1)
-                .forEach(entry -> d.addAll(entry.getValue()));
-                /*.map(Map.Entry::getValue)
-                .flatMap(ioUnits1 -> ioUnits.stream()).collect(Collectors.toList());*/
-
-        return d;
+        return duplicatesBy(ioUnits, (ioUnit -> ioUnit.symbol));
     }
 
     default List<IoUnit> duplicates(List<IoUnit> ioUnits) {
