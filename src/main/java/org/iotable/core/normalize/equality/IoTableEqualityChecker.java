@@ -4,12 +4,10 @@ package org.iotable.core.normalize.equality;
 import org.iotable.core.model.IoTable;
 import org.iotable.core.model.ioUnits.IoUnit;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public interface IoTableEqualityChecker {
 
@@ -39,15 +37,9 @@ public interface IoTableEqualityChecker {
     }
 
     default List<IoUnit> duplicates(List<IoUnit> ioUnits) {
-
-        List<IoUnit> duplicatesByNumber = duplicatesByNumber(ioUnits);
-        List<IoUnit> duplicatesByAddress = duplicatesByAddress(ioUnits);
-        List<IoUnit> duplicatesBySymbol = duplicatesBySymbol(ioUnits);
-
-        List<IoUnit> duplicates = new ArrayList<>(duplicatesByNumber);
-        duplicates.addAll(duplicatesByAddress);
-        duplicates.addAll(duplicatesBySymbol);
-
-        return duplicates.stream().distinct().collect(Collectors.toList());
+        return Stream.of(duplicatesByNumber(ioUnits), duplicatesByAddress(ioUnits), duplicatesBySymbol(ioUnits))
+                .distinct()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
     }
 }
