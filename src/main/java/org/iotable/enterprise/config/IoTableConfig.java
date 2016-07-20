@@ -5,8 +5,8 @@ import org.iotable.core.codegenerators.simple.SimpleAiCodeGenerator;
 import org.iotable.core.codegenerators.simple.SimpleAoCodeGenerator;
 import org.iotable.core.codegenerators.simple.SimpleDiCodeGenerator;
 import org.iotable.core.codegenerators.simple.SimpleDoCodeGenerator;
-import org.iotable.core.normalize.equality.IoUnitEqualityChecker;
-import org.iotable.core.normalize.equality.SimpleIoUnitEqualityChecker;
+import org.iotable.core.normalize.equality.IoTableEqualityChecker;
+import org.iotable.core.normalize.equality.SimpleIoTableEqualityChecker;
 import org.iotable.core.normalize.validation.*;
 import org.iotable.core.normalize.validation.simple.SimpleAiValidator;
 import org.iotable.core.normalize.validation.simple.SimpleAoValidator;
@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class IoTableConfig {
 
+    /** validators*/
     @Bean
     public AiValidator aiSimpleValidator() {
         return new SimpleAiValidator();
@@ -38,13 +39,15 @@ public class IoTableConfig {
         return new SimpleDoValidator();
     }
 
+    /** duplicates*/
     @Bean
-    public IoUnitEqualityChecker ioUnitEqualityChecker() {
-        return new SimpleIoUnitEqualityChecker();
+    public IoTableEqualityChecker ioTableEqualityChecker() {
+        return new SimpleIoTableEqualityChecker();
     }
 
+    /** code generators*/
     @Bean
-    public AiCodeGenerator simpleCodeGenerator() {
+    public AiCodeGenerator simpleAiCodeGenerator() {
         return new SimpleAiCodeGenerator();
     }
 
