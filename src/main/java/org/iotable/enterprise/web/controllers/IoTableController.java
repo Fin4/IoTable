@@ -24,17 +24,17 @@ public class IoTableController {
 
         ModelAndView modelAndView = new ModelAndView("info");
 
-       /* modelAndView.addObject("duplicateAis",
-                equalityService.findDuplicates(ioTable.getAnalogInputs()));
+        modelAndView.addObject("duplicateAis",
+                equalityService.findDuplicateAis(ioTable));
 
         modelAndView.addObject("duplicateDis",
-                equalityService.findDuplicates(ioTable.getDiscreteInputs()));
+                equalityService.findDuplicateDis(ioTable));
 
         modelAndView.addObject("duplicateAos",
-                equalityService.findDuplicates(new ArrayList<>(ioTable.getAnalogOutputs())));
+                equalityService.findDuplicateAos(ioTable));
 
         modelAndView.addObject("duplicateDos",
-                equalityService.findDuplicates(new ArrayList<>(ioTable.getDiscreteOutputs())));*/
+                equalityService.findDuplicateDos(ioTable));
 
         return modelAndView;
     }
