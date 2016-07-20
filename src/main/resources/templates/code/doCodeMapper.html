@@ -30,10 +30,10 @@
             </tr>
             </thead>
             <tr th:each="do : ${iotable.discreteOutputs}">
-                <td th:text="${do.number}"></td>
-                <td th:text="${do.address}"></td>
-                <td th:text="${do.description}"></td>
-                <td th:text="${do.symbol}"></td>
+                <td th:text="${do.ioUnit.number}"></td>
+                <td th:text="${do.ioUnit.address}"></td>
+                <td th:text="${do.ioUnit.description}"></td>
+                <td th:text="${do.ioUnit.symbol}"></td>
             </tr>
         </table>
     </div>

@@ -22,10 +22,10 @@
             </tr>
             </thead>
             <tr th:each="ai : ${iotable.analogInputs}">
-                <td th:text="${ai.number}"></td>
-                <td th:text="${ai.address}"></td>
-                <td th:text="${ai.description}"></td>
-                <td th:text="${ai.symbol}"></td>
+                <td th:text="${ai.ioUnit.number}"></td>
+                <td th:text="${ai.ioUnit.address}"></td>
+                <td th:text="${ai.ioUnit.description}"></td>
+                <td th:text="${ai.ioUnit.symbol}"></td>
                 <td th:text="${ai.engUnits}"></td>
             </tr>
         </table>

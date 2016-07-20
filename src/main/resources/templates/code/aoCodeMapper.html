@@ -30,10 +30,10 @@
             </tr>
             </thead>
             <tr th:each="ao : ${iotable.analogOutputs}">
-                <td th:text="${ao.number}"></td>
-                <td th:text="${ao.address}"></td>
-                <td th:text="${ao.description}"></td>
-                <td th:text="${ao.symbol}"></td>
+                <td th:text="${ao.ioUnit.number}"></td>
+                <td th:text="${ao.ioUnit.address}"></td>
+                <td th:text="${ao.ioUnit.description}"></td>
+                <td th:text="${ao.ioUnit.symbol}"></td>
             </tr>
         </table>
     </div>
