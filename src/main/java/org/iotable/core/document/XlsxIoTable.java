@@ -4,14 +4,19 @@ package org.iotable.core.document;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.iotable.core.document.exceptions.WrongSheetFormatException;
 
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 /** An implementation of #IoTableDocument interface
@@ -23,12 +28,14 @@ import java.util.Properties;
 
 public final class XlsxIoTable implements IoTableDocument {
 
-    private final XSSFWorkbook workbook;
+    private final Workbook workbook;
 
     private Properties props;
 
-    public XlsxIoTable(XSSFWorkbook xssfWorkbook) {
-        this.workbook = xssfWorkbook;
+    private static final Logger logger = Logger.getLogger(XlsxIoTable.class);
+
+    public XlsxIoTable(Workbook workbook) {
+        this.workbook = workbook;
     }
 
     @Override
@@ -37,19 +44,27 @@ public final class XlsxIoTable implements IoTableDocument {
         return parseIoTable(workbook).toString();
     }
 
-    private JsonArray parseIoUnitsSheet(XSSFSheet sheet) throws WrongSheetFormatException {
+    private JsonArray parseIoUnitsSheet(final Sheet sheet) throws WrongSheetFormatException {
+
+        final String sheetName = sheet.getSheetName();
+
+        logger.info(sheetName + " sheet: start parsing...");
 
         ArrayList<String> headers = new ArrayList<>();
 
         Row headerRow = sheet.getRow(0);
 
-        if (headerRow == null || headerRow.getPhysicalNumberOfCells() <= 0)
-            throw new WrongSheetFormatException(sheet.getSheetName() + " sheet: first row (header) is null");
+        if (headerRow == null || headerRow.getPhysicalNumberOfCells() <= 0) {
+            logger.error(sheetName + " sheet: Wrong format header row: header row is empty");
+            throw new WrongSheetFormatException(sheetName + " sheet: first row (header) is null");
+        }
 
         headerRow.forEach(cell -> {
             cell.setCellType(Cell.CELL_TYPE_STRING);
-            if (!cell.getStringCellValue().trim().isEmpty())
-            headers.add(cell.getStringCellValue());
+            if (!cell.getStringCellValue().trim().isEmpty()) {
+                headers.add(cell.getStringCellValue());
+                logger.info(sheetName + " sheet: add header cell " + "'" + headers.get(headers.size() - 1) + "'");
+            }
         });
 
         JsonArray jsonArray = new JsonArray();
@@ -57,15 +72,13 @@ public final class XlsxIoTable implements IoTableDocument {
         for (int i = 1;; i++) {
 
             Row row = sheet.getRow(i);
+            Cell firstCell;
 
-            if (row == null) break;
-            Cell firstCell = row.getCell(0);
-
-            if (firstCell == null) break;
-            else firstCell.setCellType(Cell.CELL_TYPE_STRING);
-
-            if (firstCell.getStringCellValue().trim().isEmpty()) {
-                break;
+            if (row == null || row.getCell(0) == null) break;
+            else {
+                firstCell = row.getCell(0);
+                firstCell.setCellType(Cell.CELL_TYPE_STRING);
+                if (firstCell.getStringCellValue().trim().isEmpty()) break;
             }
 
             JsonObject jsonObject = new JsonObject();
@@ -84,43 +97,75 @@ public final class XlsxIoTable implements IoTableDocument {
         return jsonArray;
     }
 
-    private JsonObject parseIoTable(XSSFWorkbook workbook) {
+    private JsonObject parseIoTable(final Workbook workbook) {
 
-        if (props == null) defaultProps();
+        if (props == null) {
+            logger.info("Properties not found. Loading default properties...");
+            defaultProps();
+        }
 
-        XSSFSheet diSheet = workbook.getSheet(props.getProperty("diSheetName"));
-        XSSFSheet aiSheet = workbook.getSheet(props.getProperty("aiSheetName"));
-        XSSFSheet doSheet = workbook.getSheet(props.getProperty("doSheetName"));
-        XSSFSheet aoSheet = workbook.getSheet(props.getProperty("aoSheetName"));
+        Sheet diSheet = workbook.getSheet(props.getProperty("diSheetName"));
+        Sheet aiSheet = workbook.getSheet(props.getProperty("aiSheetName"));
+        Sheet doSheet = workbook.getSheet(props.getProperty("doSheetName"));
+        Sheet aoSheet = workbook.getSheet(props.getProperty("aoSheetName"));
 
         JsonObject jsonObject = new JsonObject();
 
-        try {
-            jsonObject.add("discreteInputs", parseIoUnitsSheet(diSheet));
-        } catch (WrongSheetFormatException e) {
-            e.printStackTrace();
-            jsonObject.add("discreteInputs", new JsonObject());
-        }
+        Thread diThread = new Thread(() -> {
+            try {
+                jsonObject.add("discreteInputs", parseIoUnitsSheet(diSheet));
+            } catch (WrongSheetFormatException e) {
+                e.printStackTrace();
+                jsonObject.add("discreteInputs", new JsonObject());
+            }
+        });
+
+        diThread.setName("diSheet-parsing");
+
+        Thread aiThread = new Thread(() -> {
+            try {
+                jsonObject.add("analogInputs", parseIoUnitsSheet(aiSheet));
+            } catch (WrongSheetFormatException e) {
+                e.printStackTrace();
+                jsonObject.add("analogInputs", new JsonObject());
+            }
+        });
+
+        Thread doThread = new Thread(() -> {
+            try {
+                jsonObject.add("discreteOutputs", parseIoUnitsSheet(doSheet));
+            } catch (WrongSheetFormatException e) {
+                e.printStackTrace();
+                jsonObject.add("discreteOutputs", new JsonObject());
+            }
+        });
+
+        Thread aoThread = new Thread(() -> {
+            try {
+                jsonObject.add("analogOutputs", parseIoUnitsSheet(aoSheet));
+            } catch (WrongSheetFormatException e) {
+                e.printStackTrace();
+                jsonObject.add("analogOutputs", new JsonObject());
+            }
+        });
+
+        diThread.start();
+        //diThread.setDaemon(true);
+        aiThread.start();
+        //aiThread.setDaemon(true);
+        doThread.start();
+        //doThread.setDaemon(true);
+        aoThread.start();
+        //aoThread.setDaemon(true);
 
         try {
-            jsonObject.add("analogInputs", parseIoUnitsSheet(aiSheet));
-        } catch (WrongSheetFormatException e) {
+            diThread.join();
+            aiThread.join();
+            doThread.join();
+            aoThread.join();
+        } catch (InterruptedException e) {
             e.printStackTrace();
-            jsonObject.add("analogInputs", new JsonObject());
-        }
-
-        try {
-            jsonObject.add("discreteOutputs", parseIoUnitsSheet(doSheet));
-        } catch (WrongSheetFormatException e) {
-            e.printStackTrace();
-            jsonObject.add("discreteOutputs", new JsonObject());
-        }
-
-        try {
-            jsonObject.add("analogOutputs", parseIoUnitsSheet(aoSheet));
-        } catch (WrongSheetFormatException e) {
-            e.printStackTrace();
-            jsonObject.add("analogOutputs", new JsonObject());
+            logger.error("can't parse iotable cause: " + e);
         }
 
         return jsonObject;
@@ -141,14 +186,14 @@ public final class XlsxIoTable implements IoTableDocument {
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append("Sheets :").append(System.lineSeparator());
+        stringBuilder.append("Sheets: ").append(System.lineSeparator());
 
         workbook.forEach(sheet -> stringBuilder
                 .append("name : ")
-                    .append(sheet.getSheetName())
-                    .append(System.lineSeparator()).append("num of rows : ")
-                    .append(sheet.getPhysicalNumberOfRows())
-                    .append(System.lineSeparator()));
+                .append(sheet.getSheetName())
+                .append(System.lineSeparator()).append("num of rows : ")
+                .append(sheet.getPhysicalNumberOfRows())
+                .append(System.lineSeparator()));
 
         return new String(stringBuilder);
     }
