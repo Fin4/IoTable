@@ -2,6 +2,7 @@ package org.iotable.core.normalize.validation.simple;
 
 
 import org.iotable.core.model.ioUnits.AnalogOutput;
+import org.iotable.core.model.ioUnits.IoUnit;
 import org.iotable.core.normalize.validation.AoValidator;
 import org.iotable.core.normalize.validation.BaseIoUnitValidator;
 
@@ -18,7 +19,14 @@ public final class SimpleAoValidator implements AoValidator {
         List<AnalogOutput> validAos = new ArrayList<>();
 
         for (AnalogOutput ao : analogOutputs) {
-            AnalogOutput validAo = new AnalogOutput(baseValidator.validate(ao.getIoUnit()));
+
+            IoUnit ioUnit = baseValidator.validate(ao.getIoUnit());
+
+            String symbol;
+            if (ioUnit.symbol.equals("res")) symbol = "aoRes" + ioUnit.number;
+            else symbol = ioUnit.symbol;
+
+            AnalogOutput validAo = new AnalogOutput(new IoUnit(symbol, ioUnit.description, ioUnit.address, ioUnit.number));
             validAos.add(validAo);
         }
 

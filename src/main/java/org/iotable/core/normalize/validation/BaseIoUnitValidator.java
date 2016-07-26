@@ -18,9 +18,8 @@ public final class BaseIoUnitValidator {
 
         String symbol;
         if ((ioUnit.symbol == null) || ioUnit.symbol.isEmpty()) {
-            symbol =  "res" + ioUnit.number;
+            symbol =  "res";
         } else symbol = replaceCyrillic(ioUnit.symbol.trim());
-
 
         return new IoUnit(symbol, desc, address, ioUnit.number);
     }

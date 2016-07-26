@@ -1,6 +1,7 @@
 package org.iotable.core.normalize.validation.simple;
 
 import org.iotable.core.model.ioUnits.DiscreteOutput;
+import org.iotable.core.model.ioUnits.IoUnit;
 import org.iotable.core.normalize.validation.DoValidator;
 import org.iotable.core.normalize.validation.BaseIoUnitValidator;
 
@@ -17,7 +18,13 @@ public final class SimpleDoValidator implements DoValidator {
         List<DiscreteOutput> validDos = new ArrayList<>();
 
         for (DiscreteOutput discreteOutput : discreteOutputs) {
-            DiscreteOutput validDo = new DiscreteOutput(baseValidator.validate(discreteOutput.getIoUnit()));
+
+            IoUnit ioUnit = baseValidator.validate(discreteOutput.getIoUnit());
+            String symbol;
+            if (ioUnit.symbol.equals("res")) symbol = "doRes" + ioUnit.number;
+            else symbol = ioUnit.symbol;
+
+            DiscreteOutput validDo = new DiscreteOutput(new IoUnit(symbol, ioUnit.description, ioUnit.address, ioUnit.number));
             validDos.add(validDo);
         }
 

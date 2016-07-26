@@ -32,13 +32,20 @@ public final class SimpleAiValidator implements AiValidator {
 
             String engUnits = analogInput.getEngUnits();
 
+            String symbol;
+
+            if (ioUnit.symbol.equals("res")) symbol = "aiRes" + ioUnit.number;
+            else symbol = ioUnit.symbol;
+
             if (engUnits == null || engUnits.trim().isEmpty()) engUnits = "";
             else {
                 ArrayList<String> tokens = new ArrayList<>(Arrays.asList(engUnits.split(" ")));
                 engUnits = tokens.get(tokens.size() - 1).trim();
             }
 
-            validAis.add(new AnalogInput(ioUnit, engUnits));
+            IoUnit validIoUnit = new IoUnit(symbol, ioUnit.description, ioUnit.address, ioUnit.number);
+
+            validAis.add(new AnalogInput(validIoUnit, engUnits));
         }
 
         if (validator != null) validAis = validator.validate(validAis);
