@@ -19,8 +19,6 @@ import org.springframework.context.annotation.Import;
 @Import({WebConfig.class, IoTableConfig.class})
 public class HerokuLauncher extends SpringBootServletInitializer {
 
-    public static final String IOTABLES_DIRECTORY = "uploadIoTables";
-
     public static void main(String[] args) {
         System.getProperties().put("server.port", Integer.parseInt(System.getenv("PORT")));
         SpringApplication.run(HerokuLauncher.class, args);
