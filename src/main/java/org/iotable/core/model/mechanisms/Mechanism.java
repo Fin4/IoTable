@@ -52,4 +52,15 @@ public final class Mechanism {
         return description;
     }
 
+    @Override
+    public String toString() {
+        return "Mechanism{" +
+                "symbol='" + symbol + '\'' +
+                ", description='" + description + '\'' +
+                ", analogInputs=" + analogInputs +
+                ", discreteInputs=" + discreteInputs +
+                ", analogOutputs=" + analogOutputs +
+                ", discreteOutputs=" + discreteOutputs +
+                '}';
+    }
 }
