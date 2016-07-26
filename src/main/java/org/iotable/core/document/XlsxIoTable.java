@@ -9,14 +9,10 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.iotable.core.document.exceptions.WrongSheetFormatException;
 
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 
 /** An implementation of #IoTableDocument interface
@@ -83,7 +79,7 @@ public final class XlsxIoTable implements IoTableDocument {
 
             JsonObject jsonObject = new JsonObject();
 
-            headers.stream().forEach(s -> {
+            headers.forEach(s -> {
                 Cell cell = row.getCell(headers.indexOf(s));
                 if (cell == null) jsonObject.add(s, JsonNull.INSTANCE);
                 else {
@@ -119,7 +115,6 @@ public final class XlsxIoTable implements IoTableDocument {
                 jsonObject.add("discreteInputs", new JsonObject());
             }
         });
-
         diThread.setName("diSheet-parsing");
 
         Thread aiThread = new Thread(() -> {
@@ -130,6 +125,7 @@ public final class XlsxIoTable implements IoTableDocument {
                 jsonObject.add("analogInputs", new JsonObject());
             }
         });
+        aiThread.setName("aiSheet-parsing");
 
         Thread doThread = new Thread(() -> {
             try {
@@ -139,6 +135,7 @@ public final class XlsxIoTable implements IoTableDocument {
                 jsonObject.add("discreteOutputs", new JsonObject());
             }
         });
+        doThread.setName("doSheet-parsing");
 
         Thread aoThread = new Thread(() -> {
             try {
@@ -148,6 +145,7 @@ public final class XlsxIoTable implements IoTableDocument {
                 jsonObject.add("analogOutputs", new JsonObject());
             }
         });
+        aoThread.setName("aoSheet-parsing");
 
         diThread.start();
         //diThread.setDaemon(true);
