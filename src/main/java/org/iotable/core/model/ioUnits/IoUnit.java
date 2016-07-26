@@ -29,10 +29,7 @@ public final class IoUnit {
 
         IoUnit ioUnit = (IoUnit) o;
 
-        if (number != ioUnit.number) return false;
-        if (!symbol.equals(ioUnit.symbol)) return false;
-        return address.equals(ioUnit.address);
-
+        return number == ioUnit.number && symbol.equals(ioUnit.symbol) && address.equals(ioUnit.address);
     }
 
     @Override
