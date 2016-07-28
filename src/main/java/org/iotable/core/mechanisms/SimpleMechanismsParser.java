@@ -15,20 +15,16 @@ public class SimpleMechanismsParser implements MechanismsParser {
         List<Mechanism> mechanisms = new ArrayList<>();
 
         Map<String, List<AnalogInput>> aiMap = ioTable.getAnalogInputs().stream()
-                .collect(Collectors.groupingBy(analogInput -> dotSymbolAnalyzer(analogInput.getIoUnit().symbol)
-        ));
+                .collect(Collectors.groupingBy(analogInput -> dotSymbolAnalyzer(analogInput.getIoUnit().symbol)));
 
         Map<String, List<DiscreteInput>> diMap = ioTable.getDiscreteInputs().stream()
-                .collect(Collectors.groupingBy(discreteInput -> dotSymbolAnalyzer(discreteInput.getIoUnit().symbol)
-        ));
+                .collect(Collectors.groupingBy(discreteInput -> dotSymbolAnalyzer(discreteInput.getIoUnit().symbol)));
 
         Map<String, List<AnalogOutput>> aoMap = ioTable.getAnalogOutputs().stream()
-                .collect(Collectors.groupingBy(analogOutput -> dotSymbolAnalyzer(analogOutput.getIoUnit().symbol)
-        ));
+                .collect(Collectors.groupingBy(analogOutput -> dotSymbolAnalyzer(analogOutput.getIoUnit().symbol)));
 
         Map<String, List<DiscreteOutput>> doMap = ioTable.getDiscreteOutputs().stream()
-                .collect(Collectors.groupingBy(discreteOutput -> dotSymbolAnalyzer(discreteOutput.getIoUnit().symbol)
-        ));
+                .collect(Collectors.groupingBy(discreteOutput -> dotSymbolAnalyzer(discreteOutput.getIoUnit().symbol)));
 
         Set<String> m = new HashSet<>();
         m.addAll(aiMap.keySet());
@@ -64,29 +60,12 @@ public class SimpleMechanismsParser implements MechanismsParser {
     @Override
     public List<Mechanism> getByDescription(IoTable ioTable) {
 
-        List<Mechanism> mechanisms = new ArrayList<>();
-/*
-        Map<String, List<IoUnit>> map = ioUnits.stream().collect(Collectors.groupingBy(ioUnit -> {
-
-                    String description = ioUnit.description;
-
-                    if (description.matches(".+\\-.+")) return description.substring(0, description.lastIndexOf("-"));
-                    else return description;
-                }
-        ));
-
-        for (Map.Entry<String, List<IoUnit>> entry : map.entrySet()) {
-
-            String desc = entry.getKey();
-
-        }*/
-
-        return mechanisms;
+        return new ArrayList<>();
     }
 
     @Override
     public List<Mechanism> getEntire(IoTable ioTable) {
-        return null;
+        return new ArrayList<>();
     }
 
 }
