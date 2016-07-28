@@ -3,10 +3,8 @@ package org.iotable.core.mechanisms;
 import org.iotable.core.model.IoTable;
 import org.iotable.core.model.ioUnits.*;
 import org.iotable.core.model.mechanisms.Mechanism;
-import org.springframework.web.servlet.tags.form.SelectTag;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class SimpleMechanismsParser implements MechanismsParser {
@@ -16,45 +14,21 @@ public class SimpleMechanismsParser implements MechanismsParser {
 
         List<Mechanism> mechanisms = new ArrayList<>();
 
-        Map<String, List<AnalogInput>> aiMap = ioTable.getAnalogInputs().stream().collect(Collectors.groupingBy(analogInput -> {
-
-                    String symbol = analogInput.getIoUnit().symbol;
-
-                    if (symbol.matches(".+\\.[a-zA-Z0-9]+")) return symbol.substring(0, symbol.lastIndexOf("."));
-                    else return symbol;
-                }
+        Map<String, List<AnalogInput>> aiMap = ioTable.getAnalogInputs().stream()
+                .collect(Collectors.groupingBy(analogInput -> dotSymbolAnalyzer(analogInput.getIoUnit().symbol)
         ));
 
-        Map<String, List<DiscreteInput>> diMap = ioTable.getDiscreteInputs().stream().collect(Collectors.groupingBy(discreteInput -> {
-
-                    String symbol = discreteInput.getIoUnit().symbol;
-
-                    if (symbol.matches(".+\\.[a-zA-Z0-9]+")) return symbol.substring(0, symbol.lastIndexOf("."));
-                    else return symbol;
-                }
+        Map<String, List<DiscreteInput>> diMap = ioTable.getDiscreteInputs().stream()
+                .collect(Collectors.groupingBy(discreteInput -> dotSymbolAnalyzer(discreteInput.getIoUnit().symbol)
         ));
 
         Map<String, List<AnalogOutput>> aoMap = ioTable.getAnalogOutputs().stream()
-                .collect(Collectors.groupingBy(analogOutput -> {
-
-                    String symbol = analogOutput.getIoUnit().symbol;
-
-                    if (symbol.matches(".+\\.[a-zA-Z0-9]+")) return symbol.substring(0, symbol.lastIndexOf("."));
-                    else return symbol;
-                }
+                .collect(Collectors.groupingBy(analogOutput -> dotSymbolAnalyzer(analogOutput.getIoUnit().symbol)
         ));
 
         Map<String, List<DiscreteOutput>> doMap = ioTable.getDiscreteOutputs().stream()
-                .collect(Collectors.groupingBy(discreteOutput -> {
-
-                    String symbol = discreteOutput.getIoUnit().symbol;
-
-                    if (symbol.matches(".+\\.[a-zA-Z0-9]+")) return symbol.substring(0, symbol.lastIndexOf("."));
-                    else return symbol;
-                }
+                .collect(Collectors.groupingBy(discreteOutput -> dotSymbolAnalyzer(discreteOutput.getIoUnit().symbol)
         ));
-
-
 
         Set<String> m = new HashSet<>();
         m.addAll(aiMap.keySet());
@@ -81,11 +55,10 @@ public class SimpleMechanismsParser implements MechanismsParser {
         return mechanisms;
     }
 
-    private String group(String symbol) {
+    private String dotSymbolAnalyzer(String symbol) {
 
         if (symbol.matches(".+\\.[a-zA-Z0-9]+")) return symbol.substring(0, symbol.lastIndexOf("."));
         else return symbol;
-
     }
 
     @Override
