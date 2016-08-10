@@ -68,4 +68,11 @@ public class SimpleMechanismsParser implements MechanismsParser {
         return new ArrayList<>();
     }
 
+    @Override
+    public List<Mechanism> getByType(final String type, final List<Mechanism> mechanisms) {
+
+        return mechanisms.stream()
+                .filter(mechanism -> mechanism.getSymbol().startsWith(type))
+                .collect(Collectors.toList());
+    }
 }
