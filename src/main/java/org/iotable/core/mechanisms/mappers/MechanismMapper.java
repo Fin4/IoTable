@@ -1,4 +1,4 @@
-package org.iotable.core.mechanisms;
+package org.iotable.core.mechanisms.mappers;
 
 
 import org.iotable.core.model.mechanisms.Mechanism;
