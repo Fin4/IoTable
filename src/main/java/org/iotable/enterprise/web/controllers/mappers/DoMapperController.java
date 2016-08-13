@@ -1,7 +1,7 @@
-package org.iotable.enterprise.web.controllers.codegenerators;
+package org.iotable.enterprise.web.controllers.mappers;
 
-import org.iotable.core.codegenerators.DoCodeGenerator;
-import org.iotable.core.codegenerators.exceptions.TemplateStringException;
+import org.iotable.core.mappers.DoMapper;
+import org.iotable.core.mappers.exceptions.TemplateStringException;
 import org.iotable.core.model.IoTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,10 +18,10 @@ import java.util.List;
 
 @Controller
 @SessionAttributes("iotable")
-public class DoCodeGeneratorController {
+public class DoMapperController {
 
     @Autowired
-    private DoCodeGenerator doCodeGenerator;
+    private DoMapper doMapper;
 
     @RequestMapping(value = "/doCodeMapper", method = RequestMethod.GET)
     public String provideGenerateDoCode(@ModelAttribute("iotable") IoTable ioTable, Model model) {
@@ -35,7 +35,7 @@ public class DoCodeGeneratorController {
                              HttpServletResponse response) {
 
         try {
-            List<String> strings = doCodeGenerator.generateCode(ioTable.getDiscreteOutputs(), template);
+            List<String> strings = doMapper.generateCode(ioTable.getDiscreteOutputs(), template);
 
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment; filename=\""

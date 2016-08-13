@@ -1,16 +1,16 @@
-package org.iotable.core.codegenerators.simple;
+package org.iotable.core.mappers.simple;
 
-import org.iotable.core.codegenerators.BaseCodeGenerator;
-import org.iotable.core.codegenerators.DiCodeGenerator;
-import org.iotable.core.codegenerators.exceptions.TemplateStringException;
+import org.iotable.core.mappers.BaseMapper;
+import org.iotable.core.mappers.DiMapper;
+import org.iotable.core.mappers.exceptions.TemplateStringException;
 import org.iotable.core.model.ioUnits.DiscreteInput;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleDiCodeGenerator implements DiCodeGenerator {
+public class SimpleDiMapper implements DiMapper {
 
-    private static final BaseCodeGenerator baseGenerator = new BaseCodeGenerator();
+    private static final BaseMapper baseGenerator = new BaseMapper();
 
     @Override
     public List<String> generateCode(List<DiscreteInput> discreteInputs, String template) throws TemplateStringException {

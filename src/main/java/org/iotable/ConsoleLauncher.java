@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.iotable.core.codegenerators.exceptions.TemplateStringException;
-import org.iotable.core.codegenerators.simple.SimpleAiCodeGenerator;
+import org.iotable.core.mappers.exceptions.TemplateStringException;
+import org.iotable.core.mappers.simple.SimpleAiMapper;
 import org.iotable.core.mechanisms.mappers.MechanismMapper;
 import org.iotable.core.mechanisms.mappers.SimpleDgMapper;
 import org.iotable.core.mechanisms.SimpleMechanismsParser;
@@ -62,7 +62,7 @@ public class ConsoleLauncher {
         System.out.println(gson.toJson(validTable));
 
         String template = "%desc% - %eu% - %symbol% - %num% - %addr%;";
-        new SimpleAiCodeGenerator().generateCode(validTable.getAnalogInputs(), template).forEach(System.out::println);
+        new SimpleAiMapper().generateCode(validTable.getAnalogInputs(), template).forEach(System.out::println);
 
         Gson mGson = new GsonBuilder().setPrettyPrinting().create();
 

@@ -1,4 +1,4 @@
-package org.iotable.core.codegenerators.exceptions;
+package org.iotable.core.mappers.exceptions;
 
 
 public class TemplateStringException extends Exception {

@@ -1,17 +1,17 @@
-package org.iotable.core.codegenerators.simple;
+package org.iotable.core.mappers.simple;
 
 
-import org.iotable.core.codegenerators.AoCodeGenerator;
-import org.iotable.core.codegenerators.BaseCodeGenerator;
-import org.iotable.core.codegenerators.exceptions.TemplateStringException;
+import org.iotable.core.mappers.AoMapper;
+import org.iotable.core.mappers.BaseMapper;
+import org.iotable.core.mappers.exceptions.TemplateStringException;
 import org.iotable.core.model.ioUnits.AnalogOutput;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleAoCodeGenerator implements AoCodeGenerator {
+public class SimpleAoMapper implements AoMapper {
 
-    private static final BaseCodeGenerator baseGenerator = new BaseCodeGenerator();
+    private static final BaseMapper baseGenerator = new BaseMapper();
 
     @Override
     public List<String> generateCode(List<AnalogOutput> analogOutputs, String template) throws TemplateStringException {

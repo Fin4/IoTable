@@ -152,7 +152,7 @@ public final class XlsxIoTable implements IoTableDocument {
             aoThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
-            logger.error("can't parse iotable cause: " + e);
+            logger.error("can't parse iotable: ", e);
         }
 
         return jsonObject;

@@ -14,7 +14,7 @@ public class Config {
 
     static {
         try {
-            props.load(new FileInputStream("resources/IoTable.properties"));
+            props.load(Config.class.getResourceAsStream("IoTable.properties"));
         } catch (Exception e) {
             logger.warn("Properties file not found... Using default properties");
             defaultProperties();

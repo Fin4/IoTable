@@ -1,10 +1,10 @@
 package org.iotable.enterprise.config;
 
-import org.iotable.core.codegenerators.*;
-import org.iotable.core.codegenerators.simple.SimpleAiCodeGenerator;
-import org.iotable.core.codegenerators.simple.SimpleAoCodeGenerator;
-import org.iotable.core.codegenerators.simple.SimpleDiCodeGenerator;
-import org.iotable.core.codegenerators.simple.SimpleDoCodeGenerator;
+import org.iotable.core.mappers.*;
+import org.iotable.core.mappers.simple.SimpleAiMapper;
+import org.iotable.core.mappers.simple.SimpleAoMapper;
+import org.iotable.core.mappers.simple.SimpleDiMapper;
+import org.iotable.core.mappers.simple.SimpleDoMapper;
 import org.iotable.core.normalize.equality.IoTableEqualityChecker;
 import org.iotable.core.normalize.equality.SimpleIoTableEqualityChecker;
 import org.iotable.core.normalize.validation.*;
@@ -47,22 +47,22 @@ public class IoTableConfig {
 
     /** code generators*/
     @Bean
-    public AiCodeGenerator simpleAiCodeGenerator() {
-        return new SimpleAiCodeGenerator();
+    public AiMapper simpleAiMapper() {
+        return new SimpleAiMapper();
     }
 
     @Bean
-    public DiCodeGenerator simpleDiCodeGenerator() {
-        return new SimpleDiCodeGenerator();
+    public DiMapper simpleDiMapper() {
+        return new SimpleDiMapper();
     }
 
     @Bean
-    public AoCodeGenerator simpleAoCodeGenerator() {
-        return new SimpleAoCodeGenerator();
+    public AoMapper simpleAoMapper() {
+        return new SimpleAoMapper();
     }
 
     @Bean
-    public DoCodeGenerator simpleDoCodeGenerator() {
-        return new SimpleDoCodeGenerator();
+    public DoMapper simpleDoMapper() {
+        return new SimpleDoMapper();
     }
 }

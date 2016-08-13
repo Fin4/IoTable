@@ -1,16 +1,16 @@
-package org.iotable.core.codegenerators.simple;
+package org.iotable.core.mappers.simple;
 
-import org.iotable.core.codegenerators.BaseCodeGenerator;
-import org.iotable.core.codegenerators.DoCodeGenerator;
-import org.iotable.core.codegenerators.exceptions.TemplateStringException;
+import org.iotable.core.mappers.BaseMapper;
+import org.iotable.core.mappers.DoMapper;
+import org.iotable.core.mappers.exceptions.TemplateStringException;
 import org.iotable.core.model.ioUnits.DiscreteOutput;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleDoCodeGenerator implements DoCodeGenerator {
+public class SimpleDoMapper implements DoMapper {
 
-    private static final BaseCodeGenerator baseGenerator = new BaseCodeGenerator();
+    private static final BaseMapper baseGenerator = new BaseMapper();
 
     @Override
     public List<String> generateCode(List<DiscreteOutput> discreteOutputs, String template) throws TemplateStringException {

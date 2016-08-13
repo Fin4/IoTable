@@ -1,8 +1,7 @@
-package org.iotable.enterprise.web.controllers.codegenerators;
+package org.iotable.enterprise.web.controllers.mappers;
 
-import org.iotable.core.codegenerators.AiCodeGenerator;
-import org.iotable.core.codegenerators.CodeGenerator;
-import org.iotable.core.codegenerators.exceptions.TemplateStringException;
+import org.iotable.core.mappers.AiMapper;
+import org.iotable.core.mappers.exceptions.TemplateStringException;
 import org.iotable.core.model.IoTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -19,9 +17,9 @@ import java.util.List;
 
 @Controller
 @SessionAttributes("iotable")
-public class AiCodeGeneratorController {
+public class AiMapperController {
 
-    @Autowired private AiCodeGenerator aiCodeGenerator;
+    @Autowired private AiMapper aiMapper;
 
     @RequestMapping(value = "/aiCodeMapper", method = RequestMethod.GET)
     public String provideGenerateCode(@ModelAttribute("iotable") IoTable ioTable, Model model) {
@@ -37,7 +35,7 @@ public class AiCodeGeneratorController {
                                HttpServletResponse response) {
 
         try {
-            List<String> strings = aiCodeGenerator.generateCode(ioTable.getAnalogInputs(), template);
+            List<String> strings = aiMapper.generateCode(ioTable.getAnalogInputs(), template);
 
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment; filename=\"" + "aiCode.txt" + "\"");
