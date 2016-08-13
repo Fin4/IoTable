@@ -1,6 +1,12 @@
 package org.iotable.core.mechanisms.mappers;
 
+import org.iotable.core.model.ioUnits.DiscreteInput;
+import org.iotable.core.model.ioUnits.DiscreteOutput;
+import org.iotable.core.model.ioUnits.IoUnit;
 import org.iotable.core.model.mechanisms.Mechanism;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class SimpleDgMapper implements MechanismMapper {
@@ -8,23 +14,33 @@ public class SimpleDgMapper implements MechanismMapper {
     @Override
     public String map(String template, Mechanism mechanism) {
 
-        String result = template.replaceAll("%symbol%", mechanism.getSymbol().replaceAll(".+-", "").replaceAll("\\.", "_"));
-
-        String result1 = mechanism.getDiscreteInputs()
+        List<IoUnit> diUnits = mechanism.getDiscreteInputs()
                 .stream()
-                .filter(discreteInput -> discreteInput.getIoUnit().symbol.matches(".+\\.1"))
-                .findFirst()
-                .map(di -> result.replaceAll("%opened%", di.getIoUnit().symbol.replaceAll(".+-", "").replaceAll("\\.", "_")))
-                .orElse(result.replaceAll("%opened%", "NULL"));
-
-
-        String result2 = mechanism.getDiscreteInputs()
+                .map(DiscreteInput::getIoUnit).collect(Collectors.toList());
+        List<IoUnit> doUnits = mechanism.getDiscreteOutputs()
                 .stream()
-                .filter(discreteInput -> discreteInput.getIoUnit().symbol.matches(".+\\.2"))
-                .findFirst()
-                .map(di -> result1.replaceAll("%closed%", di.getIoUnit().symbol.replaceAll(".+-", "").replaceAll("\\.", "_")))
-                .orElse(result1.replaceAll("%closed%", "NULL"));
+                .map(DiscreteOutput::getIoUnit).collect(Collectors.toList());
 
-        return result2;
+        String opened = getSymbol(".+\\.1", diUnits);
+        String closed = getSymbol(".+\\.2", diUnits);
+        String open = getSymbol(".+\\.Y1", doUnits);
+        String close = getSymbol(".+\\.Y2", doUnits);
+
+        return template
+                .replaceAll("%symbol%", mechanism.getSymbol().replaceAll(".+-", "").replaceAll("\\.", "_"))
+                .replaceAll("%opened%", opened)
+                .replaceAll("%closed%", closed)
+                .replaceAll("%open%", open)
+                .replaceAll("%close%", close);
+    }
+
+    private String getSymbol(String regex, List<IoUnit> ioUnits) {
+
+        return ioUnits
+                .stream()
+                .filter(ioUnit -> ioUnit.symbol.matches(regex))
+                .findFirst()
+                .map(ioUnit -> ioUnit.symbol.replaceAll(".+-", "").replaceAll("\\.", "_"))
+                .orElse("NULL");
     }
 }
