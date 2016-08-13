@@ -35,20 +35,33 @@ public class Config {
         props.setProperty("sheet.do" , "DO");
         props.setProperty("sheet.ao" , "AO");
 
-        //code properties
-        props.setProperty("number", "%number%");
-        props.setProperty("address", "%address%");
-        props.setProperty("symbol", "%symbol%");
-        props.setProperty("description", "%description%");
-        props.setProperty("engUnits", "%engUnits%");
+        //unit properties
+        props.setProperty("unit.map.number", "%num%");
+        props.setProperty("unit.map.address", "%addr%");
+        props.setProperty("unit.map.symbol", "%symbol%");
+        props.setProperty("unit.map.desc", "%desc%");
+        props.setProperty("unit.map.engUnits", "%eu%");
 
         // mechanisms properties
+        props.setProperty("DG", "Z,KZ,C");
+        props.setProperty("M", "M");
+        props.setProperty("Ef", "Ef");
+        props.setProperty("K", "K");
+
 
         //dg properties
+        props.setProperty("dg.map.symbol", "%symbol%");
+        props.setProperty("dg.map.desc", "%desc%");
+        props.setProperty("dg.map.opened", "%opened%");
+        props.setProperty("dg.map.closed", "%closed%");
+        props.setProperty("dg.map.open", "%open%");
+        props.setProperty("dg.map.close", "%close%");
+
         props.setProperty("dg.openedSymbol", ".+\\.1");
         props.setProperty("dg.closedSymbol", ".+\\.2");
         props.setProperty("dg.openSymbol", ".+\\.Y1");
         props.setProperty("dg.closeSymbol", ".+\\.Y2");
+        props.setProperty("dg.nullUnit", "NULL");
 
     }
 }
