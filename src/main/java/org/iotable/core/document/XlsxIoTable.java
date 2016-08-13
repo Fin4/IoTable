@@ -9,10 +9,10 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.iotable.core.Config;
 import org.iotable.core.document.exceptions.WrongSheetFormatException;
 
 import java.util.ArrayList;
-import java.util.Properties;
 
 
 /** An implementation of #IoTableDocument interface
@@ -25,8 +25,6 @@ import java.util.Properties;
 public final class XlsxIoTable implements IoTableDocument {
 
     private final Workbook workbook;
-
-    private Properties props;
 
     private static final Logger logger = Logger.getLogger(XlsxIoTable.class);
 
@@ -95,15 +93,10 @@ public final class XlsxIoTable implements IoTableDocument {
 
     private JsonObject parseIoTable(final Workbook workbook) {
 
-        if (props == null) {
-            logger.info("Properties not found. Loading default properties...");
-            defaultProps();
-        }
-
-        Sheet diSheet = workbook.getSheet(props.getProperty("diSheetName"));
-        Sheet aiSheet = workbook.getSheet(props.getProperty("aiSheetName"));
-        Sheet doSheet = workbook.getSheet(props.getProperty("doSheetName"));
-        Sheet aoSheet = workbook.getSheet(props.getProperty("aoSheetName"));
+        Sheet diSheet = workbook.getSheet(Config.getProperty("sheet.di"));
+        Sheet aiSheet = workbook.getSheet(Config.getProperty("sheet.ai"));
+        Sheet doSheet = workbook.getSheet(Config.getProperty("sheet.do"));
+        Sheet aoSheet = workbook.getSheet(Config.getProperty("sheet.ao"));
 
         JsonObject jsonObject = new JsonObject();
 
@@ -148,13 +141,9 @@ public final class XlsxIoTable implements IoTableDocument {
         aoThread.setName("aoSheet-parsing");
 
         diThread.start();
-        //diThread.setDaemon(true);
         aiThread.start();
-        //aiThread.setDaemon(true);
         doThread.start();
-        //doThread.setDaemon(true);
         aoThread.start();
-        //aoThread.setDaemon(true);
 
         try {
             diThread.join();
@@ -167,17 +156,6 @@ public final class XlsxIoTable implements IoTableDocument {
         }
 
         return jsonObject;
-    }
-
-    private void defaultProps() {
-
-        props = new Properties();
-
-        props.setProperty("diSheetName" , "DI");
-        props.setProperty("aiSheetName" , "AI");
-        props.setProperty("doSheetName" , "DO");
-        props.setProperty("aoSheetName" , "AO");
-
     }
 
     public String info() {

@@ -2,10 +2,9 @@ package org.iotable.core.normalize.equality;
 
 
 import org.iotable.core.model.IoTable;
-import org.iotable.core.model.ioUnits.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 public class SimpleIoTableEqualityChecker implements IoTableEqualityChecker {
 

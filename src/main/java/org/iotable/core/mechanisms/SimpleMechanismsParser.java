@@ -7,7 +7,7 @@ import org.iotable.core.model.mechanisms.Mechanism;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class SimpleMechanismsParser implements MechanismsParser {
+public final class SimpleMechanismsParser implements MechanismsParser {
 
     @Override
     public List<Mechanism> getBySymbol(IoTable ioTable) {

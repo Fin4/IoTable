@@ -1,6 +1,7 @@
 package org.iotable.enterprise.web.controllers;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.iotable.core.document.IoTableDocument;
 import org.iotable.core.document.XlsxIoTable;
 import org.iotable.core.model.IoTable;
 import org.iotable.enterprise.service.IoTableService;
@@ -49,23 +50,9 @@ public class UploadController {
 
         httpSession.removeAttribute("iotable");
 
-/*        if (name.contains("/")) {
-            redirectAttributes.addFlashAttribute("message", "Folder separators not allowed");
-            return "redirect:/upload";
-        }
-        if (name.startsWith("/")) {
-            redirectAttributes.addFlashAttribute("message", "Relative pathnames not allowed");
-            return "redirect:/upload";
-        }*/
-
         if (!file.isEmpty()) {
             try {
-/*                BufferedOutputStream stream = new BufferedOutputStream(
-                        new FileOutputStream(new File(org.iotable.enterprise.config.AppConfig.IOTABLES_DIRECTORY + "/" + name)));
-                FileCopyUtils.copy(file.getInputStream(), stream);
-                stream.close();*/
-
-                XlsxIoTable xlsxIoTable = new XlsxIoTable(new XSSFWorkbook(file.getInputStream()));
+                IoTableDocument xlsxIoTable = new XlsxIoTable(new XSSFWorkbook(file.getInputStream()));
 
                 IoTable ioTable = ioTableService.validate(ioTableService.getFromWorkbook(xlsxIoTable));
 

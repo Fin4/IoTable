@@ -17,14 +17,13 @@ public final class BaseIoUnitValidator {
                     .trim();
 
         String symbol;
-        if ((ioUnit.symbol == null) || ioUnit.symbol.isEmpty()) {
-            symbol =  "res";
-        } else symbol = replaceCyrillic(ioUnit.symbol.trim());
+        if ((ioUnit.symbol == null) || ioUnit.symbol.isEmpty()) symbol = "res";
+        else symbol = replaceCyrillic(ioUnit.symbol.trim());
 
         return new IoUnit(symbol, desc, address, ioUnit.number);
     }
 
-    String replaceCyrillic(String str) {
+    private String replaceCyrillic(String str) {
 
         char[] chars = str.toCharArray();
 

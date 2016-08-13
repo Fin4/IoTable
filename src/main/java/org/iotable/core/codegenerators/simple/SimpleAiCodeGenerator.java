@@ -1,6 +1,7 @@
 package org.iotable.core.codegenerators.simple;
 
 
+import org.iotable.core.Config;
 import org.iotable.core.codegenerators.AiCodeGenerator;
 import org.iotable.core.codegenerators.BaseCodeGenerator;
 import org.iotable.core.codegenerators.exceptions.TemplateStringException;
@@ -19,7 +20,7 @@ public class SimpleAiCodeGenerator implements AiCodeGenerator {
 
         for (AnalogInput ai : analogInputs) {
             String base = baseGenerator.generateCode(ai.getIoUnit(), template)
-                    .replaceAll(baseGenerator.props.getProperty("engUnits"), ai.getEngUnits());
+                    .replaceAll(Config.getProperty("unit.map.engUnits"), ai.getEngUnits());
             strings.add(base);
         }
 
