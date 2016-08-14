@@ -3,6 +3,7 @@ package org.iotable.core;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 import org.apache.log4j.Logger;
 
@@ -12,9 +13,9 @@ public class Config {
 
     private static Properties props = new Properties();
 
-    public static void loadProperties() {
-        try {
-            props.load(Config.class.getClassLoader().getResourceAsStream("iotable.properties"));
+    static {
+        try(InputStream is = Config.class.getClassLoader().getResourceAsStream("iotable.properties")) {
+            props.load(is);
             logger.info("Properties file successfully loaded");
         } catch (FileNotFoundException e) {
             logger.warn("Properties file not found... Using default properties", e);
