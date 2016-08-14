@@ -1,8 +1,8 @@
 package org.iotable.core;
 
 
-import java.io.FileInputStream;
-
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Properties;
 import org.apache.log4j.Logger;
 
@@ -10,13 +10,17 @@ public class Config {
 
     private static final Logger logger = Logger.getLogger(Config.class);
 
-    private static Properties props;
+    private static Properties props = new Properties();
 
-    static {
+    public static void loadProperties() {
         try {
-            props.load(Config.class.getResourceAsStream("IoTable.properties"));
-        } catch (Exception e) {
-            logger.warn("Properties file not found... Using default properties");
+            props.load(Config.class.getClassLoader().getResourceAsStream("iotable.properties"));
+            logger.info("Properties file successfully loaded");
+        } catch (FileNotFoundException e) {
+            logger.warn("Properties file not found... Using default properties", e);
+            defaultProperties();
+        } catch (IOException e) {
+            logger.warn("Can't read properties file... Using default properties", e);
             defaultProperties();
         }
     }
@@ -26,8 +30,6 @@ public class Config {
     }
 
     private static void defaultProperties() {
-
-        props = new Properties();
 
         // workbook properties
         props.setProperty("sheet.di" , "DI");
