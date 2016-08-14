@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.iotable.core.Config;
 import org.iotable.core.mappers.exceptions.TemplateStringException;
 import org.iotable.core.mappers.simple.SimpleAiMapper;
 import org.iotable.core.mechanisms.mappers.MechanismMapper;
@@ -32,6 +33,8 @@ import java.util.List;
 public class ConsoleLauncher {
 
     public static void main(String[] args) throws IOException, InvalidFormatException, TemplateStringException {
+
+        //Config.loadProperties();
 
         FileInputStream inputStream = new FileInputStream("D:\\ioTables\\jOrjIoTable.xlsx");
 
