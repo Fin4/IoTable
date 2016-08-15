@@ -14,7 +14,7 @@ public class Config {
     private static Properties props = new Properties();
 
     static {
-        try(InputStream is = Config.class.getClassLoader().getResourceAsStream("iotable.properties")) {
+/*        try(InputStream is = Config.class.getClassLoader().getResourceAsStream("iotable.properties")) {
             props.load(is);
             logger.info("Properties file successfully loaded");
         } catch (FileNotFoundException e) {
@@ -23,7 +23,8 @@ public class Config {
         } catch (IOException e) {
             logger.warn("Can't read properties file... Using default properties", e);
             defaultProperties();
-        }
+        }*/
+        defaultProperties();
     }
 
     public static String getProperty(String key) {
