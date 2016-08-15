@@ -1,5 +1,6 @@
 package org.iotable.core.normalize.validation.simple;
 
+import org.iotable.core.Config;
 import org.iotable.core.model.ioUnits.AnalogInput;
 import org.iotable.core.model.ioUnits.IoUnit;
 import org.iotable.core.normalize.validation.AiValidator;
@@ -9,9 +10,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public final class SimpleAiValidator implements AiValidator {
+public final class SimpleAiValidator extends BaseIoUnitValidator implements AiValidator {
 
-    private static final BaseIoUnitValidator baseValidator = new BaseIoUnitValidator();
+    //private static final BaseIoUnitValidator baseValidator = new BaseIoUnitValidator();
 
     private AiValidator validator;
 
@@ -28,13 +29,13 @@ public final class SimpleAiValidator implements AiValidator {
 
         for (AnalogInput analogInput : analogInputs) {
 
-            IoUnit ioUnit = baseValidator.validate(analogInput.getIoUnit());
+            IoUnit ioUnit = validate(analogInput.getIoUnit());
 
             String engUnits = analogInput.getEngUnits();
 
             String symbol;
 
-            if (ioUnit.symbol.equals("res")) symbol = "aiRes" + ioUnit.number;
+            if (ioUnit.symbol.equals("res")) symbol = Config.getProperty("ai.res") + ioUnit.number;
             else symbol = ioUnit.symbol;
 
             if (engUnits == null || engUnits.trim().isEmpty()) engUnits = "";
