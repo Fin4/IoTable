@@ -4,13 +4,13 @@ package org.iotable.core.normalize.validation.simple;
 import org.iotable.core.Config;
 import org.iotable.core.model.ioUnits.DiscreteInput;
 import org.iotable.core.model.ioUnits.IoUnit;
+import org.iotable.core.normalize.validation.BaseValidator;
 import org.iotable.core.normalize.validation.DiValidator;
-import org.iotable.core.normalize.validation.BaseIoUnitValidator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class SimpleDiValidator extends BaseIoUnitValidator implements DiValidator {
+public final class SimpleDiValidator extends BaseValidator implements DiValidator {
 
     @Override
     public List<DiscreteInput> validate(List<DiscreteInput> discreteInputs) {

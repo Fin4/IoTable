@@ -4,12 +4,12 @@ import org.iotable.core.Config;
 import org.iotable.core.model.ioUnits.DiscreteOutput;
 import org.iotable.core.model.ioUnits.IoUnit;
 import org.iotable.core.normalize.validation.DoValidator;
-import org.iotable.core.normalize.validation.BaseIoUnitValidator;
+import org.iotable.core.normalize.validation.BaseValidator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class SimpleDoValidator extends BaseIoUnitValidator implements DoValidator {
+public final class SimpleDoValidator extends BaseValidator implements DoValidator {
 
     @Override
     public List<DiscreteOutput> validate(List<DiscreteOutput> discreteOutputs) {

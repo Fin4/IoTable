@@ -5,12 +5,12 @@ import org.iotable.core.Config;
 import org.iotable.core.model.ioUnits.AnalogOutput;
 import org.iotable.core.model.ioUnits.IoUnit;
 import org.iotable.core.normalize.validation.AoValidator;
-import org.iotable.core.normalize.validation.BaseIoUnitValidator;
+import org.iotable.core.normalize.validation.BaseValidator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class SimpleAoValidator extends BaseIoUnitValidator implements AoValidator {
+public final class SimpleAoValidator extends BaseValidator implements AoValidator {
 
     @Override
     public List<AnalogOutput> validate(List<AnalogOutput> analogOutputs) {

@@ -4,15 +4,13 @@ import org.iotable.core.Config;
 import org.iotable.core.model.ioUnits.AnalogInput;
 import org.iotable.core.model.ioUnits.IoUnit;
 import org.iotable.core.normalize.validation.AiValidator;
-import org.iotable.core.normalize.validation.BaseIoUnitValidator;
+import org.iotable.core.normalize.validation.BaseValidator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public final class SimpleAiValidator extends BaseIoUnitValidator implements AiValidator {
-
-    //private static final BaseIoUnitValidator baseValidator = new BaseIoUnitValidator();
+public final class SimpleAiValidator extends BaseValidator implements AiValidator {
 
     private AiValidator validator;
 
