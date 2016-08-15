@@ -8,7 +8,7 @@ import org.iotable.core.model.ioUnits.DiscreteOutput;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleDoMapper extends BaseMapper implements DoMapper {
+public final class SimpleDoMapper extends BaseMapper implements DoMapper {
 
     @Override
     public List<String> generateCode(List<DiscreteOutput> discreteOutputs, String template) throws TemplateStringException {

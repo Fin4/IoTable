@@ -8,7 +8,7 @@ import org.iotable.core.model.ioUnits.DiscreteInput;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleDiMapper extends BaseMapper implements DiMapper {
+public final class SimpleDiMapper extends BaseMapper implements DiMapper {
 
     @Override
     public List<String> generateCode(List<DiscreteInput> discreteInputs, String template) throws TemplateStringException {

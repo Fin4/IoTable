@@ -9,7 +9,7 @@ import org.iotable.core.model.ioUnits.AnalogOutput;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleAoMapper extends BaseMapper implements AoMapper {
+public final class SimpleAoMapper extends BaseMapper implements AoMapper {
 
     @Override
     public List<String> generateCode(List<AnalogOutput> analogOutputs, String template) throws TemplateStringException {

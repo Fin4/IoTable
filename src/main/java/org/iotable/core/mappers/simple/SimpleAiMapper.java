@@ -10,7 +10,7 @@ import org.iotable.core.model.ioUnits.AnalogInput;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleAiMapper extends BaseMapper implements AiMapper {
+public final class SimpleAiMapper extends BaseMapper implements AiMapper {
 
     @Override
     public List<String> generateCode(List<AnalogInput> analogInputs, String template) throws TemplateStringException {
