@@ -3,7 +3,7 @@ package org.iotable.core.normalize.validation;
 
 import org.iotable.core.model.ioUnits.IoUnit;
 
-public abstract class BaseIoUnitValidator {
+public abstract class BaseValidator {
 
     private static final char cyrillicChars[] = {'А', 'В', 'Е', 'К', 'М', 'Н', 'О', 'Р', 'С', 'Т', 'Х', 'І', 'У'};
     private static final char latinChars[] = {'A', 'B', 'E', 'K', 'M', 'H', 'O', 'P', 'C', 'T', 'X', 'I', 'Y'};
