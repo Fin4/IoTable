@@ -8,9 +8,7 @@ import org.iotable.core.model.ioUnits.DiscreteInput;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleDiMapper implements DiMapper {
-
-    private static final BaseMapper baseGenerator = new BaseMapper();
+public class SimpleDiMapper extends BaseMapper implements DiMapper {
 
     @Override
     public List<String> generateCode(List<DiscreteInput> discreteInputs, String template) throws TemplateStringException {
@@ -18,7 +16,7 @@ public class SimpleDiMapper implements DiMapper {
         List<String> strings = new ArrayList<>();
 
         for (DiscreteInput di : discreteInputs) {
-            String base = baseGenerator.generateCode(di.getIoUnit(), template);
+            String base = generateCode(di.getIoUnit(), template);
             strings.add(base);
         }
 

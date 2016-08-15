@@ -9,9 +9,7 @@ import org.iotable.core.model.ioUnits.AnalogOutput;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleAoMapper implements AoMapper {
-
-    private static final BaseMapper baseGenerator = new BaseMapper();
+public class SimpleAoMapper extends BaseMapper implements AoMapper {
 
     @Override
     public List<String> generateCode(List<AnalogOutput> analogOutputs, String template) throws TemplateStringException {
@@ -19,7 +17,7 @@ public class SimpleAoMapper implements AoMapper {
         List<String> strings = new ArrayList<>();
 
         for (AnalogOutput ao : analogOutputs) {
-            String base = baseGenerator.generateCode(ao.getIoUnit(), template);
+            String base = generateCode(ao.getIoUnit(), template);
             strings.add(base);
         }
 

@@ -8,9 +8,7 @@ import org.iotable.core.model.ioUnits.DiscreteOutput;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleDoMapper implements DoMapper {
-
-    private static final BaseMapper baseGenerator = new BaseMapper();
+public class SimpleDoMapper extends BaseMapper implements DoMapper {
 
     @Override
     public List<String> generateCode(List<DiscreteOutput> discreteOutputs, String template) throws TemplateStringException {
@@ -18,7 +16,7 @@ public class SimpleDoMapper implements DoMapper {
         List<String> strings = new ArrayList<>();
 
         for (DiscreteOutput discreteOutput : discreteOutputs) {
-            String base = baseGenerator.generateCode(discreteOutput.getIoUnit(), template);
+            String base = generateCode(discreteOutput.getIoUnit(), template);
             strings.add(base);
         }
 
