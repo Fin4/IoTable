@@ -38,6 +38,15 @@ public class Config {
         props.setProperty("sheet.do" , "DO");
         props.setProperty("sheet.ao" , "AO");
 
+        // di
+        props.setProperty("di.res", "diRes");
+        // ai
+        props.setProperty("ai.res", "aiRes");
+        // do
+        props.setProperty("do.res", "doRes");
+        // ao
+        props.setProperty("ao.res", "aoRes");
+
         //unit properties
         props.setProperty("unit.map.number", "%num%");
         props.setProperty("unit.map.address", "%addr%");
