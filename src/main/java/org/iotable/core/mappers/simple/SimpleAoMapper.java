@@ -8,19 +8,15 @@ import org.iotable.core.model.ioUnits.AnalogOutput;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class SimpleAoMapper extends BaseMapper implements AoMapper {
 
     @Override
     public List<String> generateCode(List<AnalogOutput> analogOutputs, String template) throws TemplateStringException {
 
-        List<String> strings = new ArrayList<>();
-
-        for (AnalogOutput ao : analogOutputs) {
-            String base = generateCode(ao.getIoUnit(), template);
-            strings.add(base);
-        }
-
-        return strings;
+        return analogOutputs.stream()
+                .map(analogOutput -> generateCode(analogOutput.getIoUnit(), template))
+                .collect(Collectors.toList());
     }
 }

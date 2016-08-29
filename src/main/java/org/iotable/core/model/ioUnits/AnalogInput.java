@@ -43,6 +43,6 @@ public final class AnalogInput {
 
     @Override
     public int hashCode() {
-        return ioUnit.hashCode();
+        return ioUnit.hashCode() + "AI".hashCode();
     }
 }

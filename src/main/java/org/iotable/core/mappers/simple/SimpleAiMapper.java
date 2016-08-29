@@ -7,21 +7,17 @@ import org.iotable.core.mappers.BaseMapper;
 import org.iotable.core.mappers.exceptions.TemplateStringException;
 import org.iotable.core.model.ioUnits.AnalogInput;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class SimpleAiMapper extends BaseMapper implements AiMapper {
 
     @Override
     public List<String> generateCode(List<AnalogInput> analogInputs, String template) throws TemplateStringException {
-        List<String> strings = new ArrayList<>();
 
-        for (AnalogInput ai : analogInputs) {
-            String base = generateCode(ai.getIoUnit(), template)
-                    .replaceAll(Config.getProperty("unit.map.engUnits"), ai.getEngUnits());
-            strings.add(base);
-        }
-
-        return strings;
+        return analogInputs.stream()
+                .map(analogInput -> generateCode(analogInput.getIoUnit(), template)
+                        .replaceAll(Config.getProperty("unit.map.engUnits"), analogInput.getEngUnits()))
+                .collect(Collectors.toList());
     }
 }

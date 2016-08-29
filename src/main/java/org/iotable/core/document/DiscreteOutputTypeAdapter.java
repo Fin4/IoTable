@@ -1,15 +1,13 @@
-package org.iotable.core.model.ioUnits.typeadapters;
+package org.iotable.core.document;
 
 import com.google.gson.*;
-import org.iotable.core.model.ioUnits.AnalogOutput;
 import org.iotable.core.model.ioUnits.DiscreteOutput;
 import org.iotable.core.model.ioUnits.IoUnit;
 
 import java.lang.reflect.Type;
 
 
-
-public class DiscreteOutputTypeAdapter implements JsonDeserializer<DiscreteOutput> {
+final class DiscreteOutputTypeAdapter implements JsonDeserializer<DiscreteOutput> {
     @Override
     public DiscreteOutput deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 

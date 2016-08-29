@@ -4,21 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.iotable.core.Config;
+import org.iotable.core.document.IoTableDocument;
 import org.iotable.core.mappers.exceptions.TemplateStringException;
 import org.iotable.core.mappers.simple.SimpleAiMapper;
 import org.iotable.core.mechanisms.mappers.MechanismMapper;
 import org.iotable.core.mechanisms.mappers.SimpleDgMapper;
 import org.iotable.core.mechanisms.SimpleMechanismsParser;
 import org.iotable.core.model.IoTable;
-import org.iotable.core.model.ioUnits.AnalogInput;
-import org.iotable.core.model.ioUnits.AnalogOutput;
-import org.iotable.core.model.ioUnits.DiscreteInput;
-import org.iotable.core.model.ioUnits.DiscreteOutput;
-import org.iotable.core.model.ioUnits.typeadapters.AnalogInputTypeAdapter;
-import org.iotable.core.model.ioUnits.typeadapters.AnalogOutputTypeAdapter;
-import org.iotable.core.model.ioUnits.typeadapters.DiscreteInputTypeAdapter;
-import org.iotable.core.model.ioUnits.typeadapters.DiscreteOutputTypeAdapter;
 import org.iotable.core.model.mechanisms.Mechanism;
 import org.iotable.core.normalize.validation.simple.SimpleAiValidator;
 import org.iotable.core.normalize.validation.simple.SimpleAoValidator;
@@ -34,25 +26,13 @@ public class ConsoleLauncher {
 
     public static void main(String[] args) throws IOException, InvalidFormatException, TemplateStringException {
 
-        //Config.loadProperties();
-
-        FileInputStream inputStream = new FileInputStream("D:\\ioTables\\jOrjIoTable.xlsx");
+        FileInputStream inputStream = new FileInputStream("E:\\Оржица\\orjIoTable29_06_2016.xlsx");
 
         XSSFWorkbook xssfWorkbook = new XSSFWorkbook(inputStream);
 
-        XlsxIoTable xlsxIoTable = new XlsxIoTable(xssfWorkbook);
+        IoTableDocument xlsxIoTable = new XlsxIoTable(xssfWorkbook);
 
-        String json = xlsxIoTable.getAsJsonString();
-
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(AnalogInput.class, new AnalogInputTypeAdapter())
-                .registerTypeAdapter(DiscreteInput.class, new DiscreteInputTypeAdapter())
-                .registerTypeAdapter(AnalogOutput.class, new AnalogOutputTypeAdapter())
-                .registerTypeAdapter(DiscreteOutput.class, new DiscreteOutputTypeAdapter())
-                .setPrettyPrinting()
-                .create();
-
-        IoTable ioTable = gson.fromJson(json, IoTable.class);
+        IoTable ioTable = xlsxIoTable.getAsIoTable();
 
         //System.out.println(gson.toJson(ioTable));
 
@@ -62,7 +42,7 @@ public class ConsoleLauncher {
                 new SimpleAoValidator().validate(ioTable.getAnalogOutputs()),
                 new SimpleDoValidator().validate(ioTable.getDiscreteOutputs()));
 
-        System.out.println(gson.toJson(validTable));
+        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(validTable));
 
         String template = "%desc% - %eu% - %symbol% - %num% - %addr%;";
         new SimpleAiMapper().generateCode(validTable.getAnalogInputs(), template).forEach(System.out::println);
@@ -81,6 +61,5 @@ public class ConsoleLauncher {
                         "do.%close%.i_val := %symbol%.q_close;\n", valve)));
 
         System.out.println(mGson.toJson(valves));
-
     }
 }

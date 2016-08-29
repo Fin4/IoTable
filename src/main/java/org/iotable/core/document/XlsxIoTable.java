@@ -1,9 +1,7 @@
 package org.iotable.core.document;
 
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonNull;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -11,6 +9,11 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.iotable.core.Config;
 import org.iotable.core.document.exceptions.WrongSheetFormatException;
+import org.iotable.core.model.IoTable;
+import org.iotable.core.model.ioUnits.AnalogInput;
+import org.iotable.core.model.ioUnits.AnalogOutput;
+import org.iotable.core.model.ioUnits.DiscreteInput;
+import org.iotable.core.model.ioUnits.DiscreteOutput;
 
 import java.util.ArrayList;
 
@@ -156,6 +159,21 @@ public final class XlsxIoTable implements IoTableDocument {
         }
 
         return jsonObject;
+    }
+
+    @Override
+    public IoTable getAsIoTable() {
+
+        String json = getAsJsonString();
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(AnalogInput.class, new AnalogInputTypeAdapter())
+                .registerTypeAdapter(DiscreteInput.class, new DiscreteInputTypeAdapter())
+                .registerTypeAdapter(AnalogOutput.class, new AnalogOutputTypeAdapter())
+                .registerTypeAdapter(DiscreteOutput.class, new DiscreteOutputTypeAdapter())
+                .create();
+
+        return gson.fromJson(json, IoTable.class);
     }
 
     public String info() {

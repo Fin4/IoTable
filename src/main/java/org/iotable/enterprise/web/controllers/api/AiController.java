@@ -29,7 +29,7 @@ public class AiController {
 
         List<String> strings;
         try {
-            strings = aiMapper.generateCode(aiMapWrapper.getAnalogInputs(), aiMapWrapper.getTemplate());
+            strings = aiMapper.generateCode(aiMapWrapper.analogInputs, aiMapWrapper.template);
         } catch (TemplateStringException e) {
             strings = new ArrayList<>();
         }

@@ -6,9 +6,7 @@ import org.iotable.core.mappers.exceptions.TemplateStringException;
 
 public abstract class BaseMapper {
 
-    public String generateCode(IoUnit ioUnit, String template) throws TemplateStringException {
-
-        //if (!props.values().stream().anyMatch(o -> template.contains(o.toString()))) throw new TemplateStringException();
+    public String generateCode(IoUnit ioUnit, String template) {
 
         return  template
                     .replace(Config.getProperty("unit.map.desc"), ioUnit.description)

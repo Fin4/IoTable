@@ -21,7 +21,7 @@ import java.util.List;
 public class AoMapperController {
 
     @Autowired
-    private AoMapper aoaoMapper;
+    private AoMapper aoMapper;
 
     @RequestMapping(value = "/aoCodeMapper", method = RequestMethod.GET)
     public String provideGenerateAoCode(@ModelAttribute("iotable") IoTable ioTable, Model model) {
@@ -35,7 +35,7 @@ public class AoMapperController {
                              HttpServletResponse response) {
 
         try {
-            List<String> strings = aoaoMapper.generateCode(ioTable.getAnalogOutputs(), template);
+            List<String> strings = aoMapper.generateCode(ioTable.getAnalogOutputs(), template);
 
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment; filename=\""
