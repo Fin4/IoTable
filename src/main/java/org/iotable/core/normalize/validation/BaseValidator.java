@@ -5,7 +5,8 @@ import org.iotable.core.model.ioUnits.IoUnit;
 
 public abstract class BaseValidator {
 
-    private static final char cyrillicChars[] = {'А', 'В', 'Е', 'К', 'М', 'Н', 'О', 'Р', 'С', 'Т', 'Х', 'І', 'У'};
+    private static final char cyrillicChars[] = {'\u0410', '\u0412', '\u0415', '\u041a', '\u041c', '\u041d', '\u041e',
+            '\u0420', '\u0421', '\u0422', '\u0425', '\u0406', '\u0423'};
     private static final char latinChars[] = {'A', 'B', 'E', 'K', 'M', 'H', 'O', 'P', 'C', 'T', 'X', 'I', 'Y'};
 
     public IoUnit validate(final IoUnit ioUnit) {
