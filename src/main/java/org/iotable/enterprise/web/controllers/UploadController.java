@@ -5,6 +5,7 @@ import org.iotable.core.document.IoTableDocument;
 import org.iotable.core.document.XlsxIoTable;
 import org.iotable.core.model.IoTable;
 import org.iotable.enterprise.service.IoTableService;
+import org.iotable.enterprise.session.IoTableSessionBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,8 @@ import javax.servlet.http.HttpSession;
 public class UploadController {
 
     @Autowired private IoTableService ioTableService;
+
+    @Autowired private IoTableSessionBean ioTable;
 
     @RequestMapping(method = RequestMethod.GET, value = "/upload")
     public String provideUploadInfo(Model model, SessionStatus sessionStatus) {
@@ -54,9 +57,9 @@ public class UploadController {
             try {
                 IoTableDocument xlsxIoTable = new XlsxIoTable(new XSSFWorkbook(file.getInputStream()));
 
-                IoTable ioTable = ioTableService.validate(ioTableService.getFromWorkbook(xlsxIoTable));
+                ioTable.setIoTable(ioTableService.validate(ioTableService.getFromWorkbook(xlsxIoTable)));
 
-                httpSession.setAttribute("iotable", ioTable);
+                //httpSession.setAttribute("iotable", ioTable);
             }
             catch (Exception e) {
                 redirectAttributes.addFlashAttribute("message",

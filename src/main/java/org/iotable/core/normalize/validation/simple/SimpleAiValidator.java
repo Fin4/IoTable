@@ -23,7 +23,7 @@ public final class SimpleAiValidator extends BaseValidator implements AiValidato
 
     public List<AnalogInput> validate(List<AnalogInput> analogInputs) {
 
-        List<AnalogInput> validAis = new ArrayList<>();
+        List<AnalogInput> validAis = new ArrayList<>(analogInputs.size());
 
         for (AnalogInput analogInput : analogInputs) {
 

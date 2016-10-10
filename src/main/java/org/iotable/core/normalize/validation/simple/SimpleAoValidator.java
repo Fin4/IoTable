@@ -15,7 +15,7 @@ public final class SimpleAoValidator extends BaseValidator implements AoValidato
     @Override
     public List<AnalogOutput> validate(List<AnalogOutput> analogOutputs) {
 
-        List<AnalogOutput> validAos = new ArrayList<>();
+        List<AnalogOutput> validAos = new ArrayList<>(analogOutputs.size());
 
         for (AnalogOutput ao : analogOutputs) {
 

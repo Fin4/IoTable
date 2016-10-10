@@ -14,7 +14,7 @@ public final class SimpleDoValidator extends BaseValidator implements DoValidato
     @Override
     public List<DiscreteOutput> validate(List<DiscreteOutput> discreteOutputs) {
 
-        List<DiscreteOutput> validDos = new ArrayList<>();
+        List<DiscreteOutput> validDos = new ArrayList<>(discreteOutputs.size());
 
         for (DiscreteOutput discreteOutput : discreteOutputs) {
 

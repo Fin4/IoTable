@@ -15,7 +15,7 @@ public final class SimpleDiValidator extends BaseValidator implements DiValidato
     @Override
     public List<DiscreteInput> validate(List<DiscreteInput> discreteInputs) {
 
-        List<DiscreteInput> validDis = new ArrayList<>();
+        List<DiscreteInput> validDis = new ArrayList<>(discreteInputs.size());
 
         for (DiscreteInput di : discreteInputs) {
 

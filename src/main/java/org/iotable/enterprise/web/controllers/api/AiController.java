@@ -4,6 +4,7 @@ import org.iotable.core.mappers.AiMapper;
 import org.iotable.core.mappers.exceptions.TemplateStringException;
 import org.iotable.core.model.IoTable;
 import org.iotable.core.model.ioUnits.AnalogInput;
+import org.iotable.enterprise.session.IoTableSessionBean;
 import org.iotable.enterprise.web.controllers.api.requestWrappers.AiMapWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,15 +14,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api")
-@SessionAttributes("iotable")
 public class AiController {
 
-    @Autowired
-    private AiMapper aiMapper;
+    @Autowired private IoTableSessionBean ioTable;
+
+    @Autowired private AiMapper aiMapper;
 
     @RequestMapping(value = "/aiTable", method = RequestMethod.GET)
-    public List<AnalogInput> getAnalogInputs(@ModelAttribute("iotable") IoTable ioTable) {
-        return ioTable.getAnalogInputs();
+    public List<AnalogInput> getAnalogInputs() {
+        return ioTable.getIoTable().getAnalogInputs();
     }
 
     @RequestMapping(value = "/aiTable/mapper", method = RequestMethod.POST)

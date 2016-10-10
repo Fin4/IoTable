@@ -3,6 +3,7 @@ package org.iotable.enterprise.web.controllers.mappers;
 import org.iotable.core.mappers.AiMapper;
 import org.iotable.core.mappers.exceptions.TemplateStringException;
 import org.iotable.core.model.IoTable;
+import org.iotable.enterprise.session.IoTableSessionBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,13 +17,14 @@ import java.io.*;
 import java.util.List;
 
 @Controller
-@SessionAttributes("iotable")
 public class AiMapperController {
 
     @Autowired private AiMapper aiMapper;
 
+    @Autowired private IoTableSessionBean ioTable;
+
     @RequestMapping(value = "/aiCodeMapper", method = RequestMethod.GET)
-    public String provideGenerateCode(@ModelAttribute("iotable") IoTable ioTable, Model model) {
+    public String provideGenerateCode(Model model) {
 
         //model.addAttribute("iotable", ioTable);
 
@@ -30,12 +32,10 @@ public class AiMapperController {
     }
 
     @RequestMapping(value = "/aiCodeMapper", method = RequestMethod.POST)
-    public void generateAiCode(@ModelAttribute("iotable") IoTable ioTable,
-                               String template,
-                               HttpServletResponse response) {
+    public void generateAiCode(String template, HttpServletResponse response) {
 
         try {
-            List<String> strings = aiMapper.generateCode(ioTable.getAnalogInputs(), template);
+            List<String> strings = aiMapper.generateCode(ioTable.getIoTable().getAnalogInputs(), template);
 
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment; filename=\"" + "aiCode.txt" + "\"");
@@ -55,7 +55,7 @@ public class AiMapperController {
     }
 
     @RequestMapping(value = "/aiGeneratedCode", method = RequestMethod.GET)
-    public String aiGeneratedCode(@ModelAttribute("iotable") IoTable ioTable) {
+    public String aiGeneratedCode() {
 
         return "code/aiGeneratedCode";
     }

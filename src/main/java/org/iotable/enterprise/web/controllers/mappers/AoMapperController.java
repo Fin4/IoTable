@@ -3,6 +3,7 @@ package org.iotable.enterprise.web.controllers.mappers;
 import org.iotable.core.mappers.AoMapper;
 import org.iotable.core.mappers.exceptions.TemplateStringException;
 import org.iotable.core.model.IoTable;
+import org.iotable.enterprise.session.IoTableSessionBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,25 +18,24 @@ import java.io.OutputStream;
 import java.util.List;
 
 @Controller
-@SessionAttributes("iotable")
 public class AoMapperController {
+
+    @Autowired private IoTableSessionBean ioTable;
 
     @Autowired
     private AoMapper aoMapper;
 
     @RequestMapping(value = "/aoCodeMapper", method = RequestMethod.GET)
-    public String provideGenerateAoCode(@ModelAttribute("iotable") IoTable ioTable, Model model) {
+    public String provideGenerateAoCode(Model model) {
 
         return "code/aoCodeMapper";
     }
 
     @RequestMapping(value = "/aoCodeMapper", method = RequestMethod.POST)
-    public void generateAoCode(@ModelAttribute("iotable") IoTable ioTable,
-                             String template,
-                             HttpServletResponse response) {
+    public void generateAoCode(String template, HttpServletResponse response) {
 
         try {
-            List<String> strings = aoMapper.generateCode(ioTable.getAnalogOutputs(), template);
+            List<String> strings = aoMapper.generateCode(ioTable.getIoTable().getAnalogOutputs(), template);
 
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment; filename=\""

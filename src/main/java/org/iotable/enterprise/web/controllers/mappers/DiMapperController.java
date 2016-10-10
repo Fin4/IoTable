@@ -3,6 +3,7 @@ package org.iotable.enterprise.web.controllers.mappers;
 import org.iotable.core.mappers.DiMapper;
 import org.iotable.core.mappers.exceptions.TemplateStringException;
 import org.iotable.core.model.IoTable;
+import org.iotable.enterprise.session.IoTableSessionBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,25 +18,24 @@ import java.io.OutputStream;
 import java.util.List;
 
 @Controller
-@SessionAttributes("iotable")
 public class DiMapperController {
+
+    @Autowired private IoTableSessionBean ioTable;
 
     @Autowired
     private DiMapper diMapper;
 
     @RequestMapping(value = "/diCodeMapper", method = RequestMethod.GET)
-    public String provideGenerateDiCode(@ModelAttribute("iotable") IoTable ioTable, Model model) {
+    public String provideGenerateDiCode(Model model) {
 
         return "code/diCodeMapper";
     }
 
     @RequestMapping(value = "/diCodeMapper", method = RequestMethod.POST)
-    public void generateDiCode(@ModelAttribute("iotable") IoTable ioTable,
-                             String template,
-                             HttpServletResponse response) {
+    public void generateDiCode(String template, HttpServletResponse response) {
 
         try {
-            List<String> strings = diMapper.generateCode(ioTable.getDiscreteInputs(), template);
+            List<String> strings = diMapper.generateCode(ioTable.getIoTable().getDiscreteInputs(), template);
 
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment; filename=\""

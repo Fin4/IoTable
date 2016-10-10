@@ -3,6 +3,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#jsButton').click(function () {
+                var input = $('.jsInput');
+                input.prop('disabled', !input.prop('disabled'));
+            });
+        });
+    </script>
 </head>
 <body>
 <div th:include="fragments/header :: header"></div>
@@ -30,6 +39,8 @@
             </tr>
         </table>
     </div>
+    <button id="jsButton">des</button>
+    <input title="Edit" type="text" class="jsInput" disabled="disabled" value="input text here"></input>
 </div>
 </body>
 </html>

@@ -1,40 +1,38 @@
 package org.iotable.enterprise.web.controllers;
 
 
-import org.iotable.core.model.IoTable;
 import org.iotable.enterprise.service.EqualityService;
+import org.iotable.enterprise.session.IoTableSessionBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-
 @Controller
-@SessionAttributes("iotable")
+//@SessionAttributes("iotable")
 public class IoTableController {
 
     @Autowired private EqualityService equalityService;
 
+    @Autowired private IoTableSessionBean ioTable;
+
     @RequestMapping(value = "/info", method = RequestMethod.GET)
-    public ModelAndView ioTableInfo(@ModelAttribute("iotable") IoTable ioTable) {
+    public ModelAndView ioTableInfo() {
 
         ModelAndView modelAndView = new ModelAndView("info");
 
         modelAndView.addObject("duplicateAis",
-                equalityService.findDuplicateAis(ioTable));
+                equalityService.findDuplicateAis(ioTable.getIoTable()));
 
         modelAndView.addObject("duplicateDis",
-                equalityService.findDuplicateDis(ioTable));
+                equalityService.findDuplicateDis(ioTable.getIoTable()));
 
         modelAndView.addObject("duplicateAos",
-                equalityService.findDuplicateAos(ioTable));
+                equalityService.findDuplicateAos(ioTable.getIoTable()));
 
         modelAndView.addObject("duplicateDos",
-                equalityService.findDuplicateDos(ioTable));
+                equalityService.findDuplicateDos(ioTable.getIoTable()));
 
         return modelAndView;
     }
